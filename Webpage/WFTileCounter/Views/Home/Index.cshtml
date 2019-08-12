@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Warframe Tile Counter</h1>
+    <p> Welcome to the Warframe Tile Counter</p>
+
+    <p> This page takes a set of Warframe Screenshots, taken with the f6 key in game, and processes their meta data. The point of this page is to collect
+    data on how common warframe tiles <b>really</b> are.</p>
+
+    <p>Upload Multiple files below, 10 at a time.</p>
+</div>
+
+
+<
+
+<form asp-controller="Home" asp-action="UploadFile" method="post"
+      enctype="multipart/form-data">
+
+    <input type="file" name="fileList" multiple />
+    <button type="submit">Upload File</button>
+</form>
+
+<hr />
+
+<div class="col-md-3">
+    <div id="pageButtons">
+        @Html.ActionLink("Test Process Files","ProcessFiles","Process")
+    </div>
+</div>

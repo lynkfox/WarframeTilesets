@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WFTileCounter.ModelsView.MetaProcessed>
+@{ int count = 0;}
+@{
+    ViewData["Title"] = "ProcessFiles";
+}
+
+<h1>ProcessFiles</h1>
+
+<div>
+    <h4>MultipleMeta</h4>
+    <hr />
+
+    @foreach (var file in Model)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(a => file.FileName)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(a => file.FileName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(a => file.Date)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(a => file.Date)
+            </dd>
+
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(a => file.TileName)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(a => file.TileName)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(a => file.MissionType)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(a => file.MissionType)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(a => file.FactionName)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(a => file.FactionName)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(a => file.Tileset)
+            </dt>
+            <dd class="col-sm-3">
+                @Html.DisplayFor(a => file.Tileset)
+            </dd>
+        </dl>
+
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(a => file.MapIdentifier)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(a => file.MapIdentifier)
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(a => file.Values)
+            </dt>
+        </dl>
+        <dl class="row">
+            @foreach (var value in file.Values)
+            {
+                if (count != 0 && count !=6)
+                {
+                    <dd class="col-sm-2">
+                        @count : @Html.DisplayFor(a => value)
+                    </dd>
+                }
+
+                count++;
+            }
+            @{count = 0;
+            }
+
+        </dl>
+
+                
+
+                <hr />
+
+                }
+
+    </div>
+
