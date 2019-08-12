@@ -10,9 +10,11 @@ namespace WFTileCounter.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Date of Run: ")]
         public DateTime RunDate { get; set; }
         public int MissionID { get; set; }
         public int UserID { get; set; }
+        [Display(Name ="Map Identifier: ")]
         public string IndentityString { get; set; }
 
 

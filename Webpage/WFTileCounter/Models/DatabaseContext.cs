@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WFTileCounter.Models;
+using WFTileCounter.ModelsLogic;
 
 namespace WFTileCounter.Models
 {
@@ -25,14 +28,14 @@ namespace WFTileCounter.Models
         }
 
 
-        public DbSet<Mission> Missons { get; set; }
+        public DbSet<Mission> Missions { get; set; }
         public DbSet<Tile> Tiles { get; set; }
         public DbSet<Run> Runs { get; set; }
         public DbSet<MapPoint> MapPoints { get; set; }
         public DbSet<Tileset> Tilesets { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<WFTileCounter.ModelsLogic.ProcessedData> ProcessedData { get; set; }
 
-
-
-
+        
     }
 }

@@ -1,18 +1,13 @@
 ﻿@model IEnumerable<WFTileCounter.ModelsView.MetaProcessed>
 
 @{
-    ViewData["Title"] = "Processing Files";
+    ViewData["Title"] = "ProcessFiles";
 }
 
 <h1>Files to be Processed</h1>
 
 <div>
-    <p>Review the data below. If you find something wrong or weird, exclude it from the upload.</p>
 
-    @Html.ActionLink("Upload All files to Database", "DatabaseLink", "Process")
-
-
-    <hr />
 
     @foreach (var file in Model)
     {

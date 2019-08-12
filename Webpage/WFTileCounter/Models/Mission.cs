@@ -10,6 +10,7 @@ namespace WFTileCounter.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name ="Mission Type: ")]
         public string Type { get; set; }
 
         public IEnumerable<Run> Runs { get; set; }

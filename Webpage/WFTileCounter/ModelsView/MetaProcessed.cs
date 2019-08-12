@@ -17,7 +17,6 @@ namespace WFTileCounter.ModelsView
         public string Coords { get; set; }
         public string LogNum { get; set; }
 
-
         public string ImgPath { get; set; }
 
     }

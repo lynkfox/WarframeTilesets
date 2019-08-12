@@ -30,7 +30,7 @@ namespace WFTileCounter.ControllersProcessing
         }
         public IActionResult ProcessFiles()
         {
-            ICollection<MetaProcessed> metaList = new List<MetaProcessed>();
+            List<MetaProcessed> metaList = new List<MetaProcessed>();
 
             //var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
             var path = @"C:\Users\lynkf\Pictures\Warframe";
