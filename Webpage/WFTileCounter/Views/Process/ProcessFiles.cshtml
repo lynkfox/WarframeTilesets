@@ -1,17 +1,22 @@
 ﻿@model IEnumerable<WFTileCounter.ModelsView.MetaProcessed>
-@{ int count = 0;}
+
 @{
-    ViewData["Title"] = "ProcessFiles";
+    ViewData["Title"] = "Processing Files";
 }
 
-<h1>ProcessFiles</h1>
+<h1>Files to be Processed</h1>
 
 <div>
-    <h4>MultipleMeta</h4>
+    <p>Review the data below. If you find something wrong or weird, exclude it from the upload.</p>
+
+    @Html.ActionLink("Upload All files to Database", "DatabaseLink", "Process")
+
+
     <hr />
 
     @foreach (var file in Model)
     {
+
         <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(a => file.FileName)
@@ -53,6 +58,20 @@
                 @Html.DisplayFor(a => file.Tileset)
             </dd>
         </dl>
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(a => file.Coords)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(a => file.Coords)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(a => file.LogNum)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(a => file.LogNum)
+            </dd>
+        </dl>
 
         <dl class="row">
             <dt class="col-sm-2">
@@ -62,33 +81,13 @@
                 @Html.DisplayFor(a => file.MapIdentifier)
             </dd>
         </dl>
-        <dl class="row">
-            <dt class="col-sm-3">
-                @Html.DisplayNameFor(a => file.Values)
-            </dt>
-        </dl>
-        <dl class="row">
-            @foreach (var value in file.Values)
-            {
-                if (count != 0 && count !=6)
-                {
-                    <dd class="col-sm-2">
-                        @count : @Html.DisplayFor(a => value)
-                    </dd>
-                }
 
-                count++;
-            }
-            @{count = 0;
-            }
 
-        </dl>
 
-                
 
-                <hr />
+        <hr />
 
-                }
+    }
 
-    </div>
+</div>
 

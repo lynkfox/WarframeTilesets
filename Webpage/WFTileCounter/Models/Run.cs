@@ -13,6 +13,7 @@ namespace WFTileCounter.Models
         public DateTime RunDate { get; set; }
         public int MissionID { get; set; }
         public int UserID { get; set; }
+        public string IndentityString { get; set; }
 
 
         public User User { get; set; }

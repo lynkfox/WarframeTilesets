@@ -14,14 +14,8 @@ namespace WFTileCounter.ControllersProcessing
 
     public class ProcessController : Controller
     {
-
-        private readonly DatabaseContext _db; //database context shortcut
         
 
-        public ProcessController(DatabaseContext context)
-        {
-            _db = context;
-        }
 
 
         public IActionResult Index()
@@ -29,12 +23,17 @@ namespace WFTileCounter.ControllersProcessing
             return View();
         }
 
-        [HttpGet]
+        public IActionResult DatabaseLink()
+        {
+            
+            return View("Index", "DatabaseInsert");
+        }
         public IActionResult ProcessFiles()
         {
             ICollection<MetaProcessed> metaList = new List<MetaProcessed>();
 
-            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
+            //var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
+            var path = @"C:\Users\lynkf\Pictures\Warframe";
 
             var picList = System.IO.Directory.GetFiles(path);
 
@@ -45,23 +44,25 @@ namespace WFTileCounter.ControllersProcessing
                 var metaValues = GetMetaData(pic);
                 
                 string[] pathCut = pic.Split('\\');
+                proc.ImgPath = pic;
                 proc.FileName = pathCut[pathCut.Length - 1];
                 proc.Date = metaValues.Last();
-                proc.Values = metaValues;
                 proc.MapIdentifier = metaValues[0];
                 proc.MissionType = metaValues[1];
                 proc.Tileset = metaValues[2];
                 proc.FactionName = metaValues[3];
                 proc.TileName = metaValues[4];
+                proc.Coords = metaValues[5];
+                proc.LogNum = metaValues[6];
 
                 
 
                 metaList.Add(proc);
             }
 
-            
 
 
+            TempData["metaList"] = metaList;
 
             return View("ProcessFiles", metaList);
         }
@@ -79,7 +80,9 @@ namespace WFTileCounter.ControllersProcessing
          * 2       -    Tileset
          * 3       -    Faction Name
          * 4       -    TileName (internal)
-         * 5       -    Date of file last modified
+         * 5       -    Coords
+         * 6       -    Log#
+         * 7       -    Date of File
          */
 
 
@@ -89,9 +92,10 @@ namespace WFTileCounter.ControllersProcessing
             var values = new List<string>();
             var directories = ImageMetadataReader.ReadMetadata(path);
             string coords = "P: ";
+            string log = "";
             List<string> tileInfo = new List<string>();
             List<string> mapInfo = new List<string>();
-            var _gf = new GeneralFunctions();
+            var _gf = new GeneralFunctions(); // class that holds various methods for clean use.
 
             foreach (var directory in directories)
             {
@@ -101,6 +105,8 @@ namespace WFTileCounter.ControllersProcessing
 
                     //remove all the extra info we don't need
                     values.RemoveAll(x => x == "" || x == "Zone:" || x == "Log:" || x== "P:");
+
+                    
 
 
                     if(values.Count == 7) // This should be the standard case.
@@ -130,7 +136,13 @@ namespace WFTileCounter.ControllersProcessing
                             values.RemoveAt(0);
                         }
 
+
                         //all that should be left is the Log Number which we don't need for anything. (internal logs i think) so toss it.
+
+                        //saving it here for debug purposes
+                        log = values[0];
+                        
+
                         // and just in case, we'll make sure we clear it out.
                         values.Clear();
                         
@@ -157,6 +169,8 @@ namespace WFTileCounter.ControllersProcessing
                         tileInfo.RemoveAt(tileInfo.Count - 1);
                         //add the coords.
                         values.Add(coords);
+                        //debug purposes, add the log #
+                        values.Add(log);
                     }
                     else if(values.Count == 6) // Arena's Special Case 
                     {
@@ -177,7 +191,9 @@ namespace WFTileCounter.ControllersProcessing
 
                             values.RemoveAt(0);
                         }
-                        //nothing left in these cases
+                        //That leaves the log number, saving for debug purposes then clearing the list to reuse
+
+                        log = values[0];
                         values.Clear();
 
                         
@@ -200,6 +216,7 @@ namespace WFTileCounter.ControllersProcessing
                         //Add the 'Tile Name' ... which is just the MapIdentifier again.
                         values.Add(tileName);
                         values.Add(coords);
+                        values.Add(log);
                     } else
                     {// not a valid file then, doesn't have the meta dat we need, toss it. ... i hope.
                         values = null;

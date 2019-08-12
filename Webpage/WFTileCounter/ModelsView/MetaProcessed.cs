@@ -14,7 +14,11 @@ namespace WFTileCounter.ModelsView
         public string FactionName { get; set; }
         public string Date { get; set; }
         public string MapIdentifier { get; set; }
+        public string Coords { get; set; }
+        public string LogNum { get; set; }
 
-        public List<String> Values { get; set; }
+
+        public string ImgPath { get; set; }
+
     }
 }

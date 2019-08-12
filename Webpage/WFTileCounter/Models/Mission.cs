@@ -10,7 +10,7 @@ namespace WFTileCounter.Models
     {
         [Key]
         public int Id { get; set; }
-        public int Type { get; set; }
+        public string Type { get; set; }
 
         public IEnumerable<Run> Runs { get; set; }
 
