@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WFTileCounter.ModelsLogic.ProcessedData>
+﻿@model IEnumerable<WFTileCounter.ModelsLogic.InsertReadyData>
 
 @{
     ViewData["Title"] = "Maps Added";
@@ -21,10 +21,14 @@
     <div class="row">
         <div class="col-sm-4">@Html.DisplayNameFor(a => map.Run.IndentityString)</div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IndentityString)</div>
     </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-5">Tiles</div>
+    </div>
     <div class="row">
         @foreach (var tile in map.Tiles)
         {
-            <div class="col-sm-2">@Html.DisplayNameFor(a => map.Tileset.Name)</div> <div class="col-sm-2">@Html.DisplayFor(a => map.Tileset.Name)</div>
+            <div class="col-sm-2">@Html.DisplayFor(a => tile.Name)</div>
         }
     </div>
     

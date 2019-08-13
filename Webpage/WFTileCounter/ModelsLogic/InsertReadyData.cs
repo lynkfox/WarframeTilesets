@@ -7,7 +7,7 @@ using WFTileCounter.Models;
 
 namespace WFTileCounter.ModelsLogic
 {
-    public class ProcessedData
+    public class InsertReadyData
     {
         [Key]
         public int Id { get; set; }

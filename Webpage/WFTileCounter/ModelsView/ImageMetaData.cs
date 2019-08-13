@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WFTileCounter.ModelsView
 {
-    public class MetaProcessed
+    public class ImgMetaData
     {
         public string FileName { get; set; }
         public string TileName { get; set; }

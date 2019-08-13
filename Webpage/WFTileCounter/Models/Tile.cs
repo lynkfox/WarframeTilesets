@@ -16,6 +16,8 @@ namespace WFTileCounter.Models
 
         public Tileset Tileset { get; set; }
 
+        public IEnumerable<MapPoint> MapPoints { get; set; }
+
 
 
 

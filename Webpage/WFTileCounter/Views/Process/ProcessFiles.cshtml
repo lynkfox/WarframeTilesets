@@ -1,10 +1,16 @@
-﻿@model IEnumerable<WFTileCounter.ModelsView.MetaProcessed>
+﻿@model IEnumerable<WFTileCounter.ModelsView.ImgMetaData>
 
 @{
-    ViewData["Title"] = "ProcessFiles";
+    ViewData["Title"] = "Processing Files";
 }
 
 <h1>Files to be Processed</h1>
+
+<p>Review the data below. If you find something wrong or weird, exclude it from the upload.</p>
+
+@Html.ActionLink("Add the Data to the Database", "Index", "Process")
+
+<hr />
 
 <div>
 

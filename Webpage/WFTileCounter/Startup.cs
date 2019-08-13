@@ -33,6 +33,7 @@ namespace WFTileCounter
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddMemoryCache();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 

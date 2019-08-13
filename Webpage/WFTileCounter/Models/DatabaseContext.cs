@@ -34,7 +34,6 @@ namespace WFTileCounter.Models
         public DbSet<MapPoint> MapPoints { get; set; }
         public DbSet<Tileset> Tilesets { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<WFTileCounter.ModelsLogic.ProcessedData> ProcessedData { get; set; }
 
         
     }
