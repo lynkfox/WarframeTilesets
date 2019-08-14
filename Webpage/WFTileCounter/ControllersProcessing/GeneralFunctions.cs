@@ -11,8 +11,20 @@ namespace WFTileCounter.ControllersProcessing
     public class GeneralFunctions
     {
 
-        
+        /* I feel like I'm doing this wrong. I only have this hear because I use a function in DatabaseFunctions to check if something exists before I go about with the next step.
+         * 
+         * So i have to have a Dbcontext to pass to the new DatabaseFunctions constructor.
+         * 
+         * but ... i feel like there is something i'm missing here.
+         * 
+         */
+        private readonly DatabaseContext _db;
 
+
+        public GeneralFunctions(DatabaseContext context)
+        {
+            _db = context;
+        }
 
         //Temp function for use between multiple computers, but will need to be made dynamic for a server.
         public string GetPath()
@@ -26,11 +38,18 @@ namespace WFTileCounter.ControllersProcessing
         public List<MissionType> GenMissionList()
         {
             List<MissionType> list = new List<MissionType>();
-            
+
             
 
-            string[] missionTypeDiff = { "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", "Assassinate", "KelaArena", "SabotageForest", "Intel", "CorpusArena", "TRRace", "TRSabotage", "Pursuit" };
-            string[] commonName = { "Disruption", "Infested Salvage", "Defection", "Rescue", "Mobile Defense", "Assassiation", "Rathuum", "Sabatoge", "Spy", "Index", "Rush (Archwing)", "Sabotage (Archwing)", "Pursuit", "Defense", "Excavation", "Sabotage", "Survival", "Exterminate", "Interception", "Hijack", "Spy", "Capture" };
+            string[] missionTypeDiff = { "GrineerAsteroidBossVor", "CorpusShipJackalBoss", "GrineerForestBoss", "GrineerSettlementBoss", "GrineerShipyardsAssassinate", "CorpusGasBoss",
+                                        "CorpusIcePlanetAssassinate", "GrineerGalleonBoss", "GrineerOceanAssassinate", "CorpusShipHyenaAssassinate", "CorpusOutpostAmbulasBoss",
+                                        "GrineerAsteroidBossKela", "InfestedCorpusShipJ3GolemAssassinate", "InfestedCorpusShipAssassinate", "OrokinTowerDerelictBoss", "BossInfested",
+                                        "CorpusGasCityRopalolystBoss", "Boss", "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", "Assassinate", "KelaArena",
+                                         "SabotageForest", "Intel", "CorpusArena", "TRRace", "TRSabotage", "Pursuit" };
+            string[] commonName = {"Vor Assassination", "Jackal Assassination", "Vay Hek Assassination", "Lech Kril Assassination", "Vor + Kril Assassination", "Alad V Assassination",
+                                    "Raptors Assassination", "Sargas Ruk Assassination", "Tyl Regor Assassination", "Hyena Assassination", "Ambulas Assassination",
+                                    "Kela De Thaym Assassination", "Jordas Golem Assassination", "Mutalist Alad V Assassination", "Lephantis Assassination", "Phorid Assassination",
+                                    "Ropalolyst Assassination","Assassination", "Disruption", "Infested Salvage", "Defection", "Rescue", "Mobile Defense", "Assassiation", "Rathuum", "Sabatoge", "Spy", "Index", "Rush (Archwing)", "Sabotage (Archwing)", "Pursuit", "Defense", "Excavation", "Sabotage", "Survival", "Exterminate", "Interception", "Hijack", "Spy", "Capture" };
 
            
 
@@ -80,15 +99,30 @@ namespace WFTileCounter.ControllersProcessing
 
             }
 
+            if (value == "CorpusShip")
+            {
+                return "The Sergeant Assassination";
+            }
+
             return "Assassination ??? - Check Me";
 
         }
 
         public string GetTileSet(string value)
         {
-            string[] missionType = { "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", "Assassinate", "SabotageForest", "Intel",  "Capture", "Excavation", "Defense", "Sabotage", "Survival", "Exterminate", "Interception", "Hijack", "Spy" };
+
+            var _df = new DatabaseFunctions(_db);
+
+            string[] missionType = { "BossVor", "JackalBoss", "HyenaAssassinate", "AmbulasBoss","BossKela", "J3GolemAssassinate", "BossInfested",
+                                        "RopalolystBoss", "Boss", "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", "Assassinate", "KelaArena",
+                                         "SabotageForest", "Intel", "CorpusArena", "TRRace", "TRSabotage", "Pursuit" };
 
             int length = value.Length;
+
+            if(_df.CheckTilesetExists(value)) // checks the database to see if the Tileset already exists. Useful for Assasination Missions that may not have the type after it.
+            {
+                return value;
+            }
 
             if (value.Contains("ProcLevel")) // Archwing Missions have ProcLevel at the end of their missiontype, remove it first.
             {

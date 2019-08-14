@@ -13,7 +13,7 @@ namespace WFTileCounter.ControllersProcessing
 
         private readonly DatabaseContext _db; //database context shortcut
 
-        public object ViewBag { get; private set; }
+       
 
         public DatabaseFunctions(DatabaseContext context)
         {
@@ -242,6 +242,17 @@ namespace WFTileCounter.ControllersProcessing
 
             return processedList;
 
+        }
+
+
+
+        public bool CheckTilesetExists(string tilesetName)
+        {
+            var tSet = _db.Tilesets.Where(x => x.Name == tilesetName).FirstOrDefault();
+            if (tSet is null)
+            { return false; }
+            else
+            { return true; }
         }
     }
 }

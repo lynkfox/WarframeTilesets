@@ -28,7 +28,7 @@ namespace WFTileCounter.ControllersProcessing
         public async Task<IActionResult> Index()
         {
 
-            var _gf = new GeneralFunctions(); // class that holds various methods for clean use.
+            var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
             var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
 
             List<ImgMetaData> metaList = new List<ImgMetaData>();
@@ -50,7 +50,7 @@ namespace WFTileCounter.ControllersProcessing
         {
             List<ImgMetaData> metaList = new List<ImgMetaData>();
 
-            var _gf = new GeneralFunctions(); // class that holds various methods for clean use.
+            var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
 
             var path = _gf.GetPath();
             metaList = _gf.GetMetaList(path);
