@@ -16,5 +16,6 @@ namespace WFTileCounter.ModelsLogic
         public Tileset Tileset { get; set; }
         public User User { get; set; }
         public IEnumerable<Tile> Tiles { get; set; }
+        public IEnumerable<Tile> CompleteTileList { get; set; }
     }
 }

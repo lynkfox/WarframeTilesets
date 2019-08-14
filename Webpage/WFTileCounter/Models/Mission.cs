@@ -9,8 +9,7 @@ namespace WFTileCounter.Models
     public class Mission
     {
         [Key]
-        public int Id { get; set; }
-        [Display(Name ="Mission Type: ")]
+        [Display(Name = "Mission Type: ")]
         public string Type { get; set; }
 
         

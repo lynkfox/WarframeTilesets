@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<WFTileCounter.ModelsLogic.InsertReadyData>
+@{ int count = 0;}
 
 @{
     ViewData["Title"] = "Maps Added";
@@ -10,20 +11,24 @@
     <hr />
 
     <div class="row">
-        <div class="col-sm-2">@Html.DisplayNameFor(a => map.User.Username)</div> <div class="col-sm-4">@Html.DisplayFor(a => map.User.Username)</div>
-        <div class="col-sm-2">@Html.DisplayNameFor(a => map.Run.RunDate)</div> <div class="col-sm-4">@Html.DisplayFor(a => map.Run.RunDate)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.User.Username)</b></div> <div class="col-sm-4">@Html.DisplayFor(a => map.User.Username)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.RunDate)</b></div> <div class="col-sm-4">@Html.DisplayFor(a => map.Run.RunDate)</div>
     </div>
     <div class="row">
-        <div class="col-sm-2">@Html.DisplayNameFor(a => map.Tileset.Name)</div> <div class="col-sm-2">@Html.DisplayFor(a => map.Tileset.Name)</div>
-        <div class="col-sm-2">@Html.DisplayNameFor(a => map.Tileset.Faction)</div> <div class="col-sm-2">@Html.DisplayFor(a => map.Tileset.Faction)</div>
-        <div class="col-sm-2">@Html.DisplayNameFor(a => map.Mission.Type)</div> <div class="col-sm-2">@Html.DisplayFor(a => map.Mission.Type)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Tileset.Name)</b></div> <div class="col-sm-2">@Html.DisplayFor(a => map.Tileset.Name)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Tileset.Faction)</b></div> <div class="col-sm-1">@Html.DisplayFor(a => map.Tileset.Faction)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Mission.Type)</b></div> <div class="col-sm-3">@Html.DisplayFor(a => map.Mission.Type)</div>
     </div>
     <div class="row">
-        <div class="col-sm-4">@Html.DisplayNameFor(a => map.Run.IndentityString)</div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IndentityString)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.TotalTiles)</b></div> <div class="col-sm-2">@Html.DisplayFor(a => map.Run.TotalTiles)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.UniqueTiles)</b></div> <div class="col-sm-1">@Html.DisplayFor(a => map.Run.UniqueTiles)</div>
+        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.LogRange)</b></div> <div class="col-sm-3">@Html.DisplayFor(a => map.Run.LogRange)</div>
     </div>
-    <hr />
     <div class="row">
-        <div class="col-sm-5">Tiles</div>
+        <div class="col-sm-4"><b>@Html.DisplayNameFor(a => map.Run.IdentityString)</b></div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IdentityString)</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-10"><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were added to the database.</i></div>
     </div>
     <div class="row">
         @foreach (var tile in map.Tiles)
@@ -31,5 +36,9 @@
             <div class="col-sm-2">@Html.DisplayFor(a => tile.Name)</div>
         }
     </div>
-    
+    count++;
+
+
 }
+ <hr />
+
