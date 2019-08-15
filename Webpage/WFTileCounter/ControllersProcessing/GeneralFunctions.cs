@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WFTileCounter.Models;
@@ -39,8 +40,11 @@ namespace WFTileCounter.ControllersProcessing
         {
             List<MissionType> list = new List<MissionType>();
 
-            
 
+            /*
+             * before csv file
+             * 
+             * 
             string[] missionTypeDiff = { "GrineerAsteroidBossVor", "CorpusShipJackalBoss", "GrineerForestBoss", "GrineerSettlementBoss", "GrineerShipyardsAssassinate", "CorpusGasBoss",
                                         "CorpusIcePlanetAssassinate", "GrineerGalleonBoss", "GrineerOceanAssassinate", "CorpusShipHyenaAssassinate", "CorpusOutpostAmbulasBoss",
                                         "GrineerAsteroidBossKela", "InfestedCorpusShipJ3GolemAssassinate", "InfestedCorpusShipAssassinate", "OrokinTowerDerelictBoss", "BossInfested",
@@ -51,11 +55,11 @@ namespace WFTileCounter.ControllersProcessing
                                     "Kela De Thaym Assassination", "Jordas Golem Assassination", "Mutalist Alad V Assassination", "Lephantis Assassination", "Phorid Assassination",
                                     "Ropalolyst Assassination","Assassination", "Disruption", "Infested Salvage", "Defection", "Rescue", "Mobile Defense", "Assassiation", "Rathuum", "Sabatoge", "Spy", "Index", "Rush (Archwing)", "Sabotage (Archwing)", "Pursuit", "Defense", "Excavation", "Sabotage", "Survival", "Exterminate", "Interception", "Hijack", "Spy", "Capture" };
 
-           
 
-            for(int i = 0; i < commonName.Length; i++)
+            
+            for (int i = 0; i < commonName.Length; i++)
             {
-                var mission = new MissionType();
+               
 
                 if (i < missionTypeDiff.Length)
                 {
@@ -70,6 +74,32 @@ namespace WFTileCounter.ControllersProcessing
 
                 list.Add(mission);
             }
+            */
+
+            var path = Path.Combine(
+                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists");
+
+            path = Path.Combine(path, "wftMissionNames.csv");
+
+            if(!File.Exists(path))
+            {
+                return null;
+
+            }
+            else
+            {
+               
+                string[] namePairs = File.ReadAllLines(path);
+                foreach(var line in namePairs)
+                {
+                    var mission = new MissionType();
+                    string[] splitPairs = line.Split(',');
+                    mission.CommonName = splitPairs[1];
+                    mission.InGameName = splitPairs[0];
+                    list.Add(mission);
+                }
+            }
+
 
             
             return list;
@@ -82,6 +112,11 @@ namespace WFTileCounter.ControllersProcessing
             string name;
 
             var types = GenMissionList();
+            if(types is null)
+            {
+                // this... is very wrong. gotta fix this.
+                throw new Exception();
+            }
 
             foreach (var type in types)
             {
@@ -110,13 +145,31 @@ namespace WFTileCounter.ControllersProcessing
 
         public string GetTileSet(string value)
         {
-
+            string[] missionType;
             var _df = new DatabaseFunctions(_db);
 
-            string[] missionType = { "BossVor", "JackalBoss", "HyenaAssassinate", "AmbulasBoss","BossKela", "J3GolemAssassinate", "BossInfested",
-                                        "RopalolystBoss", "Boss", "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", "Assassinate", "KelaArena",
-                                         "SabotageForest", "Intel", "CorpusArena", "TRRace", "TRSabotage", "Pursuit" };
+            var path = Path.Combine(
+                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists");
 
+            path = Path.Combine(path, "wftTilesetCuts.csv");
+
+            if (!File.Exists(path))
+            {
+                return null;
+
+            }
+            else
+            {
+
+                string[] cutTexts = File.ReadAllLines(path);
+                missionType = cutTexts[0].Split(',');
+            }
+
+            /*
+            string[] missionType = { "BossVor", "JackalBoss", "HyenaAssassinate", "AmbulasBoss","BossKela", "J3GolemAssassinate", "BossInfested",
+                                        "RopalolystBoss", "Boss", "Assassinate", "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", 
+                                         "SabotageForest", "Intel", "Pursuit" };
+            */
             int length = value.Length;
 
             if(_df.CheckTilesetExists(value)) // checks the database to see if the Tileset already exists. Useful for Assasination Missions that may not have the type after it.

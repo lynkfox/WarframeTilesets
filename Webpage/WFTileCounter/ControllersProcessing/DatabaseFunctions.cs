@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WFTileCounter.Models;
@@ -20,6 +21,10 @@ namespace WFTileCounter.ControllersProcessing
             _db = context;
         }
 
+
+        // getting error that says 'multiple uses of Tile being used in context' --- i am pretty sure that is because I am passing the context to this set of functions.
+
+            // this seems bad. so... figure this part out.
 
         public async Task<List<int>> InsertIntoDatabase(List<InsertReadyData> processed)
         {
@@ -83,6 +88,9 @@ namespace WFTileCounter.ControllersProcessing
 
                     _db.Runs.Add(data.Run);
 
+                    Debug.WriteLine("\n\n" + data.Run.IdentityString + " | "+ data.Tileset.Name + " | " + data.Mission.Type + "\n\n");
+                    //await _db.SaveChangesAsync();
+
                     List<MapPoint> map = new List<MapPoint>();
                     foreach (var tile in data.Tiles)
                     {
@@ -110,24 +118,61 @@ namespace WFTileCounter.ControllersProcessing
 
                         _db.MapPoints.Add(mapPoint);
 
-                        await _db.SaveChangesAsync();
-
-                        //Tile set is null somewhere up above? gotta find out where and make sure its set.
+                        //Debug.WriteLine("\n\n" + mapPoint.Tile.Name + " # " +mapPoint.Tile.Name.Length +"\n" + mapPoint.Tile.Coords + " # " + mapPoint.Tile.Coords.Length + "\n\n");
+                        //await _db.SaveChangesAsync();
 
                     }
 
                 }
                 else
                 {
-                    data.Run = run;
+                    //data.Run = run;
 
-                    //loop here to get the tiles already inserted and check to see if there are any different ones.
+
+
+                    var tSetName = _db.Tilesets.Where(x => x.Name == data.Tileset.Name).FirstOrDefault();
+
+
+                    var tilesInDB = _db.Tiles.Where(x => x.Tileset == tSetName).ToList();
+                    
+
+                    var tileNames = tilesInDB.Select(x => x.Name).ToList();
+                    var processNames = data.Tiles.Select(x => x.Name).ToList();
+
+                    var mapPoint = new MapPoint();
+
+                    foreach (var name in processNames)
+                    {
+                        if(!tileNames.Contains(name))
+                        {
+
+                            var newTile = data.Tiles.Where(x => x.Name == name).FirstOrDefault();
+
+                            /* Learned something here. I was trying to set it as the Tileset from data, but to EF that is a different isntance of the tileset. Because
+                             * both the Tile and the MapPoint are linking to objects ALREADY in the database, we need to fetch the DATABASE versions of them. Run
+                             * was fetched above to check if it was null or not.
+                             */
+                            newTile.Tileset = tSetName;
+                            mapPoint.Tile = newTile;
+                            mapPoint.Run = run;
+
+                            //Debug.WriteLine("\n\n" + mapPoint.Tile.Name + " # " + mapPoint.Tile.Name.Length + "\n" + mapPoint.Tile.Coords + " # " + mapPoint.Tile.Coords.Length + "\n\n");
+
+                            _db.MapPoints.Add(mapPoint);
+                            newTiles++;
+                        }
+                    }
+
+                    
+                   
                 }
 
 
 
                 newList.Add(newTiles);
 
+
+                
                 await _db.SaveChangesAsync();
             }
 
