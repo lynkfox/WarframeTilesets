@@ -138,6 +138,10 @@ namespace WFTileCounter.ControllersProcessing
             {
                 return "The Sergeant Assassination";
             }
+            if (value == "GrineerAsteroid")
+            {
+                return "Drilling Machine Sabotage";
+            }
 
             return "Assassination ??? - Check Me";
 
