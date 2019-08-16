@@ -2,30 +2,164 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Warframe Tile Counter</h1>
-    <p> Welcome to the Warframe Tile Counter</p>
-
-    <p> This page takes a set of Warframe Screenshots, taken with the f6 key in game, and processes their meta data. The point of this page is to collect
-    data on how common warframe tiles <b>really</b> are.</p>
-
-    <p>Upload Multiple files below, 10 at a time.</p>
-</div>
+    
 
 
-<
+    <div class="col-md-3">
+        <div id="pageButtons">
+            @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
+        </div>
+    </div>
 
-<form asp-controller="Home" asp-action="UploadFile" method="post"
-      enctype="multipart/form-data">
-
-    <input type="file" name="fileList" multiple />
-    <button type="submit">Upload File</button>
-</form>
 
 <hr />
 
-<div class="col-md-3">
-    <div id="pageButtons">
-        @Html.ActionLink("Test Process Files","ProcessFiles","Process")
+
+
+
+<div class="row bg-dark border-light">
+    <div class="col-lg-12">
+        <h1 class="display-4 text-center">Warframe Tile Counter</h1>
+
+        <h2 class="text-center">Welcome to the Warframe Tile Counter</h2>
+        <p>
+            This page takes a set of Warframe Screenshots, taken with the f6 key in game, and processes their meta data. The point of this page is to collect
+            data on how common warframe tiles <b>really</b> are.
+        </p>
+
     </div>
 </div>
+<div class="row bg-dark border-light">
+    <div class="col-md-4 border-right border-light align-self-center ">
+        <img src="~/img/exifinfo-example.png" alt="Exif Extracted Image Example" width="350" class="rounded">
+    </div>
+
+    <div class="col-md-8">
+
+        <p><h2 class="text-center">What is this page doing?</h2></p>
+
+        <p>Screenshots taken with the F6 key in game are tagged with a bit of metadata.</p>
+
+        <p>Every image taken by any sort of digital device - be it a camera or screenshots - has Metadata. This meta data contains information such as Size, resolution, what kind of camera took the image, gps coords of where the image was taken.</p>
+
+        <p>Warframe Screenshots (taken with F6 only) also contain a comment in the JpegComment section of the meta data. (Don't worry, they don't contain any gps coords or information about your comptuer either!)</p>
+
+        <p>(If you want to see, you can stick a F6 Screenshot, found in Pictures/Warframe on your computer, into <a href="https://exifinfo.org/">this website</a> - an example of which is in the picture to the left.)</p>
+    </div>
+</div>
+<div class="row bg-dark border-light">
+    <div class="col-12">
+        <p>This site looks through the metadata of the image you are uploading. The only things it pulls out to store is the JpegComment (where DE puts its info) and the date the image was saved to your computer.</p>
+    
+        <p>In its raw form, the comment looks like this:</p>
+        <p><i>/Lotus/Levels/Proc/Corpus/CorpusShip/aRqMKjgUUmhMp2BgZ1SxkiJJVS4hUpbUTKJpR+GAFEIAwASQQFQAjGDCIFYAgAEEBABBBQA.lp Zone: /Lotus/Levels/Guild/XHall1 P: -24, -46, -92 H:-89 Log: 890.012</i></p>
+
+        <p>We take a bunch from this:</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-6 border-light border-bottom border-right">
+                    <b><i>Data</i></b>
+                </div>
+                <div class="col-6 border-light border-bottom border-right">
+                    <b><i>What it means?</i></b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 border-light border-bottom border-right text-truncate">
+                    <i>aRqMKjgUUmhMp2BgZ1SxkiJJVS4hUpbUTKJpR+GAFEIAwASQQFQAjGDCIFYAgAEEBABBBQA.lp</i>
+                </div>
+                <div class="col-6 border-light border-bottom border-right">
+                    A Unique Map Identifier string. Not sure how it is generated, but it does seem to be completely unique between missions+generated maps.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 border-light border-bottom border-right text-truncate">
+                    <i>Corpus/CorpusShip/</i>
+                </div>
+                <div class="col-6 border-light border-bottom border-right">
+                    Faction/Tileset
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 border-light border-bottom border-right text-truncate">
+                    <i>XHall1</i>
+                </div>
+                <div class="col-6 border-light border-bottom border-right">
+                    Room Name (Tile Name)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 border-light border-bottom border-right text-truncate">
+                    <i>P: -24, -46, -92 H:-89</i>
+                </div>
+                <div class="col-6 border-light border-bottom border-right">
+                    Coordinates of where the screenshot was taken. This is probabably most likely just room dependant.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 border-light border-bottom border-right text-truncate">
+                    <i>Log: 890.012</i>
+                </div>
+                <div class="col-6 border-light border-bottom border-right">
+                    This is most likely the line that corresponds to when you took the picture, in the continually running log for your current session. It is always going up and growing, the longer you are logged in the bigger the number.
+                </div>
+            </div>
+        </div>
+
+        <p>The last two (Coords and Log) are probably never going to be useful to this site. However, they are stored as a just in case.</p>
+
+    </div>
+
+</div>
+
+<div class="row bg-dark border-light">
+    <div class="col-12">
+        <h2 class="text-center">Please Note:</h2>
+
+        <p>This page makes a couple of assumptions, due to the imprecise nature of how it is collecting the information (user taken screen shots)</p>
+        <ul style="list-style-type:square;">
+            <li>
+                Only Unique tile names are counted
+                <ul style="list-style-type:square;">
+                    <li>This means that even if the tile appears twice in the map, it only is added to the list of tiles for that map once</li>
+                    <li>This is because there is no definte way to determine if the screenshot was taken in the same room, or the next room (that may be the same tile) or on accident coming back through from a branch</li>
+                    <li>So Tile Appear Chance will be calculated on the idea that "at least one" will appear, and have no weight for appearing multiple times. ie: Each tile's chance of appearing at least once in a map</li>
+                </ul>
+            </li>
+            <li>
+                DE has a somewhat annoying lack of unified naming schemes for their tiles. So much so that there are duplicate names for tiles in different tilesets (I'm looking at you DeadEnd1 in CorpusShip and OrokinTower
+                <ul style="list-style-type:square;">
+                    <li>As such, every tile name that didn't already start with Crp, Grn, Oro, or Inf had it added to the front of the tilename. So DeadEnd1 became CrpDeadEnd1</li>
+                    <li>The exceptions are if it happened to already start with Grineer or Corpus (such as GrineerOcean tiles are named with that in front of the tile name)</li>
+                </ul>
+            </li>
+            <li>
+                We store Total Tiles and Unique Tiles for each Mission
+                <ul style="list-style-type:square;">
+                    <li>Total tiles is the number of images taken. So it is impercise and we ask that submitters do their best to keep images that are from the same room out of the upload</li>
+                    <li>Unique tiles is just a count of all the unique names.</li>
+
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+    
+ </div>
+
+    <p>Upload Multiple files below, 10 at a time.</p>
+
+
+
+
+
+    <form asp-controller="Home" asp-action="UploadFile" method="post"
+          enctype="multipart/form-data">
+
+        <input type="file" name="fileList" multiple />
+        <button type="submit">Upload File</button>
+    </form>
+
+    <hr />
+
+    

@@ -216,7 +216,7 @@ namespace WFTileCounter.ControllersProcessing
                 }
 
             }
-            return value + " ??? WHAT IS THIS??? "; 
+            return value; 
         }
 
 
@@ -334,23 +334,89 @@ namespace WFTileCounter.ControllersProcessing
                         values.Add(mapInfo.Last());
                         mapInfo.RemoveAt(mapInfo.Count - 1);
                         //add the Mission Type + Tileset, and toss it out
+
+                        
+
+
                         values.Add(GetMissionType(mapInfo.Last()));
                         values.Add(GetTileSet(mapInfo.Last()));
 
                         mapInfo.RemoveAt(mapInfo.Count - 1);
                         //add the Faction info, with a few special cases.
-                        if (mapInfo.Last() == "SpaceBattles")
+                        if (mapInfo.Last() == "SpaceBattles") // Corpus Archwing
                             values.Add("Corpus");
-                        else if (mapInfo.Last() == "Space")
+                        else if (mapInfo.Last() == "Space") //Grineer Archwing
                             values.Add("Grineer");
-                        else if (mapInfo.Last() == "SpecialMissions")
-                            values.Add("Maroo");
+                        else if (mapInfo.Last() == "SpecialMissions") //Maroo Treasure Hunt
+                        {// special missions takes up a slot in the / / / list, so we remove it, and check the next one to add
+                            mapInfo.RemoveAt(mapInfo.Count - 1);
+                            values.Add(mapInfo.Last());
+                        }
                         else
                             values.Add(mapInfo.Last());
 
+                        
                         mapInfo.RemoveAt(mapInfo.Count - 1);
-                        //add the tile name. - toss it in case I need the rest of the string...
-                        values.Add(tileInfo.Last());
+
+
+
+
+
+                        //add the tile name. - toss it in case I need the rest of the string...\
+
+                        //bugger DE. Found out they repeat the names of some rooms in different tilesets. So... we have to add to this.
+                        string factionSave = values.Last(); // save the Faction name so we can deal with stupid duplicate tile names
+
+                        // first get the first 3 letters of the Faction: Cor, Gri, Oro, Inf
+                        factionSave = factionSave.Substring(0, 3);
+                        string tileFactionCheck = tileInfo.Last().Substring(0, 3);
+                        string newTileName;
+
+                        //check to see if the tile name already has it as the first three... 
+                        
+                        if (tileFactionCheck != factionSave || tileInfo.Last().Contains("Corner")) //edge case, corner triggers Cor
+                        {//if not, add it to make all tile names Unique (so DeadEnd2 on CorpusShip and DeadEnd2 on Orokin Tower are different.
+
+
+                            //switch Gri to Grn to maintain how DE is already doing it on OTHER tilesets... damn lack of consistancy
+                            // but also make sure the tile name doesn't already have Grineer in the title. or already start with Grn
+                            if (factionSave == "Gri" && !tileInfo.Last().Contains("Grineer") )
+                            {
+                                factionSave = "Grn";
+                            }
+
+                            // To keep a sort of standard op, do the same for Corpus 
+                            if (factionSave == "Cor" && !tileInfo.Last().Contains("Corpus") )
+                            {
+                                factionSave = "Crp";
+                            }
+
+
+                            //finally check if it already starts with Crp or Grn, or contains Grineer or Corpus already making it unique.
+                            if(tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tileInfo.Last().Contains("Grineer") || tileInfo.Last().Contains("Corpus"))
+                            {
+                                newTileName = tileInfo.Last();
+                            }
+                            else
+                            {
+                                newTileName = factionSave + tileInfo.Last();
+                            }
+                            
+                            
+                        } else
+                        {
+                            newTileName = tileInfo.Last();
+                        }
+
+                        //add the adjusted(if necessary) tilename to the return list.
+                        values.Add(newTileName);
+
+
+
+
+
+
+                        
                         tileInfo.RemoveAt(tileInfo.Count - 1);
                         //add the coords.
                         values.Add(coords);
