@@ -143,7 +143,7 @@ namespace WFTileCounter.ControllersProcessing
                 return "Drilling Machine Sabotage";
             }
 
-            return "Assassination ??? - Check Me";
+            return value+"??? - Check Me";
 
         }
 
@@ -165,8 +165,8 @@ namespace WFTileCounter.ControllersProcessing
             else
             {
 
-                string[] cutTexts = File.ReadAllLines(path);
-                missionType = cutTexts[0].Split(',');
+                missionType = File.ReadAllLines(path);
+                
             }
 
             /*
@@ -343,6 +343,8 @@ namespace WFTileCounter.ControllersProcessing
                             values.Add("Corpus");
                         else if (mapInfo.Last() == "Space")
                             values.Add("Grineer");
+                        else if (mapInfo.Last() == "SpecialMissions")
+                            values.Add("Maroo");
                         else
                             values.Add(mapInfo.Last());
 
