@@ -245,6 +245,7 @@ namespace WFTileCounter.ControllersProcessing
                 metaData.TileName = metaValues[4];
                 metaData.Coords = metaValues[5];
                 metaData.LogNum = metaValues[6];
+                metaData.KeepThis = true;
 
 
 

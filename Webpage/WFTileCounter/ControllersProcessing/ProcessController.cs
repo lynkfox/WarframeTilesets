@@ -9,6 +9,7 @@ using WFTileCounter.ModelsLogic;
 using WFTileCounter.ModelsView;
 using WFTileCounter.Models;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace WFTileCounter.ControllersProcessing
 {
@@ -60,6 +61,15 @@ namespace WFTileCounter.ControllersProcessing
         }
 
         
+        [HttpPost]
+        public IActionResult Keep(List<ImgMetaData> datas)
+        {
+            foreach(var piece in datas)
+            {
+                Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
+            }
+            return View("ProcessFiles2", datas);
+        }
 
 
 
