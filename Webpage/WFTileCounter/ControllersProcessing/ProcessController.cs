@@ -14,6 +14,14 @@ using System.Diagnostics;
 namespace WFTileCounter.ControllersProcessing
 {
 
+    /*This Controller is mostly used at the moment for testing purposes. - It has everything needed to parse, display, and insert the data into the database.
+     * 
+     * However, future release iterations I want a lot of that more seperate, or more streamlined. When I proceed to actually taking Uploaded images, storing them,
+     * and processsing their meta data, this controller will be depreciated for a more accurately named, and more streamlined version
+     * 
+     */
+
+
     public class ProcessController : Controller
     {
 

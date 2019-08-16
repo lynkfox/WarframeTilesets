@@ -9,6 +9,8 @@ namespace WFTileCounter.ModelsLogic
 {
     public class InsertReadyData
     {
+        //this model is used to hold all the various EF Models for easy transfer between Controllers.
+
         [Key]
         public int Id { get; set; }
         public Mission Mission { get; set; }

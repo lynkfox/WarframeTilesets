@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace WFTileCounter.Models
 {
+
+    /* Currently this table just holds the Mission name. Further details might be added eventually
+     * 
+     */
     public class Mission
     {
         [Key]

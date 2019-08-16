@@ -12,6 +12,12 @@ namespace WFTileCounter.ControllersProcessing
     public class DatabaseFunctions
     {
 
+
+        /* This class contains functions involving converting the data to proper EF models, and then inersting them into the database.
+         * 
+         */
+
+
         private readonly DatabaseContext _db; //database context shortcut
 
        
@@ -31,6 +37,10 @@ namespace WFTileCounter.ControllersProcessing
             int newTiles = 0;
             List<int> newList = new List<int>();
 
+            /* Take in a list of data that has been converted from the viewModel (ImgMetaData) into the various models for the database, but contained in
+             * the single model of InsertReadyData
+            */
+
             foreach (var data in processed)
             {
                 var run = _db.Runs.Where(x => x.IdentityString == data.Run.IdentityString).FirstOrDefault();
@@ -42,12 +52,12 @@ namespace WFTileCounter.ControllersProcessing
                     var miss = _db.Missions.Where(x => x.Type == data.Mission.Type).FirstOrDefault();
                     if (miss is null)
                     {
-                        //_db.Missions.Add(data.Mission);
+                        //_db.Missions.Add(data.Mission);  -- oh entity framework. Left this here as a reminder to myself, when you use an object as a property
+                        // in an EF Model that is a FK, you don't need to add that model to the DB if you have already set it to the property of its fk relation.
                         data.Run.Mission = data.Mission;
                     }
                     else
                     {
-                        //data.Mission = miss;
                         data.Run.Mission = miss;
                     }
 
@@ -65,7 +75,8 @@ namespace WFTileCounter.ControllersProcessing
 
 
 
-                    /*
+                    /*  -- currently unused, and also CODED WRONG but I'll fix that when I get to that stage
+                     *  
                     var user = _db.Users.Where(x => x.Id == data.Id).FirstOrDefault();
                     if(user is null)
                     {
@@ -88,7 +99,8 @@ namespace WFTileCounter.ControllersProcessing
 
                     _db.Runs.Add(data.Run);
 
-                    Debug.WriteLine("\n\n" + data.Run.IdentityString + " | "+ data.Tileset.Name + " | " + data.Mission.Type + "\n\n");
+                    //Debugging lines. Left them to remind myself what I had to look for.
+                    //Debug.WriteLine("\n\n" + data.Run.IdentityString + " | "+ data.Tileset.Name + " | " + data.Mission.Type + "\n\n");
                     //await _db.SaveChangesAsync();
 
                     List<MapPoint> map = new List<MapPoint>();
@@ -104,7 +116,6 @@ namespace WFTileCounter.ControllersProcessing
                         if (t is null)
                         {
                             tile.Tileset = data.Tileset;
-                            //_db.Tiles.Add(tile);
                             mapPoint.Tile = tile;
                             newTiles++;
 
@@ -126,9 +137,13 @@ namespace WFTileCounter.ControllersProcessing
                 }
                 else
                 {
-                    //data.Run = run;
-
-
+                    /* If the Run was already found (Ie: The what I believe to be Unique Map Identifier string was already in the database)
+                     * then figure out tiles are new, and add them
+                     * 
+                     * most likely scenario for this is a run got only partially uploaded at a time.
+                     * 
+                     * Can't rely on users to remember to upload every picture from a run, or on connections to stay stable.
+                     */
 
                     var tSetName = _db.Tilesets.Where(x => x.Name == data.Tileset.Name).FirstOrDefault();
 
@@ -290,6 +305,8 @@ namespace WFTileCounter.ControllersProcessing
         }
 
 
+
+        //Just a quicky to keep this out of other functions.
 
         public bool CheckTilesetExists(string tilesetName)
         {

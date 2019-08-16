@@ -7,6 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WFTileCounter.Models
 {
+    /*This table contains the meat of this project. Each Map Point has the corresponding Tile that it is, and the run it belongs to.
+     * 
+     * This table is the connection between Runs and Tiles, and what will be used to figure out how common various tiles are in the procedual generation
+     * 
+     */
+    
     public class MapPoint
     {
         [Key]

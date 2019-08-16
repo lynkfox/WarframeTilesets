@@ -6,6 +6,7 @@ using WFTileCounter.ModelsLogic;
 
 namespace WFTileCounter.Models
 {
+    //Entity Frame Work Database Context class. 
     public class DatabaseContext : DbContext
     {
        

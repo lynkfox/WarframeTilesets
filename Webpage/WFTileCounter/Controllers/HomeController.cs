@@ -33,6 +33,10 @@ namespace WFTileCounter.Controllers
         }
 
 
+
+        //This is not currently set up to work. It is stored here for future development once out of testing phases
+        // and I'll probably move it out of the HomeController.
+
         [HttpPost]
         public async Task<IActionResult> UploadFile(IEnumerable<IFormFile> fileList)
         {

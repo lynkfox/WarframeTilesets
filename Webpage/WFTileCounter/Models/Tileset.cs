@@ -8,6 +8,10 @@ namespace WFTileCounter.Models
 {
     public class Tileset
     {
+        /* table to differentiate the different tilesets. Probably no more information will be added here.
+         * 
+         */
+
         [Key]
         [Display(Name="Tileset: ")]
         public string Name { get; set; }

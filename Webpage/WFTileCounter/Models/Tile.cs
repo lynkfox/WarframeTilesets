@@ -9,6 +9,13 @@ namespace WFTileCounter.Models
 {
     public class Tile
     {
+        /* Each individual Tile has its own entry.
+         * 
+         * At the very least a more friendly name will be given to it (PopularName).
+         * 
+         * Additional Columns will probably be added: Objectives, #of Luckers, #of Consoles, the directory where all the images are stored for this room, ect.
+         * 
+         */
         [Key]
         public string Name { get; set; }
         public string PopularName { get; set; }
