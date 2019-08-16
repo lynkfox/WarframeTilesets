@@ -12,6 +12,13 @@ namespace WFTileCounter.ControllersProcessing
     public class GeneralFunctions
     {
 
+        /* This class holds all my general use logic functions, that are needed between controllers.
+         */
+
+
+
+
+
         /* I feel like I'm doing this wrong. I only have this hear because I use a function in DatabaseFunctions to check if something exists before I go about with the next step.
          * 
          * So i have to have a Dbcontext to pass to the new DatabaseFunctions constructor.
@@ -28,6 +35,8 @@ namespace WFTileCounter.ControllersProcessing
         }
 
         //Temp function for use between multiple computers, but will need to be made dynamic for a server.
+
+        //If you are Running this on your own before I've reached a release stage, then you need to change path below to where your Warframe Pictures directory is.
         public string GetPath()
         {
             //return Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads");

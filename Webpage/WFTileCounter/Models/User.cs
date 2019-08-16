@@ -8,7 +8,10 @@ namespace WFTileCounter.Models
 {
     public class User
     {
-        
+        /* Eventual table for user profiles.
+         * 
+         * Will probably add salted hash pw fields into here
+         */
 
         [Key]
         public int Id { get; set; }
