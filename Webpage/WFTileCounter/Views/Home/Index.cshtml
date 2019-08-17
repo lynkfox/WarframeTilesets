@@ -1,17 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "WF Tiles";
 }
 
-    
+
 
 
     <environment include="Development">
-        <strong>Development Environment Only Command - Process all Pictures/Warframe files --></strong>
+        <strong>Development Environment Only Command - Process all Pictures/Warframe files --></strong> @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
 
-        @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
     </environment>
-            
- 
+
+
 
 
 <hr />
@@ -52,7 +51,7 @@
 <div class="row bg-dark border-light">
     <div class="col-12">
         <p>This site looks through the metadata of the image you are uploading. The only things it pulls out to store is the JpegComment (where DE puts its info) and the date the image was saved to your computer.</p>
-    
+
         <p>In its raw form, the comment looks like this:</p>
         <p><i>/Lotus/Levels/Proc/Corpus/CorpusShip/aRqMKjgUUmhMp2BgZ1SxkiJJVS4hUpbUTKJpR+GAFEIAwASQQFQAjGDCIFYAgAEEBABBBQA.lp Zone: /Lotus/Levels/Guild/XHall1 P: -24, -46, -92 H:-89 Log: 890.012</i></p>
 
@@ -146,22 +145,25 @@
         </ul>
 
     </div>
-    
- </div>
 
-    <p>Upload Multiple files below, 10 at a time.</p>
+</div>
 
 
 
 
 
-    <form asp-controller="Home" asp-action="UploadFile" method="post"
-          enctype="multipart/form-data">
+<hr />
+<environment include="Development">
+    <strong>Development Environment - This is NOT HOOKED UP</strong>
+</environment>
 
-        <input type="file" name="fileList" multiple />
-        <button type="submit">Upload File</button>
-    </form>
+<form asp-controller="Home" asp-action="UploadFile" method="post"
+      enctype="multipart/form-data">
 
-    <hr />
+    <input type="file" name="fileList" multiple />
+    <button type="submit">Upload File</button>
+</form>
 
-    
+<hr />
+
+
