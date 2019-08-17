@@ -6,9 +6,25 @@
 
 <h1>Files to be Processed</h1>
 
-<p>Review the data below. If you find something wrong or weird, exclude it from the upload.</p>
+<p>These are each of the files you have selected to upload.</p>
 
-@Html.ActionLink("Add the Data to the Database", "Index", "Process")
+<p>It is practically impossible to check if you took a screen shot twice in the same tile. As such, we are making guesses. If there are two screenshots in sequential order
+    that have the same Tile Name (ie: Warframe0005 and Warframe0006 are both CrpDeadEnd2) then the page unchecks the Process box and sets a red warning label under the image</p>
+
+<p>However, this does not acount for situations where there may be two of the same tile next to each other. Please scroll through this list and recheck any that you are certain
+    are actually two seperate tiles on the map.</p>
+
+<p>Finally, DE has a habit of breaking their naming conventions with various tilesets. As such, if the page could not find the right name for a Mission or a Tileset it will
+    display a yellow warning tag. These are automatically unchecked as well, and will not be added to the database. If you find one of these tiles, please contact the sites
+    administrators with a copy of all of the information from that tile, what node you were playing on, and if possible a copy of the screenshot. In the next iteration we'll add the needed
+    special cases to be able to process that file.</p>
+
+<environment include="Development">
+    <strong>Development Environment Only Command - Process all Files --></strong>
+
+    @Html.ActionLink("Add the Data to the Database", "Index", "Process")
+</environment>
+
 
 
 

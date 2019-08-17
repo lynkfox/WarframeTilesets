@@ -74,6 +74,12 @@ namespace WFTileCounter.ControllersProcessing
         {
             foreach(var piece in datas)
             {
+                if (piece.UnknownValue == true) //If we get the UnknownValue flag set to true, then there is bad data in the process. Make sure this tile is NOT processed
+                    piece.KeepThis = false;
+
+                /* To do: Write the code for removing the unchecked files (KeepThis==False) and only passing the checked files on to be coverted
+                 * 
+                 */
                 Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
             }
             return View("ProcessFiles2", datas);

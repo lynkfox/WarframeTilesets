@@ -257,6 +257,35 @@ namespace WFTileCounter.ControllersProcessing
                 metaData.KeepThis = true;
 
 
+                if(metaData.MissionType.Contains("???") || metaData.Tileset.Contains("???"))
+                {
+                    //if the MissionType or the Tileset hits the final return, it will add ??? to the name.
+                    // so we check for that so we can auto exclude files that don't have the proper checks for their MissionType/Tileset
+                    metaData.KeepThis = false;
+                    metaData.UnknownValue = true;
+                }
+                else
+                {
+                    metaData.UnknownValue = false;
+                }
+                
+
+                if(metaList.Count !=0 && metaData.TileName ==metaList.Last().TileName)
+                {
+                    /*Checking to see if the name of this file being processed is the same as the last.
+                     * This is far from perfect. However, f6 screenshot automatically names the images as Warframe#### in sequential order
+                     * so if the tile names are the same there is a higher chance that the image was taken within the same tile than any other
+                     * method I can think of to track this. We can't say for certain there aren't two tiles in a row though, so it only will produce
+                     * a warning, and auto uncheck the 'Keep This' box
+                     */
+                    metaData.KeepThis = false;
+                    metaData.PossibleDupe = true;
+                }else
+                {
+                    metaData.PossibleDupe = false;
+                }
+
+
 
                 metaList.Add(metaData);
             }

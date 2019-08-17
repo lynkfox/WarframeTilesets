@@ -1,18 +1,57 @@
 ﻿@model  WFTileCounter.ModelsView.ImgMetaData
 
+<style>
+
+    .leftBoxAlerts
+    {
+        font-weight: bold;
+        font-size: .8em;
+        font-variant: small-caps;
+    }
+</style>
+
     <div class="container">
         <div class="row">
             <div class="col-2 align-self-center">
                 <div class="row">
-                    <p>@Html.CheckBoxFor(x => x.KeepThis) @Html.DisplayNameFor(x => x.KeepThis)</p>
+                    <div class="col-12 align-self-start">
+                        <p>@Html.CheckBoxFor(x => x.KeepThis) @Html.DisplayNameFor(x => x.KeepThis)</p>
+                    </div>
                 </div>
                 <div class="row div2">
-                    <center>Image Will Go Here</center>
+                    <div class="col-12 align-self-center">
+                        <center><a href="~/img/Warframe0000.jpg"><img src="~/img/Warframe0000.jpg" alt="TestImage" width="150" class="rounded"></a></center>
+                    </div>
+
                 </div>
+                @if (Model.PossibleDupe == true)
+                {
+                    <div class="row div2">
+                        <div class="col-12 border border-danger bg-danger text-dark rounded align-self-end leftBoxAlerts  text-center">
+                            <span class="align-middle"><b>@Html.DisplayNameFor(x => x.PossibleDupe)</b></span>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.PossibleDupe)
+                                @Html.ValidationMessageFor(a => a.PossibleDupe)
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (Model.UnknownValue == true)
+                {
+                    <div class="row div2">
+                        <div class="col-12 border border-warning bg-warning text-dark rounded align-self-end leftBoxAlerts  text-center">
+                            <span class="align-middle"><b>@Html.DisplayNameFor(x => x.UnknownValue)</b></span>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.UnknownValue)
+                                @Html.ValidationMessageFor(a => a.UnknownValue)
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
 
             <div class="col-10">
-                <div class="col-12 align-self-start border border-danger rounded bg-dark text-light">
+                <div class="col-12 align-self-start border border-success rounded bg-dark text-light">
                     <div class="row">
                         <div class="col-sm-2 font-weight-bold">
                             @Html.DisplayNameFor(a => a.FileName)
@@ -57,7 +96,7 @@
 
                 </div>    
              
-                <div class="col-12 align-self-start border border-primary rounded bg-dark text-light">
+                <div class="col-12 align-self-start border border-top-0 border-success rounded bg-dark text-light">
                     
                     <div class="row">
                         <div class="col-sm-4 border-bottom border-light">
@@ -110,7 +149,7 @@
                     
                     
                     <div class="row">
-                        <div class="col-sm-4 border-bottom border-light">
+                        <div class="col-sm-4  border-light">
                             <div class="row">
                                 <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.MissionType)</div>
                             </div>
@@ -125,7 +164,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4 border-bottom border-light">
+                        <div class="col-sm-4 border-light">
                             <div class="row">
                                 <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.FactionName)</div>
                             </div>
@@ -140,7 +179,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4 border-bottom border-light">
+                        <div class="col-sm-4 border-light">
                             <div class="row">
                                 <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.LogNum)</div>
                             </div>

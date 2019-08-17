@@ -34,7 +34,7 @@ namespace WFTileCounter.ControllersProcessing
 
         public async Task<List<int>> InsertIntoDatabase(List<InsertReadyData> processed)
         {
-            int newTiles = 0;
+            
             List<int> newList = new List<int>();
 
             /* Take in a list of data that has been converted from the viewModel (ImgMetaData) into the various models for the database, but contained in
@@ -43,6 +43,8 @@ namespace WFTileCounter.ControllersProcessing
 
             foreach (var data in processed)
             {
+                int newTiles = 0; //for ViewBagfor view return
+
                 var run = _db.Runs.Where(x => x.IdentityString == data.Run.IdentityString).FirstOrDefault();
                 if (run is null)
                 {
@@ -182,12 +184,8 @@ namespace WFTileCounter.ControllersProcessing
                    
                 }
 
-
-
                 newList.Add(newTiles);
 
-
-                
                 await _db.SaveChangesAsync();
             }
 
@@ -273,8 +271,9 @@ namespace WFTileCounter.ControllersProcessing
                     if (test is null)
                     {
                         tiles.Add(tile);
-
                     }
+                    
+
 
                     allTiles.Add(tile);
 

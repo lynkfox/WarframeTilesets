@@ -39,8 +39,18 @@ namespace WFTileCounter.ModelsView
 
         public string ImgPath { get; set; }
 
+
+        [Display(Name = "Possible Duplicate!!!")]
+        public bool PossibleDupe { get; set; }
+        // for the view, to help alert if perhaps adding a duplicate tile
+        [Display(Name = "Something is Unknown!!!")]
+        public bool UnknownValue { get; set; }
+        // for the view, to help alert if some data isn't properly set up to be parsed in MissionType or Tileset
+
         [Display(Name ="Process Image?")]
         public bool KeepThis { get; set; }
+
+
 
     }
 }

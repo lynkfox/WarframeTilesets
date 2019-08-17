@@ -2,7 +2,7 @@
 @{ int count = 0;}
 
 @{
-    ViewData["Title"] = "Maps Added";
+    ViewData["Title"] = "MapsPoints Added";
 }
 
 
@@ -28,12 +28,12 @@
         <div class="col-sm-4"><b>@Html.DisplayNameFor(a => map.Run.IdentityString)</b></div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IdentityString)</div>
     </div>
     <div class="row">
-        <div class="col-sm-10"><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were added to the database.</i></div>
+        <div class="col-sm-10"><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were new and added to the database.</i></div>
     </div>
     <div class="row">
         @foreach (var tile in map.Tiles)
         {
-            <div class="col-sm-2">@Html.DisplayFor(a => tile.Name)</div>
+            <div class="col-sm-2 text-truncate">@Html.DisplayFor(a => tile.Name)</div>
         }
     </div>
     count++;
