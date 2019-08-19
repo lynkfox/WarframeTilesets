@@ -33,11 +33,19 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
+                        <environment include="Development">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Process" asp-action="ProcessFiles">Development Link -> Grab Files</a>
+
+                        </environment>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Introduction</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Tips" alt="Tips and Tricks for Good Uploads">Tips</a>
                         </li>
                     </ul>
                 </div>

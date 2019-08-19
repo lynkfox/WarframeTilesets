@@ -143,6 +143,8 @@ namespace WFTileCounter.ControllersProcessing
 
             }
 
+
+            //These two have a bad habit of NOT having the mission type on the TilesetName like the rest do. SO.. special case.
             if (value == "CorpusShip")
             {
                 return "The Sergeant Assassination";
@@ -237,6 +239,10 @@ namespace WFTileCounter.ControllersProcessing
 
             var picList = System.IO.Directory.GetFiles(path);
 
+            //There should only ever be one spawn or exit tile,so we'll set flags when we find the first one.
+            bool spawn = false;
+            bool exit = false;
+
             foreach (var pic in picList)
             {
                 var metaData = new ImgMetaData();
@@ -270,6 +276,9 @@ namespace WFTileCounter.ControllersProcessing
                 }
                 
 
+                /*Note for next bit - add a check if the Filename is NOT Warframe####
+                 */
+
                 if(metaList.Count !=0 && metaData.TileName ==metaList.Last().TileName)
                 {
                     /*Checking to see if the name of this file being processed is the same as the last.
@@ -286,6 +295,35 @@ namespace WFTileCounter.ControllersProcessing
                 }
 
 
+                /* There should only ever be one Spawn/Start or Exit/Extraction tile in a map. If there are more than one in the uploads, then its probably a duplicate image.
+                 * so we'll check for them, if we have already found one, we'll set KeepThis = false so it gets auto unchecked and duplicate flag on the view gets added
+                 * 
+                 * 
+                 * this obviously has an issue if more than one run is tossed into the processing at once. So we need to add some checks for that.
+                 */
+                if(metaData.TileName.Contains("Spawn") || metaData.TileName.Contains("Start") )
+                {
+                    if(spawn)
+                    {
+                        metaData.KeepThis = false;
+                        metaData.PossibleDupe = true;
+                    }
+                    else
+                    {
+                        spawn = true;
+                    }
+                }else if (metaData.TileName.Contains("Exit") || metaData.TileName.Contains("Extraction"))
+                {
+                    if (exit)
+                    {
+                        metaData.KeepThis = false;
+                        metaData.PossibleDupe = true;
+                    }
+                    else
+                    {
+                        exit = true;
+                    }
+                }
 
                 metaList.Add(metaData);
             }
@@ -430,8 +468,8 @@ namespace WFTileCounter.ControllersProcessing
                             }
 
 
-                            //finally check if it already starts with Crp or Grn, or contains Grineer or Corpus already making it unique.
-                            if(tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tileInfo.Last().Contains("Grineer") || tileInfo.Last().Contains("Corpus"))
+                            //finally check if it already starts with Crp or Grn, or contains Grineer or Corpus, or Infested insted of Infestation already making it uniqu
+                            if(tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tileInfo.Last().Contains("Grineer") || tileInfo.Last().Contains("Corpus") || tileInfo.Last().Contains("Infested") || tileInfo.Last().Contains("Moon"))
                             {
                                 newTileName = tileInfo.Last();
                             }
