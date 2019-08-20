@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WFTileCounter.Models;
 using WFTileCounter.ModelsLogic;
@@ -151,7 +152,7 @@ namespace WFTileCounter.ControllersProcessing
             }
             if (value == "GrineerAsteroid")
             {
-                return "Drilling Machine Sabotage";
+                return "Sabotage";
             }
 
             return value+"??? - Check Me";
@@ -161,6 +162,7 @@ namespace WFTileCounter.ControllersProcessing
         public string GetTileSet(string value)
         {
             string[] missionType;
+            string[] notValid;
             var _df = new DatabaseFunctions(_db);
 
             var path = Path.Combine(
@@ -170,7 +172,7 @@ namespace WFTileCounter.ControllersProcessing
 
             if (!File.Exists(path))
             {
-                return null;
+                return "Error";
 
             }
             else
@@ -179,6 +181,35 @@ namespace WFTileCounter.ControllersProcessing
                 missionType = File.ReadAllLines(path);
                 
             }
+
+            path = Path.Combine(
+                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists");
+
+            path = Path.Combine(path, "nonProcedualSets.csv");
+
+            if (!File.Exists(path))
+            {
+                return "Error";
+
+            }
+            else
+            {
+
+                notValid = File.ReadAllLines(path);
+
+            }
+
+            
+            for(int i=0; i<notValid.Length; i++)
+            {
+                string badPic = "*" + notValid[i] + "*";
+
+                if(Regex.IsMatch(value, WildCardToRegular(badPic)))
+                {
+                    return "Error";
+                }
+            }
+            
 
             /*
             string[] missionType = { "BossVor", "JackalBoss", "HyenaAssassinate", "AmbulasBoss","BossKela", "J3GolemAssassinate", "BossInfested",
@@ -248,6 +279,9 @@ namespace WFTileCounter.ControllersProcessing
                 var metaData = new ImgMetaData();
 
                 var metaValues = GetMetaData(pic);
+
+                if(metaValues[2]=="Error" || metaValues[0]=="ArenaFight")
+                { continue; }
 
                 string[] pathCut = pic.Split('\\');
                 metaData.ImgPath = pic;
@@ -415,9 +449,19 @@ namespace WFTileCounter.ControllersProcessing
 
 
                         values.Add(GetMissionType(mapInfo.Last()));
-                        values.Add(GetTileSet(mapInfo.Last()));
+
+
+                        //check to see if the Tileset is one of the bad ones.
+                        
+
+                            values.Add(GetTileSet(mapInfo.Last()));
+                        
+                        
 
                         mapInfo.RemoveAt(mapInfo.Count - 1);
+
+
+
                         //add the Faction info, with a few special cases.
                         if (mapInfo.Last() == "SpaceBattles") // Corpus Archwing
                             values.Add("Corpus");
@@ -468,8 +512,9 @@ namespace WFTileCounter.ControllersProcessing
                             }
 
 
-                            //finally check if it already starts with Crp or Grn, or contains Grineer or Corpus, or Infested insted of Infestation already making it uniqu
-                            if(tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tileInfo.Last().Contains("Grineer") || tileInfo.Last().Contains("Corpus") || tileInfo.Last().Contains("Infested") || tileInfo.Last().Contains("Moon"))
+                            //finally check if it already starts with Crp or Grn, or contains another qualifier that will make it unique.
+                            if(tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tileInfo.Last().Contains("Grineer") || tileInfo.Last().Contains("Corpus") 
+                                || tileInfo.Last().Contains("Infested") || tileInfo.Last().Contains("Moon") || tileInfo.Last().Contains("Derelict"))
                             {
                                 newTileName = tileInfo.Last();
                             }
@@ -574,6 +619,14 @@ namespace WFTileCounter.ControllersProcessing
 
 
             return values;
+        }
+
+
+
+        //quick function for * wildcard search.
+        private static String WildCardToRegular(String value)
+        {
+            return "^" + Regex.Escape(value).Replace("\\*", ".*") + "$";
         }
     }
 
