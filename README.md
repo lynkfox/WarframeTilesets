@@ -13,7 +13,7 @@ This section contains (Currently) work to figure out just how common various til
 
 As of 8/16/19 the webpage works in my personal test environment (that is, the SQL server is only hosted on my computer, and it pulls directly from my Pictures/Warframe folder on my c:drive) There are *many* unique and special cases to the way Digital Extremes titles its map tiles, and as such there is much work to do to figure them out and build exceptions for them, before I release this into the wild for others to upload their images for.
 
-There is a SQL create script for creating a similar database, and you'll have to adjust the code to look properly for your images if you want to run this yourself.
+There is a SQL create script for creating a similar database (but this is in the progress of being a CodeFirst application, so you shouldn't need it), and you'll have to adjust the code to look properly for your images if you want to run this yourself.
 
 (Ie: the uploads button 'works' but doesn't actually do anything yet)
 
