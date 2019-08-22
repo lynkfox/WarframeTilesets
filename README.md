@@ -33,3 +33,13 @@ There is a SQL create script for creating a similar database (but this is in the
 * Regular  Users with the ability to request a change, but that needs to be approved by SuperUsers
 
 * Record Type of Special Add To Mission - Ie: Kuva Siphon, Kuva Flood, Syndicate, Void Rift, Nightmare
+
+## Recent Changes
+
+### 8/22
+* Rebuilt Database with CodeFirst properties, and proper migration. 
+* If Picture is available of Map of tile, show on ProofRead View (need to rename that view!)
+
+#### Upcoming Next:
+* Edit for TileDetails with Drop down lists for Tileset and Tilename (or something? Grid view?)
+
