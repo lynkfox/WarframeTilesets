@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -343,7 +344,9 @@ namespace WFTileCounter.ControllersProcessing
 
         private TileImage GetMapImagePath(string tileName)
         {
-            var isTileInDB = _db.Tiles.Where(x => x.Name == tileName).FirstOrDefault();
+            var isTileInDB = _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).FirstOrDefault();
+
+
             var defaultTileImageData = new TileImage { ImagePath = "LotusFlower.png", AltText = "No Map Image Uploaded Yet" };
 
 
@@ -358,10 +361,13 @@ namespace WFTileCounter.ControllersProcessing
                     var tileMapImg = _db.TileImages.Where(x => x.ViewName == "Map").FirstOrDefault();
                     if (tileMapImg is null)
                     {
+
                         return defaultTileImageData;
                     }
                     else
                     {
+                        
+                        tileMapImg.ImagePath = isTileInDB.Tileset.Name + "/" + isTileInDB.Name + "/" + isTileInDB.Name + "map.png";
                         return tileMapImg;
                     }
                 }

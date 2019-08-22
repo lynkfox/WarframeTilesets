@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WFTileCounter.Models;
 
 namespace WFTileCounter.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190822182910_SmallTileImgChanges")]
+    partial class SmallTileImgChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,7 +155,7 @@ namespace WFTileCounter.Migrations
                         .IsRequired()
                         .HasMaxLength(250);
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasMaxLength(250);
 

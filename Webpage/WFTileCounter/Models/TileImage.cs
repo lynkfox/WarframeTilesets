@@ -28,9 +28,14 @@ namespace WFTileCounter.Models
 
         [MaxLength(250)]
         [Required]
-        public string ImagePath { get; set; } // path should start  (tilesetName) / (tilename) / (imagename).png or jpg  - from ~/wwwroot/img/tilesets/ is assumed for each image
+        public string ImageName{ get; set; } 
         [MaxLength(250)]
         [Required]
         public string AltText { get; set; }
+
+        [NotMapped]
+        public string ImagePath { get; set; }
+        // path should start  (tilesetName) / (tilename) / (imagename).png or jpg  - from ~/wwwroot/img/tilesets/ is assumed for each image
+        // tilesetName and TileName will be created dynamically elsewhere and added into this NotMapped Property.
     }
 }
