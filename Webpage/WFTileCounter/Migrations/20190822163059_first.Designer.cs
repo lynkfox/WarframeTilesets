@@ -10,8 +10,8 @@ using WFTileCounter.Models;
 namespace WFTileCounter.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190822155653_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20190822163059_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,6 +105,33 @@ namespace WFTileCounter.Migrations
                     b.ToTable("Tiles");
                 });
 
+            modelBuilder.Entity("WFTileCounter.Models.TileImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImgName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("TileName")
+                        .IsRequired();
+
+                    b.Property<string>("TilesetName");
+
+                    b.Property<string>("ViewName")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TileName");
+
+                    b.HasIndex("TilesetName");
+
+                    b.ToTable("TileImages","website");
+                });
+
             modelBuilder.Entity("WFTileCounter.Models.Tileset", b =>
                 {
                     b.Property<string>("Name")
@@ -169,6 +196,18 @@ namespace WFTileCounter.Migrations
                 {
                     b.HasOne("WFTileCounter.Models.Tileset", "Tileset")
                         .WithMany("Tiles")
+                        .HasForeignKey("TilesetName");
+                });
+
+            modelBuilder.Entity("WFTileCounter.Models.TileImage", b =>
+                {
+                    b.HasOne("WFTileCounter.Models.Tile", "Tile")
+                        .WithMany()
+                        .HasForeignKey("TileName")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WFTileCounter.Models.Tileset", "Tileset")
+                        .WithMany()
                         .HasForeignKey("TilesetName");
                 });
 #pragma warning restore 612, 618

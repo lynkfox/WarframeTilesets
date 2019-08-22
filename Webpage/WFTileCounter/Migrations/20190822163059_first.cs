@@ -4,10 +4,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WFTileCounter.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "website");
+
             migrationBuilder.CreateTable(
                 name: "Missions",
                 columns: table => new
@@ -97,6 +100,35 @@ namespace WFTileCounter.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TileImages",
+                schema: "website",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TileName = table.Column<string>(nullable: false),
+                    TilesetName = table.Column<string>(nullable: true),
+                    ViewName = table.Column<string>(maxLength: 50, nullable: true),
+                    ImgName = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TileImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TileImages_Tiles_TileName",
+                        column: x => x.TileName,
+                        principalTable: "Tiles",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TileImages_Tilesets_TilesetName",
+                        column: x => x.TilesetName,
+                        principalTable: "Tilesets",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MapPoints",
                 columns: table => new
                 {
@@ -147,12 +179,28 @@ namespace WFTileCounter.Migrations
                 name: "IX_Tiles_TilesetName",
                 table: "Tiles",
                 column: "TilesetName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TileImages_TileName",
+                schema: "website",
+                table: "TileImages",
+                column: "TileName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TileImages_TilesetName",
+                schema: "website",
+                table: "TileImages",
+                column: "TilesetName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "MapPoints");
+
+            migrationBuilder.DropTable(
+                name: "TileImages",
+                schema: "website");
 
             migrationBuilder.DropTable(
                 name: "Runs");

@@ -195,6 +195,7 @@ namespace WFTileCounter.ControllersProcessing
             {
                 return stringTilesetMission;
             }
+            
 
             if (stringTilesetMission.Contains("TR")) // special case, just get it over with.
             {
@@ -494,6 +495,17 @@ namespace WFTileCounter.ControllersProcessing
 
             //Invasion Missions sometimes use the same tilenames, so add a qualifier
 
+            if(tileset == "OrokinTowerDerelict")
+            {
+                if(tilename.Contains("Derelict"))
+                {
+                    return tilename;
+                }
+                else
+                {
+                    return tilename + "Derelict";
+                }
+            }
             if (tileset == "GrineerToCorpus") 
             {
                 return "G2C" + tilename;

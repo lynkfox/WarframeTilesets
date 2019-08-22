@@ -9,6 +9,11 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20190822155653_FirstMigration.cs" />
+    <Compile Remove="Migrations\20190822155653_FirstMigration.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="MetadataExtractor" Version="2.1.0" />
@@ -20,7 +25,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Models\TileInfoSchema\" />
     <Folder Include="Views\TIps\" />
     <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>

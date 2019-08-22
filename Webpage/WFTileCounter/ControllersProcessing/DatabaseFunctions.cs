@@ -239,7 +239,7 @@ namespace WFTileCounter.ControllersProcessing
                         run.LogRange = item.LogNum;
 
                         //test purposes, fix this to be dynamic later
-                        run.UserID = 1;
+                        run.UserID = 2;
 
                         //add the unique data to the processing temp object
                         processing.Mission = mission;

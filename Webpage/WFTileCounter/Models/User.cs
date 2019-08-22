@@ -23,7 +23,7 @@ namespace WFTileCounter.Models
         [Required]
         [StringLength(150,MinimumLength =7)]
         public string email { get; set; }
-        public int RunsUploaded { get; set; }
+        public int? RunsUploaded { get; set; }
         // Research how to make this a Code First Calculated Column, so that it automatically traes the Count() of Runs with this User's Id.
 
 

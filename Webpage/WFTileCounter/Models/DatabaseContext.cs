@@ -35,7 +35,9 @@ namespace WFTileCounter.Models
         public DbSet<MapPoint> MapPoints { get; set; }
         public DbSet<Tileset> Tilesets { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<TileImage> TileImages { get; set; }
 
-        
+
+
     }
 }
