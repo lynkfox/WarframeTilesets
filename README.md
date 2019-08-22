@@ -22,9 +22,14 @@ There is a SQL create script for creating a similar database (but this is in the
 * Allow user profiles
 * Allow users to upload images, and have the meta data pulled from and processed
 * Upload files into temp directories that will be destroyed at the end of the process.
-* Figure out the best way to prevent sql lockups from many users using the page at once.
+* Figure out the best way to prevent sql lockups from many users using the page at once. (Concurancy Checks!!!)
 * make it look much damn better
 
 * tie in the Tileset images I'm creating above. Show the map image for each tile during the 'check' process of parsing out the data. 
 * have various links to the Tileset indexes, and the Tiles themselves, to show secrets and other information.
-* Show statistics of how common tiles from aggregated data from many runs.
+* Show statistics of how common tiles from aggregated data from many runs, what mission type it is most common in
+
+* SuperUsers with the ability to Update Tile Pages
+* Regular  Users with the ability to request a change, but that needs to be approved by SuperUsers
+
+* Record Type of Special Add To Mission - Ie: Kuva Siphon, Kuva Flood, Syndicate, Void Rift, Nightmare

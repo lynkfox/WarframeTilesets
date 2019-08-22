@@ -14,8 +14,10 @@ namespace WFTileCounter.Models
 
         [Key]
         [Display(Name="Tileset: ")]
+        [MaxLength(100)]
         public string Name { get; set; }
         [Display(Name = "Faction: ")]
+        [MaxLength(50)]
         public string Faction { get; set; }
 
         public IEnumerable<Tile> Tiles { get; set; }

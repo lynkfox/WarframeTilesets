@@ -17,9 +17,16 @@ namespace WFTileCounter.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Run ID: ")]
+        [Required]
         public int RunId { get; set; }
         [ForeignKey("TileName")]
+        [MaxLength(100)]
+        [Display(Name ="Tile Name: ")]
+        [Required]
         public Tile Tile { get; set; }
+        [StringLength(50, MinimumLength = 10)]
+        [Display(Name = "Screenshot Coordinates: ")]
         public string CoordsTaken { get; set; }
 
         

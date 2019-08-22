@@ -14,6 +14,7 @@ namespace WFTileCounter.Models
     {
         [Key]
         [Display(Name = "Mission Type: ")]
+        [StringLength(100)]
         public string Type { get; set; }
 
         

@@ -32,11 +32,17 @@ namespace WFTileCounter.Models
         [Display(Name = "Date of Run: ")]
         public DateTime RunDate { get; set; }
         [ForeignKey("MissionType")]
+        [Display(Name = "Mission Type: ")]
+        [MaxLength(100)]
         public Mission Mission { get; set; }
-        public int UserID { get; set; }
+        [Display(Name = "User ID #: ")]
+        public int UserID { get; set; } = 1;
         [Display(Name ="Map Identifier: ")]
+        [MaxLength(250)]
+        [Required]
         public string IdentityString { get; set; }
         [Display(Name = "Log Values: ")]
+        [MaxLength(250)]
         public string LogRange { get; set; }
         [Display(Name = "# Tiles Counted: ")]
         public int TotalTiles { get; set; }

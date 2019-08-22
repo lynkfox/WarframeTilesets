@@ -17,10 +17,16 @@ namespace WFTileCounter.Models
          * 
          */
         [Key]
+        [MaxLength(100)]
+        [Display(Name= "DE Tile Name: ")]
         public string Name { get; set; }
+        [MaxLength(100)]
+        [Display(Name = "Popular Name: ")]
         public string PopularName { get; set; }
         
         [ForeignKey("TilesetName")]
+        [Display(Name="Tileset: ")]
+        [MaxLength(100)]
         public Tileset Tileset { get; set; }
 
         public IEnumerable<MapPoint> MapPoints { get; set; }
