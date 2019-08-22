@@ -367,7 +367,7 @@ namespace WFTileCounter.ControllersProcessing
                     else
                     {
                         
-                        tileMapImg.ImagePath = isTileInDB.Tileset.Name + "/" + isTileInDB.Name + "/" + isTileInDB.Name + "map.png";
+                        tileMapImg.ImagePath = isTileInDB.Tileset.Name + "/" + isTileInDB.Name + "/" + tileMapImg.ImageName;
                         return tileMapImg;
                     }
                 }
