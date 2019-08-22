@@ -128,6 +128,16 @@ namespace WFTileCounter.ControllersProcessing
                 throw new Exception();
             }
 
+            //These two have a bad habit of NOT having the mission type on the TilesetName like the rest do. SO.. special case.
+            if (value == "CorpusShip")
+            {
+                return "Assassination (The Sergeant)";
+            }
+            if (value == "GrineerAsteroid")
+            {
+                return "Sabotage (Drill)";
+            }
+
             foreach (var type in types)
             {
                 if (value.Contains(type.InGameName))
@@ -145,15 +155,8 @@ namespace WFTileCounter.ControllersProcessing
             }
 
 
-            //These two have a bad habit of NOT having the mission type on the TilesetName like the rest do. SO.. special case.
-            if (value == "CorpusShip")
-            {
-                return "The Sergeant Assassination";
-            }
-            if (value == "GrineerAsteroid")
-            {
-                return "Sabotage";
-            }
+            
+            
 
             return value+"??? - Check Me";
 
@@ -218,31 +221,35 @@ namespace WFTileCounter.ControllersProcessing
             */
             int length = value.Length;
 
-            if(_df.CheckTilesetExists(value)) // checks the database to see if the Tileset already exists. Useful for Assasination Missions that may not have the type after it.
+            if(_df.CheckTilesetExists(value)) // checks the database to see if the Tileset already exists.
             {
                 return value;
             }
 
-            if (value.Contains("ProcLevel")) // Archwing Missions have ProcLevel at the end of their missiontype, remove it first.
+            if (value.Contains("TR")) // special case, just get it over with.
+            {
+                return "Trench Run (Archwing)";
+            }
+                
+            if (value.Contains("Space"))
+            {
+                return "Free Space (Archwing)";
+            }
+            if (value == "CorpusGasBoss")
+            {
+                return "CorpusGasCity";
+            }
+            if (value.Contains("Arena")) // this shouldn't be needed anymore
+            {
+
+                return value;
+            }
+            if (value.Contains("ProcLevel")) // Some Archwing Missions have ProcLevel at the end of their missiontype, remove it first.
             {
                 value = value.Remove(length - 9);
                 length = value.Length; // update the new length
 
             }
-
-            if (value.Contains("TR")) // special case, just get it over with.
-                return "CorpusShip (Archwing)";
-
-            if (value.Contains("Space"))
-                return "GrineerSpace (Archwing)";
-
-            if (value.Contains("Arena"))
-            {
-
-                return value;
-            }
-
-
             foreach (string mission in missionType)
             {
 
@@ -451,10 +458,10 @@ namespace WFTileCounter.ControllersProcessing
                         values.Add(GetMissionType(mapInfo.Last()));
 
 
-                        //check to see if the Tileset is one of the bad ones.
-                        
 
-                            values.Add(GetTileSet(mapInfo.Last()));
+                        string tileset = GetTileSet(mapInfo.Last());
+
+                        values.Add(tileset);
                         
                         
 
@@ -475,61 +482,17 @@ namespace WFTileCounter.ControllersProcessing
                         else
                             values.Add(mapInfo.Last());
 
+                     
+
                         
                         mapInfo.RemoveAt(mapInfo.Count - 1);
 
 
 
+                        //Fix the Tile name (too many duplicates!!!)
+                        string newTileName = AddQualifierToTileName(values.Last(), tileInfo.Last(), tileset);
 
-
-                        //add the tile name. - toss it in case I need the rest of the string...\
-
-                        //bugger DE. Found out they repeat the names of some rooms in different tilesets. So... we have to add to this.
-                        string factionSave = values.Last(); // save the Faction name so we can deal with stupid duplicate tile names
-
-                        // first get the first 3 letters of the Faction: Cor, Gri, Oro, Inf
-                        factionSave = factionSave.Substring(0, 3);
-                        string tileFactionCheck = tileInfo.Last().Substring(0, 3);
-                        string newTileName;
-
-                        //check to see if the tile name already has it as the first three... 
-                        
-                        if (tileFactionCheck != factionSave || tileInfo.Last().Contains("Corner")) //edge case, corner triggers Cor
-                        {//if not, add it to make all tile names Unique (so DeadEnd2 on CorpusShip and DeadEnd2 on Orokin Tower are different.
-
-
-                            //switch Gri to Grn to maintain how DE is already doing it on OTHER tilesets... damn lack of consistancy
-                            // but also make sure the tile name doesn't already have Grineer in the title. or already start with Grn
-                            if (factionSave == "Gri" && !tileInfo.Last().Contains("Grineer") )
-                            {
-                                factionSave = "Grn";
-                            }
-
-                            // To keep a sort of standard op, do the same for Corpus 
-                            if (factionSave == "Cor" && !tileInfo.Last().Contains("Corpus") )
-                            {
-                                factionSave = "Crp";
-                            }
-
-
-                            //finally check if it already starts with Crp or Grn, or contains another qualifier that will make it unique.
-                            if(tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tileInfo.Last().Contains("Grineer") || tileInfo.Last().Contains("Corpus") 
-                                || tileInfo.Last().Contains("Infested") || tileInfo.Last().Contains("Moon") || tileInfo.Last().Contains("Derelict"))
-                            {
-                                newTileName = tileInfo.Last();
-                            }
-                            else
-                            {
-                                newTileName = factionSave + tileInfo.Last();
-                            }
-                            
-                            
-                        } else
-                        {
-                            newTileName = tileInfo.Last();
-                        }
-
-                        //add the adjusted(if necessary) tilename to the return list.
+                     
                         values.Add(newTileName);
 
 
@@ -544,8 +507,10 @@ namespace WFTileCounter.ControllersProcessing
                         //debug purposes, add the log #
                         values.Add(log);
                     }
-                    else if (values.Count == 6) // Arena's Special Case 
+                    else  //this SHOULD cover all the weird maps, like Hubs and what not. There is error checking just in case elsewqhere, but... 
                     {
+                        values.Add("Error"); // not the most elegant way to do this.
+                        /*
                         //get the tile information.
                         mapInfo = values[0].Split('/').ToList();
                         values.RemoveAt(0);
@@ -589,12 +554,9 @@ namespace WFTileCounter.ControllersProcessing
                         values.Add(tileName);
                         values.Add(coords);
                         values.Add(log);
+                        */
                     }
-                    else
-                    {// not a valid file then, doesn't have the meta dat we need, toss it. ... i hope.
-                        values = null;
-                    }
-
+                    
 
 
 
@@ -619,6 +581,68 @@ namespace WFTileCounter.ControllersProcessing
 
 
             return values;
+        }
+
+        private string AddQualifierToTileName(string faction, string tilename, string tileset)
+        {
+
+            string threeLtrQualifier = faction.Substring(0, 3); ; // save the Faction name so we can deal with stupid duplicate tile names
+
+            // first get the first 3 letters of the Faction: Cor, Gri, Oro, Inf
+             
+            string tileFactionCheck = tilename.Substring(0, 3);
+            string newTileName;
+
+            //check to see if the tile name already has it as the first three... 
+
+            if (tileset == "GrineerToCorpus") //Invasion Missions sometimes use the same tilenames, so add a qualifier
+            {
+                newTileName = "G2C" + tilename;
+            }
+            else if (tileset == "CorpusToGrineer")
+            {
+                newTileName = "C2G" + tilename;
+
+            }
+            else if (tileset == "GrineerForest") //Grineer Forest Special case, uses Gft 
+            {
+                newTileName = tilename;
+            }
+            else if (tileFactionCheck != threeLtrQualifier || tilename.Contains("Corner")) //edge case, corner triggers Cor
+            {//if not, add it to make all tile names Unique (so DeadEnd2 on CorpusShip and DeadEnd2 on Orokin Tower are different.
+
+
+                //switch Gri to Grn to maintain how DE is already doing it on OTHER tilesets... damn lack of consistancy
+
+                if (threeLtrQualifier == "Gri")
+                {
+                    threeLtrQualifier = "Grn";
+                }
+                else if (threeLtrQualifier == "Cor") // To keep a sort of standard op, do the same for Corpus 
+                {
+                    threeLtrQualifier = "Crp";
+                }
+
+
+                //finally check if it already starts with Crp or Grn, or contains another qualifier that will make it unique.
+                if (tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tilename.Contains("Grineer") || tilename.Contains("Corpus")
+                    || tilename.Contains("Infested") || tilename.Contains("Moon") || tilename.Contains("Derelict"))
+                {
+                    newTileName = tilename;
+                }
+                else
+                {
+                    newTileName = threeLtrQualifier + tilename;
+                }
+
+
+            }
+            else
+            {
+                newTileName = tilename;
+            }
+
+            return newTileName;
         }
 
 
