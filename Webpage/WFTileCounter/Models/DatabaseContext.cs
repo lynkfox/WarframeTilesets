@@ -36,6 +36,8 @@ namespace WFTileCounter.Models
         public DbSet<Tileset> Tilesets { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<TileImage> TileImages { get; set; }
+        public DbSet<VariantTile> VariantTiles { get; set; }
+        public DbSet<TileDetail> TileDetails { get; set; }
 
 
 
