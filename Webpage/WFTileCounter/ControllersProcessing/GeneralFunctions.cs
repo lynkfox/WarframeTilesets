@@ -35,9 +35,12 @@ namespace WFTileCounter.ControllersProcessing
             _db = context;
         }
 
-        //Temp function for use between multiple computers, but will need to be made dynamic for a server.
-
-        //If you are Running this on your own before I've reached a release stage, then you need to change path below to where your Warframe Pictures directory is.
+        /* Temp function for use between multiple computers, but will need to be made dynamic for a server.
+         * 
+         * If you are Running this on your own before I've reached a release stage, then you need to change path below to where your Warframe Pictures directory is.
+         * 
+         * To Do: Change to GetPath(string tempName) to generate the path of the temp folder that is created when a user uploads pictures
+         */
         public string GetPath()
         {
             //return Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
@@ -46,54 +49,23 @@ namespace WFTileCounter.ControllersProcessing
             return @"C:\Users\lynkf\Pictures\Warframe";
         }
 
+
+        /* Reads a CSV file and returns a list of what DE uses to name their Missions added on to the Tileset Names, and what we're going to call them so its easier to read
+         * 
+         * it also handles many odd casses, and 'duplicates' by the longer version being first in the list, and the shorter version being later
+         */
         public List<MissionType> GenMissionList()
         {
             List<MissionType> list = new List<MissionType>();
 
 
-            /*
-             * before csv file
-             * 
-             * 
-            string[] missionTypeDiff = { "GrineerAsteroidBossVor", "CorpusShipJackalBoss", "GrineerForestBoss", "GrineerSettlementBoss", "GrineerShipyardsAssassinate", "CorpusGasBoss",
-                                        "CorpusIcePlanetAssassinate", "GrineerGalleonBoss", "GrineerOceanAssassinate", "CorpusShipHyenaAssassinate", "CorpusOutpostAmbulasBoss",
-                                        "GrineerAsteroidBossKela", "InfestedCorpusShipJ3GolemAssassinate", "InfestedCorpusShipAssassinate", "OrokinTowerDerelictBoss", "BossInfested",
-                                        "CorpusGasCityRopalolystBoss", "Boss", "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", "Assassinate", "KelaArena",
-                                         "SabotageForest", "Intel", "CorpusArena", "TRRace", "TRSabotage", "Pursuit" };
-            string[] commonName = {"Vor Assassination", "Jackal Assassination", "Vay Hek Assassination", "Lech Kril Assassination", "Vor + Kril Assassination", "Alad V Assassination",
-                                    "Raptors Assassination", "Sargas Ruk Assassination", "Tyl Regor Assassination", "Hyena Assassination", "Ambulas Assassination",
-                                    "Kela De Thaym Assassination", "Jordas Golem Assassination", "Mutalist Alad V Assassination", "Lephantis Assassination", "Phorid Assassination",
-                                    "Ropalolyst Assassination","Assassination", "Disruption", "Infested Salvage", "Defection", "Rescue", "Mobile Defense", "Assassiation", "Rathuum", "Sabatoge", "Spy", "Index", "Rush (Archwing)", "Sabotage (Archwing)", "Pursuit", "Defense", "Excavation", "Sabotage", "Survival", "Exterminate", "Interception", "Hijack", "Spy", "Capture" };
+            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "wftMissionNames.csv");
 
-
-            
-            for (int i = 0; i < commonName.Length; i++)
-            {
-               
-
-                if (i < missionTypeDiff.Length)
-                {
-                    mission.CommonName = commonName[i];
-                    mission.InGameName = missionTypeDiff[i];
-                }
-                else
-                {
-                    mission.CommonName = commonName[i];
-                    mission.InGameName = commonName[i];
-                }
-
-                list.Add(mission);
-            }
-            */
-
-            var path = Path.Combine(
-                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists");
-
-            path = Path.Combine(path, "wftMissionNames.csv");
 
             if(!File.Exists(path))
             {
-                return null;
+                //To Do - Throw proper Exception
+                return null; 
 
             }
             else
@@ -144,10 +116,6 @@ namespace WFTileCounter.ControllersProcessing
                 {
                     name = type.CommonName;
 
-                    if (value.Contains("ProcLevel"))
-                    {
-                        name += " (Archwing)";
-                    }
 
                     return name;
                 }
@@ -162,110 +130,113 @@ namespace WFTileCounter.ControllersProcessing
 
         }
 
-        public string GetTileSet(string value)
+
+
+        /* This function checks against a list of values that might appear (from nonProcedualSets) that correspond with Hubs or Open Worlds. if it finds the value passed too it
+         * equals that it returns an exception.
+         * 
+         * It then checks the value against a list of words that will be cut off to leave it with just the Tileset (because this value will be some string of TilesetMissionType,
+         * like GrineerForestRescue
+         * 
+         * it cuts that amount off and returns the truncated string
+         */
+        public string GetTileSet(string stringTilesetMission)
         {
-            string[] missionType;
-            string[] notValid;
+            string[] stringToSnipFromEnd;
+            string[] notValidTilesetPossibles;
             var _df = new DatabaseFunctions(_db);
 
-            var path = Path.Combine(
-                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists");
+            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "wftTilesetCuts.csv");
 
-            path = Path.Combine(path, "wftTilesetCuts.csv");
+            
 
             if (!File.Exists(path))
             {
-                return "Error";
+                return "Error"; // Need Proper Exception Throw
 
             }
             else
             {
 
-                missionType = File.ReadAllLines(path);
+                stringToSnipFromEnd = File.ReadAllLines(path);
                 
             }
 
             path = Path.Combine(
-                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists");
+                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "nonProcedualSets.csv");
 
-            path = Path.Combine(path, "nonProcedualSets.csv");
 
             if (!File.Exists(path))
             {
-                return "Error";
+                return "Error"; // Need Proper Exception Throw
 
             }
             else
             {
 
-                notValid = File.ReadAllLines(path);
+                notValidTilesetPossibles = File.ReadAllLines(path);
 
             }
 
-            
-            for(int i=0; i<notValid.Length; i++)
+            for(int i=0; i<notValidTilesetPossibles.Length; i++)
             {
-                string badPic = "*" + notValid[i] + "*";
+                string badPic = "*" + notValidTilesetPossibles[i] + "*";
 
-                if(Regex.IsMatch(value, WildCardToRegular(badPic)))
+                if(Regex.IsMatch(stringTilesetMission, WildCardToRegular(badPic)))
                 {
-                    return "Error";
+                    return "Error"; // Need Proper Exception Throw - and a proper catch on the other side to handle this being a BAD tile.
                 }
             }
             
 
-            /*
-            string[] missionType = { "BossVor", "JackalBoss", "HyenaAssassinate", "AmbulasBoss","BossKela", "J3GolemAssassinate", "BossInfested",
-                                        "RopalolystBoss", "Boss", "Assassinate", "SentientArtifact", "ShipPurify", "ColonistRescue", "Rescue", "MobileDefense", 
-                                         "SabotageForest", "Intel", "Pursuit" };
-            */
-            int length = value.Length;
+            int length = stringTilesetMission.Length;
 
-            if(_df.CheckTilesetExists(value)) // checks the database to see if the Tileset already exists.
+            if(_df.CheckTilesetExists(stringTilesetMission)) // checks the database to see if the Tileset already exists. Mostly for the two edge cases from Missions that don't have a Mission Type
             {
-                return value;
+                return stringTilesetMission;
             }
 
-            if (value.Contains("TR")) // special case, just get it over with.
+            if (stringTilesetMission.Contains("TR")) // special case, just get it over with.
             {
                 return "Trench Run (Archwing)";
             }
-                
-            if (value.Contains("Space"))
+            if (stringTilesetMission.Contains("Space"))
             {
                 return "Free Space (Archwing)";
             }
-            if (value == "CorpusGasBoss")
+            if (stringTilesetMission == "CorpusGasBoss")
             {
                 return "CorpusGasCity";
             }
-            if (value.Contains("Arena")) // this shouldn't be needed anymore
+            /*
+            if (value.Contains("Arena")) 
             {
-
+               // this shouldn't be needed anymore - Arena is checked in the 'Bad Values' now
                 return value;
             }
-            if (value.Contains("ProcLevel")) // Some Archwing Missions have ProcLevel at the end of their missiontype, remove it first.
+            */
+            if (stringTilesetMission.Contains("ProcLevel")) // Some Archwing Missions have ProcLevel at the end of their missiontype, remove it first.
             {
-                value = value.Remove(length - 9);
-                length = value.Length; // update the new length
+                stringTilesetMission = stringTilesetMission.Remove(length - 9);
+                length = stringTilesetMission.Length; // update the new length
 
             }
-            foreach (string mission in missionType)
+            foreach (string snipString in stringToSnipFromEnd)
             {
 
-                int mLength = mission.Length;
+                int mLength = snipString.Length;
 
-                if (value.Contains(mission))
+                if (stringTilesetMission.Contains(snipString))
                 {
                     if ((length - mLength) > 0)
                     {
-                        return value.Remove((length - mLength));
+                        return stringTilesetMission.Remove((length - mLength));
                     }
 
                 }
 
             }
-            return value; 
+            return stringTilesetMission; 
         }
 
 
@@ -288,7 +259,7 @@ namespace WFTileCounter.ControllersProcessing
                 var metaValues = GetMetaData(pic);
 
                 if(metaValues[2]=="Error" || metaValues[0]=="ArenaFight")
-                { continue; }
+                { continue; } // this needs proper Exception handling, not this bs Error Return thing.
 
                 string[] pathCut = pic.Split('\\');
                 metaData.ImgPath = pic;
@@ -317,7 +288,7 @@ namespace WFTileCounter.ControllersProcessing
                 }
                 
 
-                /*Note for next bit - add a check if the Filename is NOT Warframe####
+                /*To Do - a check if the Filename is NOT Warframe####
                  */
 
                 if(metaList.Count !=0 && metaData.TileName ==metaList.Last().TileName)
@@ -413,7 +384,6 @@ namespace WFTileCounter.ControllersProcessing
                     {
                         //get the mapInfo out - which is of a varrying size dependingon the map. We want the last 3  parts.
                         mapInfo = values[0].Split('/').ToList();
-                        //remove it from the values list
                         values.RemoveAt(0);
 
                         //get the tile info out. Which should all be the same size, but just in case, we only want the last part anyways
@@ -437,34 +407,27 @@ namespace WFTileCounter.ControllersProcessing
                         }
 
 
-                        //all that should be left is the Log Number which we don't need for anything. (internal logs i think) so toss it.
+                      
 
-                        //saving it here for debug purposes
+                        //saving the log number, for possible debuging?
                         log = values[0];
 
 
-                        // and just in case, we'll make sure we clear it out.
+                        // nothing else we need, so clear the list just to be safe.
+                        //We probably shouldnt resuse it like we are going to further down, but done is done.
                         values.Clear();
 
 
                         //Add the MapIdentifier string, and toss it out.
                         values.Add(mapInfo.Last());
                         mapInfo.RemoveAt(mapInfo.Count - 1);
-                        //add the Mission Type + Tileset, and toss it out
 
-                        
-
+                        //Process the MissionType and Tileset Name - we need some values in here for a few other considerations, so save as needed
 
                         values.Add(GetMissionType(mapInfo.Last()));
-
-
-
                         string tileset = GetTileSet(mapInfo.Last());
-
                         values.Add(tileset);
                         
-                        
-
                         mapInfo.RemoveAt(mapInfo.Count - 1);
 
 
@@ -474,8 +437,8 @@ namespace WFTileCounter.ControllersProcessing
                             values.Add("Corpus");
                         else if (mapInfo.Last() == "Space") //Grineer Archwing
                             values.Add("Grineer");
-                        else if (mapInfo.Last() == "SpecialMissions") //Maroo Treasure Hunt
-                        {// special missions takes up a slot in the / / / list, so we remove it, and check the next one to add
+                        else if (mapInfo.Last() == "SpecialMissions") //Maroo Treasure Hunt - has an extra value
+                        { 
                             mapInfo.RemoveAt(mapInfo.Count - 1);
                             values.Add(mapInfo.Last());
                         }
@@ -483,83 +446,26 @@ namespace WFTileCounter.ControllersProcessing
                             values.Add(mapInfo.Last());
 
                      
-
-                        
                         mapInfo.RemoveAt(mapInfo.Count - 1);
 
 
 
-                        //Fix the Tile name (too many duplicates!!!)
-                        string newTileName = AddQualifierToTileName(values.Last(), tileInfo.Last(), tileset);
-
-                     
-                        values.Add(newTileName);
-
-
-
-
-
-
+                        //Fix the Tile name (too many duplicates!!!)  -Faction  - Mission - Tileset
                         
+                        values.Add(AddQualifierToTileName(values.Last(), tileInfo.Last(), tileset));
+
                         tileInfo.RemoveAt(tileInfo.Count - 1);
                         //add the coords.
                         values.Add(coords);
                         //debug purposes, add the log #
                         values.Add(log);
                     }
-                    else  //this SHOULD cover all the weird maps, like Hubs and what not. There is error checking just in case elsewqhere, but... 
+                    else  //this SHOULD cover all the weird maps, like Hubs and what not. There is error checking just in case elsewhere, but... 
                     {
-                        values.Add("Error"); // not the most elegant way to do this.
-                        /*
-                        //get the tile information.
-                        mapInfo = values[0].Split('/').ToList();
-                        values.RemoveAt(0);
-
-                        for (int i = 0; i < 4; i++)
-                        {
-                            if (i == 3)
-                            {
-                                coords += " | " + values[0];
-                            }
-                            else
-                            {
-                                coords += values[0];
-                            }
-
-                            values.RemoveAt(0);
-                        }
-                        //That leaves the log number, saving for debug purposes then clearing the list to reuse
-
-                        log = values[0];
-                        values.Clear();
-
-
-
-                        //Add a custom MapIdentifier
-                        values.Add("ArenaFight");
-                        //Save the Tile Name, then toss it out to get to the next bit that we need.
-                        var tileName = mapInfo.Last();
-                        mapInfo.RemoveAt(mapInfo.Count - 1);
-                        //add the Mission Type + Tileset - not toss, we still need it.
-
-                        var arenaType =GetMissionType(mapInfo.Last());
-                        values.Add(arenaType);
-                        values.Add(arenaType); // Tileset is Rathuum or Index and th is the same as the Mission Type.
-                        if (arenaType == "Index")
-                            values.Add("Nef Anyo");
-                        else if (arenaType == "Rathuum")
-                            values.Add("Kela de Thaym");
-                        mapInfo.Clear(); //clear this list
-                        //Add the 'Tile Name' ... which is just the MapIdentifier again.
-                        values.Add(tileName);
-                        values.Add(coords);
-                        values.Add(log);
-                        */
+                        values.Add("Error"); // not the most elegant way to do this. Add Exception Handling
+                        
                     }
                     
-
-
-
                 }
 
                 //find the date of the file and add it.
@@ -570,15 +476,7 @@ namespace WFTileCounter.ControllersProcessing
                 }
 
 
-
-                if (directory.HasError)
-                {
-                    foreach (var error in directory.Errors)
-                        Console.WriteLine($"ERROR: {error}");
-                }
             }
-
-
 
             return values;
         }
@@ -586,27 +484,28 @@ namespace WFTileCounter.ControllersProcessing
         private string AddQualifierToTileName(string faction, string tilename, string tileset)
         {
 
-            string threeLtrQualifier = faction.Substring(0, 3); ; // save the Faction name so we can deal with stupid duplicate tile names
+            string threeLtrQualifier = faction.Substring(0, 3);
 
             // first get the first 3 letters of the Faction: Cor, Gri, Oro, Inf
              
             string tileFactionCheck = tilename.Substring(0, 3);
-            string newTileName;
 
-            //check to see if the tile name already has it as the first three... 
+            //Special casses:
 
-            if (tileset == "GrineerToCorpus") //Invasion Missions sometimes use the same tilenames, so add a qualifier
+            //Invasion Missions sometimes use the same tilenames, so add a qualifier
+
+            if (tileset == "GrineerToCorpus") 
             {
-                newTileName = "G2C" + tilename;
+                return "G2C" + tilename;
             }
             else if (tileset == "CorpusToGrineer")
             {
-                newTileName = "C2G" + tilename;
+                return "C2G" + tilename;
 
             }
-            else if (tileset == "GrineerForest") //Grineer Forest Special case, uses Gft 
+            else if (tileset == "GrineerForest") //Grineer Forest Special case, uses Gft already so no need to add anything
             {
-                newTileName = tilename;
+                return tilename;
             }
             else if (tileFactionCheck != threeLtrQualifier || tilename.Contains("Corner")) //edge case, corner triggers Cor
             {//if not, add it to make all tile names Unique (so DeadEnd2 on CorpusShip and DeadEnd2 on Orokin Tower are different.
@@ -628,21 +527,21 @@ namespace WFTileCounter.ControllersProcessing
                 if (tileFactionCheck == "Crp" || tileFactionCheck == "Grn" || tilename.Contains("Grineer") || tilename.Contains("Corpus")
                     || tilename.Contains("Infested") || tilename.Contains("Moon") || tilename.Contains("Derelict"))
                 {
-                    newTileName = tilename;
+                    return tilename;
                 }
                 else
                 {
-                    newTileName = threeLtrQualifier + tilename;
+                    return threeLtrQualifier + tilename;
                 }
 
 
             }
             else
             {
-                newTileName = tilename;
+                return tilename;
             }
 
-            return newTileName;
+            
         }
 
 

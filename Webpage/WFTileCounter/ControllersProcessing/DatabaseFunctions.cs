@@ -28,18 +28,23 @@ namespace WFTileCounter.ControllersProcessing
         }
 
 
-        // getting error that says 'multiple uses of Tile being used in context' --- i am pretty sure that is because I am passing the context to this set of functions.
-
-            // this seems bad. so... figure this part out.
+        /* Take in a list of data that has been converted from the viewModel (ImgMetaData) into the various models for the database, but contained in
+             * the single model of InsertReadyData
+             * 
+             * using the single Model that contains all the various Database Models for easy passing into functions, and if need be passing to View.
+             * 
+             * this may be slightly ineffecient - parsing data from the Meta into one Model, then transfering it into a global model containing each individual DB model. 
+             * Could possibly refactor to combine the two functions?
+             * 
+             * I understand it better this way, am able to process it in my head easier - but that may not be the best way to do it.
+        */
 
         public async Task<List<int>> InsertIntoDatabase(List<InsertReadyData> processed)
         {
             
-            List<int> newList = new List<int>();
+            List<int> newTilesPerRun = new List<int>(); //list of new tiles added for each run - for use in View
 
-            /* Take in a list of data that has been converted from the viewModel (ImgMetaData) into the various models for the database, but contained in
-             * the single model of InsertReadyData
-            */
+            
 
             foreach (var data in processed)
             {
@@ -48,8 +53,6 @@ namespace WFTileCounter.ControllersProcessing
                 var run = _db.Runs.Where(x => x.IdentityString == data.Run.IdentityString).FirstOrDefault();
                 if (run is null)
                 {
-
-
 
                     var miss = _db.Missions.Where(x => x.Type == data.Mission.Type).FirstOrDefault();
                     if (miss is null)
@@ -74,36 +77,26 @@ namespace WFTileCounter.ControllersProcessing
                         data.Tileset = tSet;
                     }
 
-
-
-
-                    /*  -- currently unused, and also CODED WRONG but I'll fix that when I get to that stage
+                    /*  To Code: User Compliance
                      *  
-                    var user = _db.Users.Where(x => x.Id == data.Id).FirstOrDefault();
-                    if(user is null)
-                    {
-                        if(data.User.Id == 0)
-                        {
-                            var user1 = new User { Username = "Anonymous", email = "None" };
-                            _db.Users.Add(user1);
-                        }else
-                        {
-                            _db.Users.Add(data.User);
-                        }
+                    
+                    Add Code to:
 
-                    }
-                    else
-                    {
-                        data.User = user;
-                    }
+                    if (User exists)
+                        fetch existing user from dbcontext
+                        attach user to dbcontext for the run
+                    else 
+                        keep using new user on run (will be created when run is added, due to fkey compliance)
                     */
-
 
                     _db.Runs.Add(data.Run);
 
-                    //Debugging lines. Left them to remind myself what I had to look for.
-                    //Debug.WriteLine("\n\n" + data.Run.IdentityString + " | "+ data.Tileset.Name + " | " + data.Mission.Type + "\n\n");
-                    //await _db.SaveChangesAsync();
+
+                    /* Map Points are a list of the unique tiles that were in the Run. This forloop pushes through each map point to find out if we need to add a 
+                     * new tile or if the tile already exists in the db. 
+                     * 
+                     * it also records the number of new tiles added to the database for adding to the list, to display in a view if/when multiple runs are processed at once.
+                     */
 
                     List<MapPoint> map = new List<MapPoint>();
                     foreach (var tile in data.Tiles)
@@ -131,8 +124,6 @@ namespace WFTileCounter.ControllersProcessing
 
                         _db.MapPoints.Add(mapPoint);
 
-                        //Debug.WriteLine("\n\n" + mapPoint.Tile.Name + " # " +mapPoint.Tile.Name.Length +"\n" + mapPoint.Tile.Coords + " # " + mapPoint.Tile.Coords.Length + "\n\n");
-                        //await _db.SaveChangesAsync();
 
                     }
 
@@ -167,13 +158,11 @@ namespace WFTileCounter.ControllersProcessing
 
                             /* Learned something here. I was trying to set it as the Tileset from data, but to EF that is a different isntance of the tileset. Because
                              * both the Tile and the MapPoint are linking to objects ALREADY in the database, we need to fetch the DATABASE versions of them. Run
-                             * was fetched above to check if it was null or not.
+                             * was already fetched above at begining of if/else to check if it was null or not.
                              */
                             newTile.Tileset = tSetName;
                             mapPoint.Tile = newTile;
                             mapPoint.Run = run;
-
-                            //Debug.WriteLine("\n\n" + mapPoint.Tile.Name + " # " + mapPoint.Tile.Name.Length + "\n" + mapPoint.Tile.Coords + " # " + mapPoint.Tile.Coords.Length + "\n\n");
 
                             _db.MapPoints.Add(mapPoint);
                             newTiles++;
@@ -184,28 +173,28 @@ namespace WFTileCounter.ControllersProcessing
                    
                 }
 
-                newList.Add(newTiles);
+                newTilesPerRun.Add(newTiles);
 
-                await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync(); // Saving the changes after each Map Identifier string. Maybe better to save all at once, ie move it out of the loop entirely?
             }
 
 
-            return newList;
+            return newTilesPerRun;
 
         }
 
 
         /* This functions takes a list of ImgMetaData, generated by the ProcessController when it processes all the images uploaded. 
          * 
-         * it converts all that into a List of InsertReadyData which is subdivided into proper Models for EF
+         * it converts all that into a List of InsertReadyData which is subdivided into proper Models for EF in other functions. This single model of InsertReadyData is used for the
+         * first 'Proof Read' view, including checkboxes to ignore them in the upload
+         * 
+         * To Do - need to add for it to ignore the tiles that don't have their checkbox checked.
          */
 
 
         public List<InsertReadyData> ConvertToDatabase(List<ImgMetaData> metaDataList)
         {
-
-            //variable declare
-
 
             var processedList = new List<InsertReadyData>();
 
@@ -223,8 +212,8 @@ namespace WFTileCounter.ControllersProcessing
                 var run = new Run();
                 var tileset = new Tileset();
                 var User = new User();
-                List<Tile> tiles = new List<Tile>();
-                List<Tile> allTiles = new List<Tile>();
+                List<Tile> uniqueTileList = new List<Tile>();
+                List<Tile> allTilesUploadedList = new List<Tile>();
                 string endLog = "";
 
                 /*This foreach loop is designed to go through the entire list of uploaded tiles, dividing them out into seperate ready for database insert sets based on the map Identifier string
@@ -234,7 +223,11 @@ namespace WFTileCounter.ControllersProcessing
                 foreach (var item in condensedList)
                 {
 
-                    
+                    /* For the first tile in each Mission String, pull out the relevant details that don't change from tile to tile
+                     * Mission Type, Tileset, Faction Name, IdentityString, and general DateTime.  Also grab the lowest LogNumber.
+                     * Then add those items to the temporary processing InsertReadyData object, before heading on to add all the tiles in 
+                     * further loops
+                     */
                     if (first)
                     {
                         mission.Type = item.MissionType;
@@ -247,9 +240,6 @@ namespace WFTileCounter.ControllersProcessing
 
                         //test purposes, fix this to be dynamic later
                         run.UserID = 1;
-
-
-
 
                         //add the unique data to the processing temp object
                         processing.Mission = mission;
@@ -265,17 +255,17 @@ namespace WFTileCounter.ControllersProcessing
                     tile.Tileset = tileset;
                     tile.Coords = item.Coords;
 
-                    var test = tiles.Where(x => x.Name == tile.Name).FirstOrDefault();
+                    var doesTileAlreadyExistInList = uniqueTileList.Where(x => x.Name == tile.Name).FirstOrDefault();
 
                     //adding only if tile is unique
-                    if (test is null)
+                    if (doesTileAlreadyExistInList is null)
                     {
-                        tiles.Add(tile);
+                        uniqueTileList.Add(tile);
                     }
                     
 
-
-                    allTiles.Add(tile);
+                    //But also saving a list of all the tiles that were processed, for View purposes.
+                    allTilesUploadedList.Add(tile);
 
                     // continually changing unitl the last run, where it will record the last logNum
                     endLog = item.LogNum;
@@ -284,11 +274,11 @@ namespace WFTileCounter.ControllersProcessing
                 } 
 
                 processing.Run.LogRange += " - " + endLog;
-                processing.Run.TotalTiles = allTiles.Count();
-                processing.Run.UniqueTiles = tiles.Count();
-                //add the list of tiles from this run
-                processing.Tiles = tiles;
-                processing.CompleteTileList = allTiles;
+                processing.Run.TotalTiles = allTilesUploadedList.Count();
+                processing.Run.UniqueTiles = uniqueTileList.Count();
+                //add the list of tiles from this run - this is the list that will be used to generate MapPoints in the database
+                processing.Tiles = uniqueTileList;
+                processing.CompleteTileList = allTilesUploadedList;
 
                 // add to the list to be returned
                 processedList.Add(processing);
