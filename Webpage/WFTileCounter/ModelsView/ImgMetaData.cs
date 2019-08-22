@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WFTileCounter.Models;
 
 namespace WFTileCounter.ModelsView
 {
@@ -37,7 +38,7 @@ namespace WFTileCounter.ModelsView
         [Display(Name = "Log value: ")]
         public string LogNum { get; set; }
 
-        public string ImgPath { get; set; }
+        public TileImage TileImageInfo { get; set; }
 
 
         [Display(Name = "Possible Duplicate!!!")]

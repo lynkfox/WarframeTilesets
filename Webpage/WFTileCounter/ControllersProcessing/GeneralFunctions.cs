@@ -123,9 +123,6 @@ namespace WFTileCounter.ControllersProcessing
             }
 
 
-            
-            
-
             return value+"??? - Check Me";
 
         }
@@ -263,7 +260,7 @@ namespace WFTileCounter.ControllersProcessing
                 { continue; } // this needs proper Exception handling, not this bs Error Return thing.
 
                 string[] pathCut = pic.Split('\\');
-                metaData.ImgPath = pic;
+                metaData.TileImageInfo = GetMapImagePath(metaValues[4]);
                 metaData.FileName = pathCut[pathCut.Length - 1];
                 metaData.Date = metaValues.Last();
                 metaData.MapIdentifier = metaValues[0];
@@ -343,6 +340,39 @@ namespace WFTileCounter.ControllersProcessing
 
             return metaList;
         }
+
+        private TileImage GetMapImagePath(string tileName)
+        {
+            var isTileInDB = _db.Tiles.Where(x => x.Name == tileName).FirstOrDefault();
+            var defaultTileImageData = new TileImage { ImagePath = "LotusFlower.png", AltText = "No Map Image Uploaded Yet" };
+
+
+            if (isTileInDB is null)
+                return defaultTileImageData;
+            else
+            {
+                var doesTileHaveImg = _db.TileImages.Where(x => x.Tile == isTileInDB);
+
+                if (doesTileHaveImg.Count() > 0)
+                {
+                    var tileMapImg = _db.TileImages.Where(x => x.ViewName == "Map").FirstOrDefault();
+                    if (tileMapImg is null)
+                    {
+                        return defaultTileImageData;
+                    }
+                    else
+                    {
+                        return tileMapImg;
+                    }
+                }
+                else
+                {
+                    return defaultTileImageData;
+                }
+
+            }
+        }
+
 
 
         /* Returns a list of the Metadata from Warframe In Game Screenshot button (f6)

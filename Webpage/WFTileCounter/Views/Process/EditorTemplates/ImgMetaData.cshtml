@@ -20,7 +20,7 @@
                 </div>
                 <div class="row div2">
                     <div class="col-12 align-self-center">
-                        <center><a href="~/img/Warframe0000.jpg"><img src="~/img/Warframe0000.jpg" alt="TestImage" width="150" class="rounded"></a></center>
+                        <center><a href="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))"><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" width="150" class="rounded"></a></center>
                     </div>
 
                 </div>

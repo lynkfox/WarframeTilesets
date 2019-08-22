@@ -20,7 +20,6 @@ namespace WFTileCounter.Models
         [MaxLength(50)]
         public string Faction { get; set; }
 
-        public IEnumerable<TileImage> Images { get; set; }
         public IEnumerable<Tile> Tiles { get; set; }
         
     }

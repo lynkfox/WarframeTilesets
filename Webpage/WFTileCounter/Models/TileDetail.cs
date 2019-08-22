@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace WFTileCounter.Models
 {
+
+    /* Contains all the necessary information to describe a given tile on the Tile Index of the website
+     */
     [Table("TileDetails", Schema = "website")]
     public class TileDetail
     {
@@ -18,12 +21,9 @@ namespace WFTileCounter.Models
         [Display(Name = "Tile Name: ")]
         [Required]
         public Tile Tile { get; set; }
-
         [MaxLength(100)]
         [Display(Name = "Popular Name: ")]
         public string PopularName { get; set; }
-
-        //columns for website tile displays
         [Display(Name = "Exits: ")]
         public int? Exits { get; set; }
         [Display(Name = "Alarm Consoles:")]
@@ -38,7 +38,6 @@ namespace WFTileCounter.Models
         public int? LootRooms { get; set; }
         [Display(Name = "Hazards: ")]
         public int? Hazards { get; set; }
-
         [Display(Name = "Possible Objectives:")]
         [StringLength(50)]
         public string Objectives { get; set; }
