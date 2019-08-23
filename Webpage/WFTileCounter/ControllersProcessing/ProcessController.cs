@@ -26,7 +26,7 @@ namespace WFTileCounter.ControllersProcessing
     {
 
         private readonly DatabaseContext _db; //database context shortcut
-
+        
 
         public ProcessController(DatabaseContext context)
         {
@@ -34,7 +34,7 @@ namespace WFTileCounter.ControllersProcessing
         }
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> DeveloperSkip()
         {
 
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
@@ -48,12 +48,10 @@ namespace WFTileCounter.ControllersProcessing
 
             ViewBag.newTiles  = await _df.InsertIntoDatabase(insert);
 
-             
-            
-
-            return View(insert);
+            return View("Index", insert);
         }
 
+        
 
         public IActionResult ProcessFiles()
         {
@@ -70,10 +68,14 @@ namespace WFTileCounter.ControllersProcessing
 
         
         [HttpPost]
-        public IActionResult Keep(List<ImgMetaData> datas)
+        public async Task<IActionResult> Keep(List<ImgMetaData> datas)
         {
+            var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
+            var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
             List<ImgMetaData> keepTheseTiles = new List<ImgMetaData>();
-            foreach(var piece in datas)
+
+
+            foreach (var piece in datas)
             {
                 if (piece.UnknownValue) //If we get the UnknownValue flag set to true, then there is bad data in the process. Make sure this tile is NOT processed
                     piece.KeepThis = false;
@@ -82,9 +84,15 @@ namespace WFTileCounter.ControllersProcessing
                 {
                     keepTheseTiles.Add(piece);
                 }
-                Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
+                //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
             }
-            return View("ProcessFiles2", keepTheseTiles);
+
+
+            List<InsertReadyData> insert = _df.ConvertToDatabase(keepTheseTiles);
+
+            ViewBag.newTiles = await _df.InsertIntoDatabase(insert);
+
+            return View("Index", insert);
         }
 
 
