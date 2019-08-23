@@ -38,7 +38,10 @@ namespace WFTileCounter.Models
         public string Coords { get; set; }
         //to be added to the MapPoints table during insert.
 
-        
+        [NotMapped]
+        public bool NewTile { get; set; }
+
+
 
 
 

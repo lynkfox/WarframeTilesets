@@ -50,7 +50,7 @@ namespace WFTileCounter.ControllersProcessing
 
             ViewBag.newTiles  = await _df.InsertIntoDatabase(insert);
 
-            return View("Index", insert);
+            return View("Success", insert);
         }
 
         
@@ -76,6 +76,7 @@ namespace WFTileCounter.ControllersProcessing
             var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
             List<ImgMetaData> keepTheseTiles = new List<ImgMetaData>();
 
+            
 
             foreach (var piece in datas)
             {
@@ -89,18 +90,19 @@ namespace WFTileCounter.ControllersProcessing
                 //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
             }
 
+            if (keepTheseTiles.Count() == 0)
+            {
+                return View("NoData");
+            }
+            else
+            {
+                List<InsertReadyData> insert = _df.ConvertToDatabase(keepTheseTiles);
 
-            List<InsertReadyData> insert = _df.ConvertToDatabase(keepTheseTiles);
+                ViewBag.newTiles = await _df.InsertIntoDatabase(insert);
 
-            ViewBag.newTiles = await _df.InsertIntoDatabase(insert);
-
-            return View("Index", insert);
+                return View("Success", insert);
+            }
         }
-
-
-
-
-        
     }
 }
 

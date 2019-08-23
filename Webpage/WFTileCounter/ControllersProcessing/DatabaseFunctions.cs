@@ -104,7 +104,7 @@ namespace WFTileCounter.ControllersProcessing
                     {
                         var mapPoint = new MapPoint();
 
-                        var t = _db.Tiles.Where(x => x.Name == tile.Name).FirstOrDefault();
+                        var t = CheckTileAlreadyExists(tile.Name);
 
                         mapPoint.Run = data.Run;
                         mapPoint.CoordsTaken = tile.Coords;
@@ -164,7 +164,7 @@ namespace WFTileCounter.ControllersProcessing
                         if(!tileNames.Contains(name))
                         {
 
-                            var newTile = data.Tiles.Where(x => x.Name == name).FirstOrDefault();
+                            var newTile = CheckTileAlreadyExists(name);
 
                             /* Learned something here. I was trying to set it as the Tileset from data, but to EF that is a different isntance of the tileset. Because
                              * both the Tile and the MapPoint are linking to objects ALREADY in the database, we need to fetch the DATABASE versions of them. Run
@@ -267,21 +267,38 @@ namespace WFTileCounter.ControllersProcessing
                     tile.Tileset = tileset;
                     tile.Coords = item.Coords;
 
+                    var checkAgainstDatabase = CheckTileAlreadyExists(item.TileName);
+                    if(checkAgainstDatabase is null)
+                    {
+                        tile.NewTile = true;
+                    }
+                    else
+                    {
+                        tile.NewTile = false;
+                    }
+
                     var doesTileAlreadyExistInList = uniqueTileList.Where(x => x.Name == tile.Name).FirstOrDefault();
                     
 
-                    //adding only if tile is unique
+                    //a list of only the unique tiles, so even if the tile has two copies in the same run, this list will only have one
                     if (doesTileAlreadyExistInList is null)
                     {
+                        
                         uniqueTileList.Add(tile);
                     }
 
+                    /*if AlternateTileset is true then we've already checked to see if the tile exists, and discovered it under a different tileset. This will set the
+                     * primary tileset and fkey to the same as in the db, and add the new tileset to the AlternateTileset column for records keeping
+                     */
                     if (item.AlternateTileset)
                     {
+                        
                         var alreadyExistTileset = _db.Tiles.Where(x => x.Name == tile.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
                         tile.Tileset = alreadyExistTileset;
                         tile.AlternateTileset = item.Tileset;
                     }
+
+
                     //But also saving a list of all the tiles that were processed, for View purposes.
                     allTilesUploadedList.Add(tile);
 
@@ -322,6 +339,19 @@ namespace WFTileCounter.ControllersProcessing
             { return false; }
             else
             { return true; }
+        }
+
+        public Tile CheckTileAlreadyExists(string tileName)
+        {
+            var tile = _db.Tiles.Where(x => x.Name == tileName).FirstOrDefault();
+            if(tile is null)
+            {
+                return null;
+            }
+            else
+            {
+                return tile;
+            }
         }
     }
 }
