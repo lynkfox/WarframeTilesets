@@ -48,6 +48,9 @@ namespace WFTileCounter.Models
         public int TotalTiles { get; set; }
         [Display(Name = "# Unique Tiles: ")]
         public int UniqueTiles { get; set; }
+        [Display(Name = "Partial Run?")]
+        [StringLength(1)]
+        public string PartialRun { get; set; }
 
 
 
