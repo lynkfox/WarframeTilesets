@@ -65,24 +65,26 @@ namespace WFTileCounter.ControllersProcessing
             metaList = _gf.GetMetaList(path);
 
 
-            return View("ProcessFiles", metaList);
+            return View("Review", metaList);
         }
 
         
         [HttpPost]
         public IActionResult Keep(List<ImgMetaData> datas)
         {
+            List<ImgMetaData> keepTheseTiles = new List<ImgMetaData>();
             foreach(var piece in datas)
             {
-                if (piece.UnknownValue == true) //If we get the UnknownValue flag set to true, then there is bad data in the process. Make sure this tile is NOT processed
+                if (piece.UnknownValue) //If we get the UnknownValue flag set to true, then there is bad data in the process. Make sure this tile is NOT processed
                     piece.KeepThis = false;
 
-                /* To do: Write the code for removing the unchecked files (KeepThis==False) and only passing the checked files on to be coverted
-                 * 
-                 */
+                if(piece.KeepThis)
+                {
+                    keepTheseTiles.Add(piece);
+                }
                 Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
             }
-            return View("ProcessFiles2", datas);
+            return View("ProcessFiles2", keepTheseTiles);
         }
 
 
