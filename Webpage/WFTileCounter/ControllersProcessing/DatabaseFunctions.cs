@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -117,7 +118,16 @@ namespace WFTileCounter.ControllersProcessing
                         }
                         else
                         {
-                            t.Tileset = data.Tileset;
+                            if (!String.IsNullOrEmpty(tile.AlternateTileset))
+                            {
+                                t.AlternateTileset = tile.AlternateTileset;
+                                t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                            }
+                            else
+                            {
+                                t.Tileset = data.Tileset;
+                            }
+                            
                             mapPoint.Tile = t;
 
                         }
@@ -160,6 +170,7 @@ namespace WFTileCounter.ControllersProcessing
                              * both the Tile and the MapPoint are linking to objects ALREADY in the database, we need to fetch the DATABASE versions of them. Run
                              * was already fetched above at begining of if/else to check if it was null or not.
                              */
+                            
                             newTile.Tileset = tSetName;
                             mapPoint.Tile = newTile;
                             mapPoint.Run = run;
@@ -222,7 +233,7 @@ namespace WFTileCounter.ControllersProcessing
                 var condensedList = metaDataList.Where(x => x.MapIdentifier == id);
                 foreach (var item in condensedList)
                 {
-
+                    string tilesetName="";
                     /* For the first tile in each Mission String, pull out the relevant details that don't change from tile to tile
                      * Mission Type, Tileset, Faction Name, IdentityString, and general DateTime.  Also grab the lowest LogNumber.
                      * Then add those items to the temporary processing InsertReadyData object, before heading on to add all the tiles in 
@@ -230,6 +241,7 @@ namespace WFTileCounter.ControllersProcessing
                      */
                     if (first)
                     {
+
                         mission.Type = item.MissionType;
                         tileset.Name = item.Tileset;
                         tileset.Faction = item.FactionName;
@@ -256,14 +268,20 @@ namespace WFTileCounter.ControllersProcessing
                     tile.Coords = item.Coords;
 
                     var doesTileAlreadyExistInList = uniqueTileList.Where(x => x.Name == tile.Name).FirstOrDefault();
+                    
 
                     //adding only if tile is unique
                     if (doesTileAlreadyExistInList is null)
                     {
                         uniqueTileList.Add(tile);
                     }
-                    
 
+                    if (item.AlternateTileset)
+                    {
+                        var alreadyExistTileset = _db.Tiles.Where(x => x.Name == tile.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                        tile.Tileset = alreadyExistTileset;
+                        tile.AlternateTileset = item.Tileset;
+                    }
                     //But also saving a list of all the tiles that were processed, for View purposes.
                     allTilesUploadedList.Add(tile);
 

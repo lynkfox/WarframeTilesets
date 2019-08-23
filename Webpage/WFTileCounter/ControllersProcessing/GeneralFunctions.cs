@@ -273,6 +273,16 @@ namespace WFTileCounter.ControllersProcessing
                 metaData.LogNum = metaValues[6];
                 metaData.KeepThis = true;
 
+                string alternateTileset = CheckDuplicateTileDiffTileset(metaData.TileName, metaData.Tileset);
+                if(alternateTileset !=null)
+                {
+                    //Flag for later, in converting the data. Alternate TilesetName for duplicate tile names (despite my best efforts to add Clarification tags there are still
+                    // some that have the same name! Basically the same tile, just on a different tileset...
+                    metaData.AlternateTileset = true;
+                    
+                }
+                else { metaData.AlternateTileset = false; }
+
 
                 if(metaData.MissionType.Contains("???") || metaData.Tileset.Contains("???"))
                 {
@@ -340,6 +350,24 @@ namespace WFTileCounter.ControllersProcessing
             }
 
             return metaList;
+        }
+
+        private string CheckDuplicateTileDiffTileset(string tileName, string tileset)
+        {
+            var tileInDbPlusTileset = _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).FirstOrDefault();
+
+            if(tileInDbPlusTileset is null)
+            {
+                return null;
+            }
+            else if (tileInDbPlusTileset.Tileset.Name != tileset)
+            {
+                return tileset;
+            }
+            else //if they have the same tileset name
+            {
+                return null;
+            }
         }
 
         private TileImage GetMapImagePath(string tileName)
@@ -485,11 +513,11 @@ namespace WFTileCounter.ControllersProcessing
                      
                         mapInfo.RemoveAt(mapInfo.Count - 1);
 
+                        var tileName = tileInfo.Last();
 
-
-                        //Fix the Tile name (too many duplicates!!!)  -Faction  - Mission - Tileset
+                        //Fix the Tile name (too many duplicates!!!)  -Faction  - Tilename - Tileset
                         
-                        values.Add(AddQualifierToTileName(values.Last(), tileInfo.Last(), tileset));
+                        values.Add(AddQualifierToTileName(values.Last(), tileName, tileset));
 
                         tileInfo.RemoveAt(tileInfo.Count - 1);
                         //add the coords.

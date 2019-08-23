@@ -48,6 +48,9 @@ namespace WFTileCounter.ModelsView
         public bool UnknownValue { get; set; }
         // for the view, to help alert if some data isn't properly set up to be parsed in MissionType or Tileset
 
+
+        public bool AlternateTileset { get; set; }
+
         [Display(Name ="Process Image?")]
         public bool KeepThis { get; set; }
 
