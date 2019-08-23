@@ -23,6 +23,7 @@ There is a SQL create script for creating a similar database (but this is in the
 * Allow users to upload images, and have the meta data pulled from and processed
 * Upload files into temp directories that will be destroyed at the end of the process.
 * Figure out the best way to prevent sql lockups from many users using the page at once. (Concurancy Checks!!!)
+		*(this should actually not be that much of an issue, because most users will only be able to insert, not update - but still)*
 * make it look much damn better
 
 * tie in the Tileset images I'm creating above. Show the map image for each tile during the 'check' process of parsing out the data. 
@@ -40,6 +41,14 @@ There is a SQL create script for creating a similar database (but this is in the
 * Rebuilt Database with CodeFirst properties, and proper migration. 
 * If Picture is available of Map of tile, show on ProofRead View (need to rename that view!)
 
-#### Upcoming Next:
+#### Upcoming To Do:
 * Edit for TileDetails with Drop down lists for Tileset and Tilename (or something? Grid view?)
 
+### 8/23
+* Renamed ProcessFiles view to Review
+* Submit button on Review now properly filters out 'Unchecked' files before submitting them into the database.
+
+#### Upcoming To Do:
+* Special clause if keepTheseTiles.Count == 0, to return a different view.
+* secondary list to show off which files were not processed into the database?
+* rework the 'Inserted' display (currently Index. Change to 'Success'? or 'Inserted'?)
