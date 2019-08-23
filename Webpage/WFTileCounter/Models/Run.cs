@@ -46,9 +46,9 @@ namespace WFTileCounter.Models
         [Display(Name = "Log Values: ")]
         [MaxLength(250)]
         public string LogRange { get; set; }
-        [Display(Name = "# Tiles Counted: ")]
+        [Display(Name = "Img Processed: ")]
         public int TotalTiles { get; set; }
-        [Display(Name = "# Unique Tiles: ")]
+        [Display(Name = "Unique Tiles: ")]
         public int UniqueTiles { get; set; }
         [Display(Name = "Partial Run?")]
         [StringLength(1)]

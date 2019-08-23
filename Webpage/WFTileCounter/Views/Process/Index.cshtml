@@ -2,43 +2,122 @@
 @{ int count = 0;}
 
 @{
-    ViewData["Title"] = "MapsPoints Added";
+    ViewData["Title"] = "Successfully Added";
 }
 
+<h1>Your information was successfully processed and added to the database.</h1>
+<p>Thank you for your contribution. See what all was added below. </p>
 
 @foreach (var map in Model)
 {
     <hr />
+    <div class="row">
 
-    <div class="row">
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.User.Username)</b></div> <div class="col-sm-4">@Html.DisplayFor(a => map.User.Username)</div>
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.RunDate)</b></div> <div class="col-sm-4">@Html.DisplayFor(a => map.Run.RunDate)</div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Tileset.Name)</b></div> <div class="col-sm-2">@Html.DisplayFor(a => map.Tileset.Name)</div>
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Tileset.Faction)</b></div> <div class="col-sm-1">@Html.DisplayFor(a => map.Tileset.Faction)</div>
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Mission.Type)</b></div> <div class="col-sm-3">@Html.DisplayFor(a => map.Mission.Type)</div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.TotalTiles)</b></div> <div class="col-sm-2">@Html.DisplayFor(a => map.Run.TotalTiles)</div>
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.UniqueTiles)</b></div> <div class="col-sm-1">@Html.DisplayFor(a => map.Run.UniqueTiles)</div>
-        <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.LogRange)</b></div> <div class="col-sm-3">@Html.DisplayFor(a => map.Run.LogRange)</div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4"><b>@Html.DisplayNameFor(a => map.Run.IdentityString)</b></div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IdentityString)</div>
-    </div>
-    <div class="row">
-        <div class="col-sm-10"><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were new and added to the database.</i></div>
-    </div>
-    <div class="row">
-        @foreach (var tile in map.Tiles)
-        {
-            <div class="col-sm-2 text-truncate">@Html.DisplayFor(a => tile.Name)</div>
-        }
+        <div class="col-md-3 border border-success">
+            <div class="row">
+                <div class="col-sm-6 font-weight-bold">
+                    @Html.DisplayNameFor(x => map.User.Username)
+                </div>
+                <div class="col-sm-6 font-italic text-md-right">
+                    @Html.DisplayFor(x => map.User.Username) (# @Html.DisplayFor(x => map.User.Id))
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 font-weight-bold">
+                    @Html.DisplayNameFor(x => map.Run.RunDate)
+                </div>
+                <div class="col-sm-6 font-italic text-md-right">
+                    @Html.DisplayFor(x => map.Run.RunDate)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 font-weight-bold">
+                    @Html.DisplayNameFor(x => map.Run.Mission)
+                </div>
+                <div class="col-sm-6 font-italic text-md-right">
+                    @Html.DisplayFor(x => map.Run.Mission)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 font-weight-bold">
+                    @Html.DisplayNameFor(x => map.Tileset.Name)
+                </div>
+                <div class="col-sm-6 font-italic text-md-right">
+                    @Html.DisplayFor(x => map.Tileset.Name)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 font-weight-bold">
+                    @Html.DisplayNameFor(x => map.Run.TotalTiles)
+                </div>
+                <div class="col-sm-6 font-italic text-md-right">
+                    @Html.DisplayFor(x => map.Run.TotalTiles)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 font-weight-bold">
+                    @Html.DisplayNameFor(x => map.Run.UniqueTiles)
+                </div>
+                <div class="col-sm-6 font-italic text-md-right">
+                    @Html.DisplayFor(x => map.Run.UniqueTiles)
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-9 border border-light">
+            <div class="row">
+                <div class="col-sm-12"><b>@Html.DisplayNameFor(a => map.Run.IdentityString)</b></div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IdentityString)</div>
+                <hr />
+            </div>
+            <div class="row">
+                <div class="col-sm-12"><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were new and added to the database.</i></div>
+            </div>
+            <div class="row">
+                @foreach (var tile in map.Tiles)
+                {@*Add an If class to make this Bold if the tile was one of the new ones - needs a new NotMapped bool in the Tile Model too*@
+                <div class="col-sm-3 text-truncate">@Html.DisplayFor(a => tile.Name)</div>
+            }
+            </div>
+        </div>
     </div>
     count++;
-
-
 }
- <hr />
 
+@* old way
+    @foreach (var map in Model)
+    {
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.User.Username)</b></div> <div class="col-sm-4">@Html.DisplayFor(a => map.User.Username)</div>
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.RunDate)</b></div> <div class="col-sm-4">@Html.DisplayFor(a => map.Run.RunDate)</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Tileset.Name)</b></div> <div class="col-sm-2">@Html.DisplayFor(a => map.Tileset.Name)</div>
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Tileset.Faction)</b></div> <div class="col-sm-1">@Html.DisplayFor(a => map.Tileset.Faction)</div>
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Mission.Type)</b></div> <div class="col-sm-3">@Html.DisplayFor(a => map.Mission.Type)</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.TotalTiles)</b></div> <div class="col-sm-2">@Html.DisplayFor(a => map.Run.TotalTiles)</div>
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.UniqueTiles)</b></div> <div class="col-sm-1">@Html.DisplayFor(a => map.Run.UniqueTiles)</div>
+            <div class="col-sm-2"><b>@Html.DisplayNameFor(a => map.Run.LogRange)</b></div> <div class="col-sm-3">@Html.DisplayFor(a => map.Run.LogRange)</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"><b>@Html.DisplayNameFor(a => map.Run.IdentityString)</b></div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IdentityString)</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10"><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were new and added to the database.</i></div>
+        </div>
+        <div class="row">
+            @foreach (var tile in map.Tiles)
+            {
+                <div class="col-sm-2 text-truncate">@Html.DisplayFor(a => tile.Name)</div>
+            }
+        </div>
+        count++;
+
+
+    }
+    <hr />
+
+*@

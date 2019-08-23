@@ -37,6 +37,8 @@ namespace WFTileCounter.ControllersProcessing
         public async Task<IActionResult> DeveloperSkip()
         {
 
+            /* Developer Environment Only Link that skips the filter check and will upload everything without checking the checkboxes*/
+
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
             var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
 
