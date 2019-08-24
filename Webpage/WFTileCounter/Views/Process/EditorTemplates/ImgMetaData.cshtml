@@ -1,214 +1,207 @@
-﻿@model  WFTileCounter.ModelsView.ImgMetaData
+﻿@model WFTileCounter.ModelsView.ImgMetaData
 
-<style>
 
-    .leftBoxAlerts
-    {
-        font-weight: bold;
-        font-variant: small-caps;
-    }
-</style>
 
-    <div class="container">
-        <div class="row mb-2">
+<div class="container">
+    <div class="row mb-2">
 
-            @if (Model.PossibleDupe == true)
-            {
-                <div class="col-md-4 border border-danger bg-danger text-dark rounded align-self-end leftBoxAlerts  text-center">
-                    <span class="align-middle"><b>@Html.DisplayNameFor(x => x.PossibleDupe)</b></span>
-                    <div class="editor-field">
-                        @Html.HiddenFor(a => a.PossibleDupe)
-                        @Html.ValidationMessageFor(a => a.PossibleDupe)
-                    </div>
+        @if (Model.PossibleDupe)
+        {
+            <div class="col-md-4 border border-danger bg-danger text-dark rounded align-self-end leftBoxAlerts  text-center">
+                <span class="align-middle"><b>@Html.DisplayNameFor(a => a.PossibleDupe)</b></span>
+                <div class="editor-field">
+                    @Html.HiddenFor(a => a.PossibleDupe)
+                    @Html.ValidationMessageFor(a => a.PossibleDupe)
                 </div>
-            }
-            else
-            {
-                <div class="col-md-4"> &nbsp;</div>
-            }
-            <div class="col-md-4 border border-secondary rounded align-self-center text-center">
-                <span class="align-middle">@Html.CheckBoxFor(x => x.KeepThis) @Html.DisplayNameFor(x => x.KeepThis)</span>
             </div>
-            @if (Model.UnknownValue == true)
-            {
-                <div class="col-md-4 border border-warning bg-warning text-dark rounded align-self-end leftBoxAlerts  text-center">
-                    <span class="align-middle"><b>@Html.DisplayNameFor(x => x.UnknownValue)</b></span>
-                    <div class="editor-field">
-                        @Html.HiddenFor(a => a.UnknownValue)
-                        @Html.ValidationMessageFor(a => a.UnknownValue)
-                    </div>
+        }
+        else
+        {
+            <div class="col-md-4"> &nbsp;</div>
+        }
+        <div class="col-md-4 border border-secondary rounded align-self-center text-center">
+            <span class="align-middle">@Html.CheckBoxFor(a => a.KeepThis) @Html.DisplayNameFor(a => a.KeepThis)</span>
+        </div>
+        @if (Model.UnknownValue)
+        {
+            <div class="col-md-4 border border-warning bg-warning text-dark rounded align-self-end leftBoxAlerts  text-center">
+                <span class="align-middle"><b>@Html.DisplayNameFor(a => a.UnknownValue)</b></span>
+                <div class="editor-field">
+                    @Html.HiddenFor(a => a.UnknownValue)
+                    @Html.ValidationMessageFor(a => a.UnknownValue)
                 </div>
-            }
-            else
-            {
-                <div class="col-md-4"> &nbsp; </div>
-            }
+            </div>
+        }
+        else
+        {
+            <div class="col-md-4"> &nbsp; </div>
+        }
+
+    </div>
+    <div class="row">
+        <div class="col-md-2 align-self-center">
+
+            <div class="row div2">
+                <div class="col-12 align-self-start">
+                    <center><a href="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))"><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" style="max-height: 150px; max-width:150px;" class="rounded img-fluid"></a></center>
+                </div>
+            </div>
+
 
         </div>
-        <div class="row">
-            <div class="col-md-2 align-self-center">
-                
-                <div class="row div2">
-                    <div class="col-12 align-self-start">
-                        <center><a href="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))"><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" style="max-height: 150px; max-width:150px;"  class="rounded img-fluid"></a></center>
+
+        <div class="col-md-10">
+            <div class="col-12 align-self-start border border-success rounded bg-dark text-light">
+                <div class="row">
+                    <div class="col-sm-2 font-weight-bold">
+                        @Html.DisplayNameFor(a => a.FileName)
+                    </div>
+                    <div class="col-sm-4 font-italic">
+                        <div class="display-field">
+                            @Html.DisplayFor(a => a.FileName)
+                        </div>
+                        <div class="editor-field">
+                            @Html.HiddenFor(a => a.FileName)
+                            @Html.ValidationMessageFor(a => a.FileName)
+                        </div>
+                    </div>
+                    <div class="col-sm-2 font-weight-bold">
+                        @Html.DisplayNameFor(a => a.Date)
+                    </div>
+                    <div class="col-sm-4 font-italic">
+                        <div class="display-field">
+                            @Html.DisplayFor(a => a.Date)
+                        </div>
+                        <div class="editor-field">
+                            @Html.HiddenFor(a => a.Date)
+                            @Html.ValidationMessageFor(a => a.Date)
+                        </div>
                     </div>
                 </div>
-                
-                
-            </div>
-
-            <div class="col-md-10">
-                <div class="col-12 align-self-start border border-success rounded bg-dark text-light">
-                    <div class="row">
-                        <div class="col-sm-2 font-weight-bold">
-                            @Html.DisplayNameFor(a => a.FileName)
+                <div class="row">
+                    <div class="col-sm-2 font-weight-bold">
+                        @Html.DisplayNameFor(a => a.MapIdentifier)
+                    </div>
+                    <div class="col-sm-10 font-italic text-truncate">
+                        <div class="display-field">
+                            @Html.DisplayFor(a => a.MapIdentifier)
                         </div>
-                        <div class="col-sm-4 font-italic">
-                            <div class="display-field">
-                                @Html.DisplayFor(a => a.FileName)
-                            </div>
-                            <div class="editor-field">
-                                @Html.HiddenFor(a => a.FileName)
-                                @Html.ValidationMessageFor(a => a.FileName)
-                            </div>
-                        </div>
-                        <div class="col-sm-2 font-weight-bold">
-                            @Html.DisplayNameFor(a => a.Date)
-                        </div>
-                        <div class="col-sm-4 font-italic">
-                            <div class="display-field">
-                                @Html.DisplayFor(a => a.Date)
-                            </div>
-                            <div class="editor-field">
-                                @Html.HiddenFor(a => a.Date)
-                                @Html.ValidationMessageFor(a => a.Date)
-                            </div>
+                        <div class="editor-field">
+                            @Html.HiddenFor(a => a.MapIdentifier)
+                            @Html.ValidationMessageFor(a => a.MapIdentifier)
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-2 font-weight-bold">
-                            @Html.DisplayNameFor(a => a.MapIdentifier)
-                        </div>
-                        <div class="col-sm-10 font-italic text-truncate">
-                            <div class="display-field">
-                                @Html.DisplayFor(a => a.MapIdentifier)
-                            </div>
-                            <div class="editor-field">
-                                @Html.HiddenFor(a => a.MapIdentifier)
-                                @Html.ValidationMessageFor(a => a.MapIdentifier)
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>    
-             
-                <div class="col-12 align-self-start border border-top-0 border-success rounded bg-dark text-light">
-                    
-                    <div class="row">
-                        <div class="col-sm-4 border-bottom border-light">
-                            <div class="row">
-                                <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.TileName)</div>
-                            </div>
-                            <div class="row">
-                                <div class="display-field">
-                                    <div class="col  font-italic">@Html.DisplayFor(a => a.TileName)</div>
-                                </div>
-                                <div class="editor-field">
-                                    @Html.HiddenFor(a => a.TileName)
-                                    @Html.ValidationMessageFor(a => a.TileName)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4 border-bottom border-light">
-                            <div class="row">
-                                <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Tileset)</div>
-                            </div>
-                            <div class="row">
-                                <div class="display-field">
-                                    <div class="col font-italic">@Html.DisplayFor(a => a.Tileset)</div>
-                                </div>
-                                <div class="editor-field">
-                                    @Html.HiddenFor(a => a.Tileset)
-                                    @Html.ValidationMessageFor(a => a.Tileset)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4 border-bottom border-light">
-                            <div class="row">
-                                <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Coords)</div>
-                            </div>
-                            <div class="row">
-                                <div class="display-field">
-                                    <div class="col font-italic">@Html.DisplayFor(a => a.Coords)</div>
-                                </div>
-                                <div class="editor-field">
-                                    @Html.HiddenFor(a => a.Coords)
-                                    @Html.ValidationMessageFor(a => a.Coords)
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                   
-                    
-                    
-                    <div class="row">
-                        <div class="col-sm-4  border-light">
-                            <div class="row">
-                                <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.MissionType)</div>
-                            </div>
-                            <div class="row">
-                                <div class="display-field">
-                                    <div class="col font-italic">@Html.DisplayFor(a => a.MissionType)</div>
-                                </div>
-                                <div class="editor-field">
-                                    @Html.HiddenFor(a => a.MissionType)
-                                    @Html.ValidationMessageFor(a => a.MissionType)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4 border-light">
-                            <div class="row">
-                                <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.FactionName)</div>
-                            </div>
-                            <div class="row ">
-                                <div class="display-field">
-                                    <div class="col font-italic">@Html.DisplayFor(a => a.FactionName)</div>
-                                </div>
-                                <div class="editor-field">
-                                    @Html.HiddenFor(a => a.FactionName)
-                                    @Html.ValidationMessageFor(a => a.FactionName)
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4 border-light">
-                            <div class="row">
-                                <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.LogNum)</div>
-                            </div>
-                            <div class="row">
-                                <div class="display-field">
-                                    <div class="col font-italic">@Html.DisplayFor(a => a.LogNum)</div>
-                                </div>
-                                <div class="editor-field">
-                                    @Html.HiddenFor(a => a.LogNum)
-                                    @Html.ValidationMessageFor(a => a.LogNum)
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    
                 </div>
 
 
             </div>
+
+            <div class="col-12 align-self-start border border-top-0 border-success rounded bg-dark text-light">
+
+                <div class="row">
+                    <div class="col-sm-4 border-bottom border-light">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.TileName)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                <div class="col  font-italic">@Html.DisplayFor(a => a.TileName)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.TileName)
+                                @Html.ValidationMessageFor(a => a.TileName)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 border-bottom border-light">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Tileset)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                <div class="col font-italic">@Html.DisplayFor(a => a.Tileset)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.Tileset)
+                                @Html.ValidationMessageFor(a => a.Tileset)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 border-bottom border-light">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Coords)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                <div class="col font-italic">@Html.DisplayFor(a => a.Coords)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.Coords)
+                                @Html.ValidationMessageFor(a => a.Coords)
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-4  border-light">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.MissionType)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                <div class="col font-italic">@Html.DisplayFor(a => a.MissionType)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.MissionType)
+                                @Html.ValidationMessageFor(a => a.MissionType)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 border-light">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.FactionName)</div>
+                        </div>
+                        <div class="row ">
+                            <div class="display-field">
+                                <div class="col font-italic">@Html.DisplayFor(a => a.FactionName)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.FactionName)
+                                @Html.ValidationMessageFor(a => a.FactionName)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 border-light">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.LogNum)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                <div class="col font-italic">@Html.DisplayFor(a => a.LogNum)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.LogNum)
+                                @Html.ValidationMessageFor(a => a.LogNum)
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
 
         </div>
+
+    </div>
 
     <hr />
 </div>

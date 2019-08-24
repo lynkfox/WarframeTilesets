@@ -49,7 +49,8 @@ namespace WFTileCounter.ModelsView
         // for the view, to help alert if some data isn't properly set up to be parsed in MissionType or Tileset
 
 
-        public bool AlternateTileset { get; set; }
+        public bool AlternateTileset { get; set; } // For recording if this tile name appears (with a pretty much identical room) in multiple tilesets
+
 
         [Display(Name ="Process Image?")]
         public bool KeepThis { get; set; }

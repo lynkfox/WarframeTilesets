@@ -1,0 +1,32 @@
+﻿@model WFTileCounter.ModelsView.MultipleMapIdentifiers
+
+<style>
+
+    .leftBoxAlerts {
+        font-weight: bold;
+        font-variant: small-caps;
+    }
+</style>
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-10 text-truncate border-bottom border-light">
+            <p><span class="font-weight-bold">@Html.DisplayNameFor(a => a.MapIdentifier)</span> @Html.DisplayFor(a => a.MapIdentifier)</p>
+            <div class="editor-field">
+                @Html.HiddenFor(a => a.MapIdentifier)
+                @Html.ValidationMessageFor(a => a.MapIdentifier)
+            </div>
+        </div>
+        <div class="col-md-2 border-bottom border-light">
+            <span class="align-middle">@Html.CheckBoxFor(x => x.FullRun) @Html.DisplayNameFor(x => x.FullRun)</span>
+        </div>
+    </div>
+</div>
+@foreach (var img in Model.ImgMetaDatas)
+{
+    @Html.Partial("EditorTemplates/ImgMetaData", img)
+}
+
+

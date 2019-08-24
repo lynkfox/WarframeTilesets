@@ -233,7 +233,7 @@ namespace WFTileCounter.ControllersProcessing
                 var condensedList = metaDataList.Where(x => x.MapIdentifier == id);
                 foreach (var item in condensedList)
                 {
-                    string tilesetName="";
+                    
                     /* For the first tile in each Mission String, pull out the relevant details that don't change from tile to tile
                      * Mission Type, Tileset, Faction Name, IdentityString, and general DateTime.  Also grab the lowest LogNumber.
                      * Then add those items to the temporary processing InsertReadyData object, before heading on to add all the tiles in 

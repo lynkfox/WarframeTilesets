@@ -61,47 +61,106 @@ namespace WFTileCounter.ControllersProcessing
 
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
 
-            var path = _gf.GetPath();
-            metaList = _gf.GetMetaList(path);
+            var path = _gf.GetPath(); // get the path to the temp folder where all the images are stored waiting to be processed
+            metaList = _gf.GetMetaList(path); //proces the images for their MetaData, storing it in the ImgMetaData model
 
 
-            return View("Review", metaList);
+
+
+            //Move this next block of code into a Method
+
+            List<MultipleMapIdentifiers> distinctMapWithTiles = new List<MultipleMapIdentifiers>();
+
+            //Find out if there is more than one run in this upload
+            var listOfMissionIdentifiers = metaList.Select(x => new { x.MapIdentifier }).Distinct().ToList();
+
+            if(listOfMissionIdentifiers.Count() == 0)
+            { // nothing uploaded, return error view
+                return View("NoData");
+            }else if(listOfMissionIdentifiers.Count() > 1)
+            {
+                //if there is more than one run, seperate all the images out into individual runs
+                foreach(var mapID in listOfMissionIdentifiers)
+                {
+                    var oneMapSet = new MultipleMapIdentifiers();
+                    List<ImgMetaData> singleMapImgsList = new List<ImgMetaData>();
+
+                    int mapIDlength = mapID.ToString().Length; // the distinct LINQ procedure adds the column name in there, so we're taking it out.
+                    oneMapSet.MapIdentifier = mapID.ToString().Substring(18, (mapIDlength - 20)); 
+                    foreach (var tileImg in metaList)
+                    {
+                        if(tileImg.MapIdentifier == oneMapSet.MapIdentifier)
+                        {
+                            singleMapImgsList.Add(tileImg);
+                        }
+                    }
+
+                    oneMapSet.ImgMetaDatas = singleMapImgsList;
+
+                    distinctMapWithTiles.Add(oneMapSet);
+
+                }
+            }else
+            {
+                var singleMap = new MultipleMapIdentifiers();
+                singleMap.MapIdentifier = listOfMissionIdentifiers.First().ToString();
+                singleMap.ImgMetaDatas = metaList;
+                distinctMapWithTiles.Add(singleMap);
+            }
+
+
+
+
+
+
+
+            return View("Review", distinctMapWithTiles);
+
         }
 
         
         [HttpPost]
-        public async Task<IActionResult> Keep(List<ImgMetaData> datas)
+        public async Task<IActionResult> Keep(List<MultipleMapIdentifiers> datas)
         {
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
             var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
             List<ImgMetaData> keepTheseTiles = new List<ImgMetaData>();
+            List<InsertReadyData> allMapsAllTiles = new List<InsertReadyData>();
 
-            
-
-            foreach (var piece in datas)
+            foreach(var map in datas)
             {
-                if (piece.UnknownValue) //If we get the UnknownValue flag set to true, then there is bad data in the process. Make sure this tile is NOT processed
-                    piece.KeepThis = false;
-
-                if(piece.KeepThis)
+                foreach (var img in map.ImgMetaDatas)
                 {
-                    keepTheseTiles.Add(piece);
+                    if (img.UnknownValue) //If we get the UnknownValue flag set to true, then there is bad data in the process. Make sure this tile is NOT processed
+                        img.KeepThis = false;
+
+                    if (img.KeepThis)
+                    {
+                        keepTheseTiles.Add(img);
+                    }
+                    //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
                 }
-                //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
+
+                if (keepTheseTiles.Count() == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    List<InsertReadyData> singleMapList = _df.ConvertToDatabase(keepTheseTiles);
+
+                    allMapsAllTiles.AddRange(singleMapList);
+                }
             }
 
-            if (keepTheseTiles.Count() == 0)
+            if(allMapsAllTiles.Count==0)
             {
                 return View("NoData");
             }
-            else
-            {
-                List<InsertReadyData> insert = _df.ConvertToDatabase(keepTheseTiles);
 
-                ViewBag.newTiles = await _df.InsertIntoDatabase(insert);
+            ViewBag.newTiles = await _df.InsertIntoDatabase(allMapsAllTiles);
 
-                return View("Success", insert);
-            }
+            return View("Success", allMapsAllTiles);
         }
     }
 }
