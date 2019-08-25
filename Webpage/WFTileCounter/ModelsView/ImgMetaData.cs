@@ -55,6 +55,11 @@ namespace WFTileCounter.ModelsView
         public bool KeepThis { get; set; }
 
 
+        //Flag for the First tile processed for a given map string - and for being able to display full Run checkbox and get it back
+        public bool First { get; set; }
+        //Full run qualifier - true = yes, to best of user knoweldge. False = no.
+        public bool FullRun { get; set; }
+
 
     }
 }
