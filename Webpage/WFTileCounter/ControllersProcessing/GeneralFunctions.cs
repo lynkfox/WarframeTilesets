@@ -78,7 +78,7 @@ namespace WFTileCounter.ControllersProcessing
 
                 }else if(metaData.MissionType.Contains("???") || metaData.Tileset.Contains("???"))
                 {
-                    //if the MissionType or the Tileset hits the final return, it will add ??? to the name.
+                    //if the MissionType or the Tileset hits the final return, it will add ??? to the name. - this is usually a bad image, or something new that hasn't been added to special cases yet
                     // so we check for that so we can auto exclude files that don't have the proper checks for their MissionType/Tileset
                     metaData.KeepThis = false;
                     metaData.UnknownValue = true;
@@ -88,20 +88,33 @@ namespace WFTileCounter.ControllersProcessing
                     metaData.UnknownValue = false;
                 }
 
+                metaData.FileName = Path.GetFileName(pic);
+                
 
-                /*To Do - a check if the Filename is NOT Warframe####
+                /* To Do -- Get LogedIn User from TempData? Cookies? Session?
+                 * 
                  */
-
+                
                 string duplicateCheck = metaList.Where(x => x.TileName == metaData.TileName && x.MapIdentifier == metaData.MapIdentifier).Select(x => x.TileName).FirstOrDefault();
-                if(metaList.Count !=0 && !string.IsNullOrEmpty(duplicateCheck) &&( !metaData.TileName.Contains("DeadEnd") || !metaData.TileName.Contains("Cap") || !metaData.TileName.Contains("Closet") || metaData.TileName.Contains("Capture")) )
-                { 
-                    /* Go through the list of tiles already added, and see if any of them have the same name.
-                     * 
-                     * if a duplicate name is found, mark as possible dupe unless it contains DeadEnd, Closet or Cap (but not Capture) - as these are very common tiles where there is always more than one.
-                     */
-                    metaData.KeepThis = false;
-                    metaData.PossibleDupe = true;
-                }else
+                if(metaList.Count !=0 && !string.IsNullOrEmpty(duplicateCheck) )
+                {
+
+                    if (metaData.TileName.Contains("Capture"))
+                    {
+                        metaData.KeepThis = false;
+                        metaData.PossibleDupe = true;
+                    }
+                    else if (metaData.TileName.Contains("DeadEnd") || metaData.TileName.Contains("Cap") || metaData.TileName.Contains("Closet"))
+                    {
+                        metaData.PossibleDupe = false;
+                    }
+                    else
+                    {
+                        metaData.KeepThis = false;
+                        metaData.PossibleDupe = true;
+                    }
+                }
+                else
                 {
                     metaData.PossibleDupe = false;
                 }
@@ -110,6 +123,31 @@ namespace WFTileCounter.ControllersProcessing
 
                 metaList.Add(metaData);
             }
+
+
+
+            //now organize the list of images by run - ordering by date also solves the issue if the files are not named Warframe####
+
+            //get the individual mapIdentifiers
+            var listOfMissionIdentifiers = metaList.Select(x => x.MapIdentifier).Distinct().ToList();
+
+            if(listOfMissionIdentifiers.Count() == 0)
+            {
+                return null;
+            } else if (listOfMissionIdentifiers.Count() > 1)
+            {
+                metaList = metaList.OrderBy(x => x.MapIdentifier).ThenBy(x => x.Date).ToList();
+
+                foreach(var identifier in listOfMissionIdentifiers)
+                {
+                    metaList.Find(x => x.MapIdentifier == identifier).First = true;
+                }
+            } else //if only one map id
+            {
+                metaList = metaList.OrderBy(x => x.Date).ToList();
+            }
+
+
 
             return metaList;
         }
@@ -487,11 +525,11 @@ namespace WFTileCounter.ControllersProcessing
 
             if (stringTilesetMission.Contains("TR")) // special case, just get it over with.
             {
-                return "CorpusTrenchRunArchwing";
+                return "CorpusArchwing";
             }
             if (stringTilesetMission.Contains("Space"))
             {
-                return "GrineerFreeSpaceArchwing";
+                return "GrineerArchwing";
             }
             if (stringTilesetMission == "CorpusGasBoss")
             {
