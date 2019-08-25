@@ -104,7 +104,7 @@ namespace WFTileCounter.ControllersProcessing
                         metaData.KeepThis = false;
                         metaData.PossibleDupe = true;
                     }
-                    else if (metaData.TileName.Contains("DeadEnd") || metaData.TileName.Contains("Cap") || metaData.TileName.Contains("Closet"))
+                    else if (metaData.TileName.Contains("DeadEnd") || metaData.TileName.Contains("Cap") || metaData.TileName.Contains("Closet") ||metaData.TileName.Contains("Loot"))
                     {
                         metaData.PossibleDupe = false;
                         metaData.KeepThis = true;

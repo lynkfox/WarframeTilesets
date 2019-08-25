@@ -242,43 +242,16 @@ namespace WFTileCounter.ControllersProcessing
             List<Tile> allTilesUploadedList = new List<Tile>();
             string endLog = "";
 
-
+            var lastItem = metaDataList.Last();
+            var firstItem = metaDataList.First();
             //foreach (var item in metaDataList)
             for (int i = 0; i < metaDataList.Count(); i++)
             {
-
                 
-
-
-
-                if (metaDataList[i].First || i == metaDataList.Count - 1)
+                if (metaDataList[i].First || metaDataList[i].Equals(firstItem)) // if this is a First Tile, or if it is the first item in the list
                 {
-                    if (nextMap)
-                    {
-                        singleMapInsertReady.Run.LogRange += " - " + endLog;
-                        singleMapInsertReady.Run.TotalTiles = allTilesUploadedList.Count();
-                        singleMapInsertReady.Run.UniqueTiles = uniqueTileList.Count();
-                        //add the list of tiles from this run - this is the list that will be used to generate MapPoints in the database
-                        singleMapInsertReady.Tiles = uniqueTileList.ToArray();
-                        singleMapInsertReady.CompleteTileList = allTilesUploadedList.ToArray();
-
-                        // add to the list to be returned
-                        allMapsInsertReady.Add(singleMapInsertReady);
-                        //moving on to the next map identifier, set flag back to false so we can get the new mission data.
-
-
-                        singleMapInsertReady = new InsertReadyData();
-                        mission = new Mission();
-                        run = new Run();
-                        tileset = new Tileset();
-                        uniqueTileList.Clear();
-                        allTilesUploadedList.Clear();
-
-                    }
-
-
-
-                mission.Type = metaDataList[i].MissionType;
+                    
+                    mission.Type = metaDataList[i].MissionType;
                     tileset.Name = metaDataList[i].Tileset;
                     tileset.Faction = metaDataList[i].FactionName;
                     run.IdentityString = metaDataList[i].MapIdentifier;
@@ -334,6 +307,39 @@ namespace WFTileCounter.ControllersProcessing
 
                 // continually changing unitl the last run, where it will record the last logNum
                 endLog = metaDataList[i].LogNum;
+
+
+                if (metaDataList[i].Equals(lastItem) || metaDataList[i + 1].First) // if this is the last item in the list, or the next item is a FirstTile
+                {
+                    singleMapInsertReady.Run.LogRange += " - " + endLog;
+                    singleMapInsertReady.Run.TotalTiles = allTilesUploadedList.Count();
+                    singleMapInsertReady.Run.UniqueTiles = uniqueTileList.Count();
+                    //add the list of tiles from this run - this is the list that will be used to generate MapPoints in the database
+                    singleMapInsertReady.Tiles = uniqueTileList.ToArray();
+                    singleMapInsertReady.CompleteTileList = allTilesUploadedList.ToArray();
+
+                    // add to the list to be returned
+                    allMapsInsertReady.Add(singleMapInsertReady);
+                    //moving on to the next map identifier, set flag back to false so we can get the new mission data.
+
+
+                    singleMapInsertReady = new InsertReadyData();
+                    mission = new Mission();
+                    run = new Run();
+                    tileset = new Tileset();
+                    uniqueTileList.Clear();
+                    allTilesUploadedList.Clear();
+
+                }
+
+                if(!metaDataList[i].Equals(lastItem))
+                {
+                    if (metaDataList[i].MapIdentifier != metaDataList[i + 1].MapIdentifier && metaDataList[i + 1].First == false) //if the next tile is a different mapId but isn't marked as a First Tile (say the first tile got unchecked)
+                    {
+                        metaDataList[i + 1].First = true;
+                    }
+                }
+                
 
 
 
