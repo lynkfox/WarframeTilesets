@@ -167,6 +167,7 @@ namespace WFTileCounter.ControllersProcessing
             var values = new List<string>();
             var directories = MetadataExtractor.ImageMetadataReader.ReadMetadata(path);
             List<string> mapInfo = new List<string>();
+            bool validFile = false;
 
             foreach (var directory in directories)
             {
@@ -224,6 +225,11 @@ namespace WFTileCounter.ControllersProcessing
                         metaData.FactionName = GetFactionName(mapInfo[0]);
                         metaData.MissionType = GetMissionType(mapInfo[1]);
                         metaData.Tileset = GetTileSet(mapInfo[1]);
+
+                        if(string.IsNullOrEmpty(metaData.Tileset))
+                        { // the only way that tileset will be null is if the tileset is one listed in the Non ProcedualSets list. if its null, then this is not a good tile, and we're tossing it.
+                            return null;
+                        }
                         metaData.MapIdentifier = mapInfo[2];
                         metaData.TileName = GetTileName(metaData.FactionName, tileNameHolder, metaData.Tileset);
                         mapInfo.Clear();
@@ -250,9 +256,10 @@ namespace WFTileCounter.ControllersProcessing
 
                         metaData.AlternateTileset = CheckDuplicateTileDiffTileset(metaData.TileName, metaData.Tileset);
 
+                        validFile = true;
 
                     }
-                    else  //this SHOULD cover all the weird maps, like Hubs and what not. There is error checking just in case elsewhere, but... 
+                    else  //Covers arena maps and other non Proceduals. Also covers if the file has a JpegComment but not formated like warframes. Not a warframe image then!
                     {
                         return null;
                         
@@ -268,8 +275,14 @@ namespace WFTileCounter.ControllersProcessing
 
 
             }
-
-            return metaData;
+            if(validFile)
+            {
+                return metaData;
+            } else // This should catch all instances of not Warframe files
+            {
+                return null;
+            }
+            
         }
         
 
@@ -510,7 +523,7 @@ namespace WFTileCounter.ControllersProcessing
 
                 if (Regex.IsMatch(stringTilesetMission, WildCardToRegular(badPic)))
                 {
-                    return stringTilesetMission + " ??? Check Me!";
+                    return null;
                 }
             }
 
