@@ -125,7 +125,7 @@ namespace WFTileCounter.ControllersProcessing
                             }
                             else
                             {
-                                t.Tileset = data.Tileset;
+                                t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
                             }
                             
                             mapPoint.Tile = t;
