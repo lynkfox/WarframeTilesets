@@ -37,7 +37,8 @@ namespace WFTileCounter.ModelsView
         public string Coords { get; set; }
         [Display(Name = "Log value: ")]
         public string LogNum { get; set; }
-
+        [Display(Name ="Alternate Tileset:" )]
+        public string AlternateTileset { get; set; }
         public TileImage TileImageInfo { get; set; }
 
 
@@ -49,7 +50,7 @@ namespace WFTileCounter.ModelsView
         // for the view, to help alert if some data isn't properly set up to be parsed in MissionType or Tileset
 
 
-        public bool AlternateTileset { get; set; }
+        
 
         [Display(Name ="Process Image?")]
         public bool KeepThis { get; set; }

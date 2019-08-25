@@ -129,58 +129,12 @@
 
             <div class="col-12 align-self-start border border-top-0 border-success rounded bg-dark text-light">
 
-                <div class="row">
-                    <div class="col-sm-4 border-bottom border-light">
-                        <div class="row">
-                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.TileName)</div>
-                        </div>
-                        <div class="row">
-                            <div class="display-field">
-                                <div class="col  font-italic text-truncate">@Html.DisplayFor(a => a.TileName)</div>
-                            </div>
-                            <div class="editor-field">
-                                @Html.HiddenFor(a => a.TileName)
-                                @Html.ValidationMessageFor(a => a.TileName)
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-sm-4 border-bottom border-light">
-                        <div class="row">
-                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Tileset)</div>
-                        </div>
-                        <div class="row">
-                            <div class="display-field">
-                                <div class="col font-italic">@Html.DisplayFor(a => a.Tileset)</div>
-                            </div>
-                            <div class="editor-field">
-                                @Html.HiddenFor(a => a.Tileset)
-                                @Html.ValidationMessageFor(a => a.Tileset)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4 border-bottom border-light">
-                        <div class="row">
-                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Coords)</div>
-                        </div>
-                        <div class="row">
-                            <div class="display-field">
-                                <div class="col font-italic">@Html.DisplayFor(a => a.Coords)</div>
-                            </div>
-                            <div class="editor-field">
-                                @Html.HiddenFor(a => a.Coords)
-                                @Html.ValidationMessageFor(a => a.Coords)
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
 
 
 
                 <div class="row">
-                    <div class="col-sm-4  border-light">
+                    <div class="col-sm-4  border-bottom border-light">
                         <div class="row">
                             <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.MissionType)</div>
                         </div>
@@ -195,7 +149,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 border-light">
+                    <div class="col-sm-4 border-bottom border-light">
                         <div class="row">
                             <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.FactionName)</div>
                         </div>
@@ -210,7 +164,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-4 border-light">
+                    <div class="col-sm-4 border-bottom border-light">
                         <div class="row">
                             <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.LogNum)</div>
                         </div>
@@ -221,6 +175,68 @@
                             <div class="editor-field">
                                 @Html.HiddenFor(a => a.LogNum)
                                 @Html.ValidationMessageFor(a => a.LogNum)
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.TileName)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                <div class="col  font-italic text-truncate">@Html.DisplayFor(a => a.TileName)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.TileName)
+                                @Html.ValidationMessageFor(a => a.TileName)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Tileset) / @Html.DisplayNameFor(a => a.AlternateTileset)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                
+                                @if (String.IsNullOrEmpty(Model.AlternateTileset))
+
+                                {
+                                <div class="col font-italic text-truncate">@Html.DisplayFor(a => a.Tileset) /  none </div>
+                                }
+                                else
+                                {
+                                    <div class="col font-italic text-truncate">@Html.DisplayFor(a => a.Tileset) /  @Html.DisplayFor(a => a.AlternateTileset) </div>
+                                }
+                                
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.Tileset)
+                                @Html.ValidationMessageFor(a => a.Tileset)
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.AlternateTileset)
+                                @Html.ValidationMessageFor(a => a.AlternateTileset)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 ">
+                        <div class="row">
+                            <div class="col font-weight-bold">@Html.DisplayNameFor(a => a.Coords)</div>
+                        </div>
+                        <div class="row">
+                            <div class="display-field">
+                                <div class="col font-italic">@Html.DisplayFor(a => a.Coords)</div>
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.Coords)
+                                @Html.ValidationMessageFor(a => a.Coords)
                             </div>
                         </div>
                     </div>

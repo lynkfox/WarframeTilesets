@@ -156,7 +156,7 @@ namespace WFTileCounter.ControllersProcessing
 
 
 
-        /* Returns a list of the Metadata from Warframe In Game Screenshot button (f6)
+        /* Returns a single instance of ImgMetaData of the Metadata from Warframe In Game Screenshot button (f6)
          * 
          */
 
@@ -244,17 +244,28 @@ namespace WFTileCounter.ControllersProcessing
                         {
                             metaData.FactionName = "Infested";
                         }
-                        
+
+
+
+                        string[] tilesetNames = CheckDuplicateTileDiffTileset(metaData.TileName, metaData.Tileset);
+
+                        metaData.Tileset = tilesetNames[0];
+                        metaData.AlternateTileset = tilesetNames[1];
+
                         // The Spy Vaults are identical with the same names across many different tilesets for corpus and grineer.
                         // Lua Spy Vaults are unique to lua, no need to change them
                         // Kuva Spyvaults are unique to Grineer Fortress, and we're using Kuva for their faction name.
-                        if (metaData.TileName.Contains("SpyVault") && metaData.FactionName =="Grineer" || metaData.FactionName=="Corpus") 
+                        // we're overriding whatever the CheckDuplicateTileDifTileset might have set here, on purpose.
+                        if (metaData.TileName.Contains("SpyVault") && ( metaData.FactionName =="Grineer" || metaData.FactionName=="Corpus" )) 
                         {
+                            metaData.AlternateTileset = metaData.FactionName;
                             metaData.Tileset = metaData.FactionName + "SpyVault";
                         }
 
 
-                        metaData.AlternateTileset = CheckDuplicateTileDiffTileset(metaData.TileName, metaData.Tileset);
+                        
+
+                        
 
                         validFile = true;
 
@@ -563,21 +574,47 @@ namespace WFTileCounter.ControllersProcessing
         }
 
 
-        private bool CheckDuplicateTileDiffTileset(string tileName, string tileset)
+        private string[] CheckDuplicateTileDiffTileset(string tileName, string tileset)
         {
             var tileInDbPlusTileset = _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).FirstOrDefault();
+            string[] tilesetNames = new string[2];
 
-            if (tileInDbPlusTileset is null)
+            if (tileInDbPlusTileset is null) // Can't find the tile in the db, must be a new one. Safe to set Tileset
             {
-                return false;
+                tilesetNames[0] = tileset;
+                tilesetNames[1] = null;
+                return tilesetNames;
             }
-            else if (tileInDbPlusTileset.Tileset.Name != tileset)
+            else if (tileInDbPlusTileset.Tileset.Name != tileset && !string.IsNullOrEmpty(tileInDbPlusTileset.AlternateTileset))
             {
-                return true;
+                //find the tile, and it already has an alternate. 
+
+
+                /* note - this does not work if we find out a tile might stretch across 3 tilesets. I don't ... think they do? but we'll have to watch out
+                 */
+                tilesetNames[0] = tileInDbPlusTileset.Tileset.Name;
+                tilesetNames[1] = tileInDbPlusTileset.AlternateTileset;
+                return tilesetNames;
             }
-            else //if they have the same tileset name
+            else if(tileInDbPlusTileset.Tileset.Name != tileset && string.IsNullOrEmpty(tileInDbPlusTileset.AlternateTileset))
             {
-                return false;
+                //find the tile, and it has a null for AlternateTileset, and the tileset in the db is different than the one we're passing in.
+                tilesetNames[0] = tileInDbPlusTileset.Tileset.Name;
+                tilesetNames[1] = tileset;
+                return tilesetNames;
+            } else if(tileInDbPlusTileset.Tileset.Name == tileset)
+            {
+                //if the tile in the database has the same tilesetname as whats been passed in
+                
+                tilesetNames[0] = tileset;
+                tilesetNames[1] = tileInDbPlusTileset.AlternateTileset;
+                return tilesetNames;
+                
+            } else // should have caught all of possiblities above, but just in case: 
+            {
+                tilesetNames[0] = tileset;
+                tilesetNames[1] = tileInDbPlusTileset.AlternateTileset;
+                return tilesetNames;
             }
         }
 
