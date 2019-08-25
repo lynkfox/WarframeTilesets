@@ -107,6 +107,7 @@ namespace WFTileCounter.ControllersProcessing
                     else if (metaData.TileName.Contains("DeadEnd") || metaData.TileName.Contains("Cap") || metaData.TileName.Contains("Closet"))
                     {
                         metaData.PossibleDupe = false;
+                        metaData.KeepThis = true;
                     }
                     else
                     {
@@ -117,6 +118,7 @@ namespace WFTileCounter.ControllersProcessing
                 else
                 {
                     metaData.PossibleDupe = false;
+                    metaData.KeepThis = true;
                 }
 
 
@@ -134,7 +136,7 @@ namespace WFTileCounter.ControllersProcessing
             if(listOfMissionIdentifiers.Count() == 0)
             {
                 return null;
-            } else if (listOfMissionIdentifiers.Count() > 1)
+            } else 
             {
                 metaList = metaList.OrderBy(x => x.MapIdentifier).ThenBy(x => x.Date).ToList();
 
@@ -143,9 +145,6 @@ namespace WFTileCounter.ControllersProcessing
                     metaList.Find(x => x.MapIdentifier == identifier).First = true;
                     metaList.Find(x => x.MapIdentifier == identifier).FullRun = true;
                 }
-            } else //if only one map id
-            {
-                metaList = metaList.OrderBy(x => x.Date).ToList();
             }
 
 

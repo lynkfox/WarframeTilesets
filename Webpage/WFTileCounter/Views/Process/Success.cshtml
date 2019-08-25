@@ -70,7 +70,16 @@
                 <hr />
             </div>
             <div class="row">
-                <div class="col-sm-12"><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were new and added to the database.</i></div>
+                <div class="col-sm-12"><p><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were new and added to the database.</i></p>
+                @if(map.Run.FullRun)
+                {
+                    <p>This was a Full Run.</p>
+                }else
+                {
+                    <p>This was a Partial Run</p>
+                }
+
+                </div>
             </div>
             <div class="row">
                 @foreach (var tile in map.Tiles)

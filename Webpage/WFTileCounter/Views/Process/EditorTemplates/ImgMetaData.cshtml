@@ -13,22 +13,29 @@
 
     @if (Model.First)
     {
-        <div class="row mb-3">
+    <div class="row mb-3">
 
 
-            <div class="col-sm-2 font-weight-bold border-bottom border-light mb-2 align-items-center">
-                @Html.DisplayNameFor(a => a.MapIdentifier)
-            </div>
-            <div class="col-sm-7 font-italic text-truncate border-bottom border-light mb-2 align-items-center">
-                <div class="display-field">
-                    @Html.DisplayFor(a => a.MapIdentifier)
-                </div>
-            </div>
-            <div class="col-sm-3 border-bottom border-light mb-2">
-                 <p class="text-center"><span>@Html.CheckBoxFor(a => a.FullRun)</span>  <b>Was this a Complete Run?</b></p>
-            </div>
-
+        <div class="col-sm-2 font-weight-bold border-bottom border-light mb-2 align-items-center">
+            @Html.DisplayNameFor(a => a.MapIdentifier)
         </div>
+        <div class="col-sm-7 font-italic text-truncate border-bottom border-light mb-2 align-items-center">
+            <div class="display-field">
+                @Html.DisplayFor(a => a.MapIdentifier)
+            </div>
+            <div class="editor-field">
+                @Html.HiddenFor(a => a.MapIdentifier)
+                @Html.ValidationMessageFor(a => a.MapIdentifier)
+            </div>
+        </div>
+        <div class="col-sm-3 border-bottom border-light mb-2">
+            <p class="text-center"><span>@Html.CheckBoxFor(a => a.FullRun)</span>  <b>Was this a Complete Run?</b></p>
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(a => a.First)
+            @Html.ValidationMessageFor(a => a.First)
+        </div>
+    </div>
     }
     else
     {

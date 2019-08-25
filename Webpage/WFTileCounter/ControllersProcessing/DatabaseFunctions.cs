@@ -207,124 +207,252 @@ namespace WFTileCounter.ControllersProcessing
         public List<InsertReadyData> ConvertToDatabase(List<ImgMetaData> metaDataList)
         {
 
-            var processedList = new List<InsertReadyData>();
+            
 
-            bool first = true;
+            bool nextMap = false;
 
 
+            List<InsertReadyData> allMapsInsertReady = new List<InsertReadyData>();
+            var singleMapInsertReady = new InsertReadyData();
+            var mission = new Mission();
+            var run = new Run();
+            var tileset = new Tileset();
+            var User = new User();
+            List<Tile> uniqueTileList = new List<Tile>();
+            List<Tile> allTilesUploadedList = new List<Tile>();
+            string endLog = "";
+
+
+            //foreach (var item in metaDataList)
+            for (int i = 0; i < metaDataList.Count(); i++)
+            {
+
+                if(metaDataList[i].First || i==metaDataList.Count-1)
+                {
+                    if (nextMap)
+                    {
+                        singleMapInsertReady.Run.LogRange += " - " + endLog;
+                        singleMapInsertReady.Run.TotalTiles = allTilesUploadedList.Count();
+                        singleMapInsertReady.Run.UniqueTiles = uniqueTileList.Count();
+                        //add the list of tiles from this run - this is the list that will be used to generate MapPoints in the database
+                        singleMapInsertReady.Tiles = uniqueTileList.ToArray();
+                        singleMapInsertReady.CompleteTileList = allTilesUploadedList.ToArray();
+
+                        // add to the list to be returned
+                        allMapsInsertReady.Add(singleMapInsertReady);
+                        //moving on to the next map identifier, set flag back to false so we can get the new mission data.
+
+
+                        singleMapInsertReady = new InsertReadyData();
+                        mission = new Mission();
+                        run = new Run();
+                        tileset = new Tileset();
+                        uniqueTileList.Clear();
+                        allTilesUploadedList.Clear();
+
+                    }
+                }
+
+
+
+
+                if (metaDataList[i].First)
+                {
+
+                    
+
+                    
+
+
+
+                    mission.Type = metaDataList[i].MissionType;
+                    tileset.Name = metaDataList[i].Tileset;
+                    tileset.Faction = metaDataList[i].FactionName;
+                    run.IdentityString = metaDataList[i].MapIdentifier;
+                    run.RunDate = DateTime.ParseExact(metaDataList[i].Date, "ddd MMM dd HH:mm:ss K yyyy", null);
+                    run.Mission = mission;
+                    run.LogRange = metaDataList[i].LogNum;
+                    run.FullRun = metaDataList[i].FullRun;
+
+                    //test purposes, fix this to be dynamic later
+                    run.UserID = 1;
+
+                    //add the unique data to the processing temp object
+                    singleMapInsertReady.Mission = mission;
+                    singleMapInsertReady.Tileset = tileset;
+                    singleMapInsertReady.Run = run;
+                    //processing.User = user;
+
+                    nextMap = true;
+                }
+
+
+
+                var tile = new Tile();
+                tile.Name = metaDataList[i].TileName;
+                tile.Tileset = tileset;
+                tile.Coords = metaDataList[i].Coords;
+
+                var checkAgainstDatabase = CheckTileAlreadyExists(metaDataList[i].TileName);
+                if (checkAgainstDatabase is null)
+                {
+                    tile.NewTile = true;
+                }
+                else
+                {
+                    tile.NewTile = false;
+                }
+
+                var doesTileAlreadyExistInList = uniqueTileList.Where(x => x.Name == tile.Name).FirstOrDefault();
+
+
+                //a list of only the unique tiles, so even if the tile has two copies in the same run, this list will only have one
+                if (doesTileAlreadyExistInList is null)
+                {
+
+                    uniqueTileList.Add(tile);
+                }
+
+                /*if AlternateTileset is true then we've already checked to see if the tile exists, and discovered it under a different tileset. This will set the
+                 * primary tileset and fkey to the same as in the db, and add the new tileset to the AlternateTileset column for records keeping
+                 */
+                if (metaDataList[i].AlternateTileset)
+                {
+
+                    var alreadyExistTileset = _db.Tiles.Where(x => x.Name == tile.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                    tile.Tileset = alreadyExistTileset;
+                    tile.AlternateTileset = metaDataList[i].Tileset;
+                }
+
+
+                //But also saving a list of all the tiles that were processed, for View purposes.
+                allTilesUploadedList.Add(tile);
+
+                // continually changing unitl the last run, where it will record the last logNum
+                endLog = metaDataList[i].LogNum;
+
+
+
+            }
+
+            /*
             //in case multiple runs are uploaded at the same time, get a list of unique map identifiers (which are, as far as I can tell, unique per run)
             IEnumerable<string> distinctMapIdentifiers = metaDataList.Select(a => a.MapIdentifier).Distinct();
 
 
             foreach (var id in distinctMapIdentifiers)
             {
-                var processing = new InsertReadyData();
-                var mission = new Mission();
-                var run = new Run();
-                var tileset = new Tileset();
-                var User = new User();
-                List<Tile> uniqueTileList = new List<Tile>();
-                List<Tile> allTilesUploadedList = new List<Tile>();
-                string endLog = "";
+                
 
                 /*This foreach loop is designed to go through the entire list of uploaded tiles, dividing them out into seperate ready for database insert sets based on the map Identifier string
                  */
 
-                var condensedList = metaDataList.Where(x => x.MapIdentifier == id);
-                foreach (var item in condensedList)
+            /* hmm. Now that we're sorting via MapIdentifier already before it even gets here, is there a better way to do this? Next iteration
+             * 
+
+
+            var condensedList = metaDataList.Where(x => x.MapIdentifier == id);
+            foreach (var item in condensedList)
+            {
+                string tilesetName="";
+                /* For the first tile in each Mission String, pull out the relevant details that don't change from tile to tile
+                 * Mission Type, Tileset, Faction Name, IdentityString, and general DateTime.  Also grab the lowest LogNumber.
+                 * Then add those items to the temporary processing InsertReadyData object, before heading on to add all the tiles in 
+                 * further loops
+
+                if (nextMap)
                 {
-                    string tilesetName="";
-                    /* For the first tile in each Mission String, pull out the relevant details that don't change from tile to tile
-                     * Mission Type, Tileset, Faction Name, IdentityString, and general DateTime.  Also grab the lowest LogNumber.
-                     * Then add those items to the temporary processing InsertReadyData object, before heading on to add all the tiles in 
-                     * further loops
-                     */
-                    if (first)
-                    {
-
-                        mission.Type = item.MissionType;
-                        tileset.Name = item.Tileset;
-                        tileset.Faction = item.FactionName;
-                        run.IdentityString = id;
-                        run.RunDate = DateTime.ParseExact(item.Date, "ddd MMM dd HH:mm:ss K yyyy", null);
-                        run.Mission = mission;
-                        run.LogRange = item.LogNum;
-
-                        //test purposes, fix this to be dynamic later
-                        run.UserID = 2;
-
-                        //add the unique data to the processing temp object
-                        processing.Mission = mission;
-                        processing.Tileset = tileset;
-                        processing.Run = run;
-                        //processing.User = user;
-
-                        first = false;
-                    }
-
-                    var tile = new Tile();
-                    tile.Name = item.TileName;
-                    tile.Tileset = tileset;
-                    tile.Coords = item.Coords;
-
-                    var checkAgainstDatabase = CheckTileAlreadyExists(item.TileName);
-                    if(checkAgainstDatabase is null)
-                    {
-                        tile.NewTile = true;
-                    }
-                    else
-                    {
-                        tile.NewTile = false;
-                    }
-
-                    var doesTileAlreadyExistInList = uniqueTileList.Where(x => x.Name == tile.Name).FirstOrDefault();
-                    
-
-                    //a list of only the unique tiles, so even if the tile has two copies in the same run, this list will only have one
-                    if (doesTileAlreadyExistInList is null)
-                    {
-                        
-                        uniqueTileList.Add(tile);
-                    }
-
-                    /*if AlternateTileset is true then we've already checked to see if the tile exists, and discovered it under a different tileset. This will set the
-                     * primary tileset and fkey to the same as in the db, and add the new tileset to the AlternateTileset column for records keeping
-                     */
-                    if (item.AlternateTileset)
-                    {
-                        
-                        var alreadyExistTileset = _db.Tiles.Where(x => x.Name == tile.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
-                        tile.Tileset = alreadyExistTileset;
-                        tile.AlternateTileset = item.Tileset;
-                    }
 
 
-                    //But also saving a list of all the tiles that were processed, for View purposes.
-                    allTilesUploadedList.Add(tile);
-
-                    // continually changing unitl the last run, where it will record the last logNum
-                    endLog = item.LogNum;
-                    
-                    
-                } 
-
-                processing.Run.LogRange += " - " + endLog;
-                processing.Run.TotalTiles = allTilesUploadedList.Count();
-                processing.Run.UniqueTiles = uniqueTileList.Count();
-                //add the list of tiles from this run - this is the list that will be used to generate MapPoints in the database
-                processing.Tiles = uniqueTileList;
-                processing.CompleteTileList = allTilesUploadedList;
-
-                // add to the list to be returned
-                processedList.Add(processing);
-                //moving on to the next map identifier, set flag back to false so we can get the new mission data.
-                first = true;
-
-            }
+                    mission.Type = item.MissionType;
+                    tileset.Name = item.Tileset;
+                    tileset.Faction = item.FactionName;
+                    run.IdentityString = id;
+                    run.RunDate = DateTime.ParseExact(item.Date, "ddd MMM dd HH:mm:ss K yyyy", null);
+                    run.Mission = mission;
+                    run.LogRange = item.LogNum;
 
 
+                    //test purposes, fix this to be dynamic later
+                    run.UserID = 1;
 
-            return processedList;
+                    //add the unique data to the processing temp object
+                    singleMapInsertReady.Mission = mission;
+                    singleMapInsertReady.Tileset = tileset;
+                    singleMapInsertReady.Run = run;
+                    //processing.User = user;
+
+                    nextMap = false;
+                }
+
+                if(item.First) // just because I can't be certain it will still be the first tile currently. After updating this to rely on it already being sorted, this if statement can hold all of the above if statement.
+                {
+                    run.FullRun = item.FullRun;
+                }
+
+                var tile = new Tile();
+                tile.Name = item.TileName;
+                tile.Tileset = tileset;
+                tile.Coords = item.Coords;
+
+                var checkAgainstDatabase = CheckTileAlreadyExists(item.TileName);
+                if(checkAgainstDatabase is null)
+                {
+                    tile.NewTile = true;
+                }
+                else
+                {
+                    tile.NewTile = false;
+                }
+
+                var doesTileAlreadyExistInList = uniqueTileList.Where(x => x.Name == tile.Name).FirstOrDefault();
+
+
+                //a list of only the unique tiles, so even if the tile has two copies in the same run, this list will only have one
+                if (doesTileAlreadyExistInList is null)
+                {
+
+                    uniqueTileList.Add(tile);
+                }
+
+                /*if AlternateTileset is true then we've already checked to see if the tile exists, and discovered it under a different tileset. This will set the
+                 * primary tileset and fkey to the same as in the db, and add the new tileset to the AlternateTileset column for records keeping
+
+                if (item.AlternateTileset)
+                {
+
+                    var alreadyExistTileset = _db.Tiles.Where(x => x.Name == tile.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                    tile.Tileset = alreadyExistTileset;
+                    tile.AlternateTileset = item.Tileset;
+                }
+
+
+                //But also saving a list of all the tiles that were processed, for View purposes.
+                allTilesUploadedList.Add(tile);
+
+                // continually changing unitl the last run, where it will record the last logNum
+                endLog = item.LogNum;
+
+
+            } 
+
+            singleMapInsertReady.Run.LogRange += " - " + endLog;
+            singleMapInsertReady.Run.TotalTiles = allTilesUploadedList.Count();
+            singleMapInsertReady.Run.UniqueTiles = uniqueTileList.Count();
+            //add the list of tiles from this run - this is the list that will be used to generate MapPoints in the database
+            singleMapInsertReady.Tiles = uniqueTileList;
+            singleMapInsertReady.CompleteTileList = allTilesUploadedList;
+
+            // add to the list to be returned
+            allMapsInsertReady.Add(singleMapInsertReady);
+            //moving on to the next map identifier, set flag back to false so we can get the new mission data.
+            nextMap = true;
+
+        }
+        */
+
+
+            return allMapsInsertReady;
 
         }
 
