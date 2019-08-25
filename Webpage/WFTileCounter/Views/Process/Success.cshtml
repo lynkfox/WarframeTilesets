@@ -71,12 +71,15 @@
             </div>
             <div class="row">
                 <div class="col-sm-12"><p><b>Unique Tiles Processed</b> - <i> of which @ViewBag.newTiles[count] were new and added to the database.</i></p>
-                @if(map.Run.FullRun)
+                @if(map.Run.FullRun && !map.AlreadyProcessed)
                 {
                     <p>This was a Full Run.</p>
-                }else
+                }else if(!map.Run.FullRun && !map.AlreadyProcessed)
                 {
                     <p>This was a Partial Run</p>
+                }else if(map.AlreadyProcessed)
+                {
+                    <p>This run was already found in the database. Any tiles that were not part of the Map from the first run were added.</p>
                 }
 
                 </div>

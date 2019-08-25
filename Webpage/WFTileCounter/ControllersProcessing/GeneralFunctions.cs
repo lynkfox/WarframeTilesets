@@ -248,7 +248,7 @@ namespace WFTileCounter.ControllersProcessing
                         // The Spy Vaults are identical with the same names across many different tilesets for corpus and grineer.
                         // Lua Spy Vaults are unique to lua, no need to change them
                         // Kuva Spyvaults are unique to Grineer Fortress, and we're using Kuva for their faction name.
-                        if (metaData.TileName.Contains("SpyVault") &&(metaData.FactionName =="Grineer" || metaData.FactionName=="Corpus")) 
+                        if (metaData.TileName.Contains("SpyVault") && metaData.FactionName =="Grineer" || metaData.FactionName=="Corpus") 
                         {
                             metaData.Tileset = metaData.FactionName + "SpyVault";
                         }

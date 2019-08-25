@@ -54,6 +54,7 @@ namespace WFTileCounter.ControllersProcessing
                 var run = _db.Runs.Where(x => x.IdentityString == data.Run.IdentityString).FirstOrDefault();
                 if (run is null)
                 {
+                    data.AlreadyProcessed = false;
 
                     var miss = _db.Missions.Where(x => x.Type == data.Mission.Type).FirstOrDefault();
                     if (miss is null)
@@ -159,6 +160,9 @@ namespace WFTileCounter.ControllersProcessing
 
                     var mapPoint = new MapPoint();
 
+
+                    data.AlreadyProcessed = true;
+
                     foreach (var name in processNames)
                     {
                         if(!tileNames.Contains(name))
@@ -227,7 +231,11 @@ namespace WFTileCounter.ControllersProcessing
             for (int i = 0; i < metaDataList.Count(); i++)
             {
 
-                if(metaDataList[i].First || i==metaDataList.Count-1)
+                
+
+
+
+                if (metaDataList[i].First || i == metaDataList.Count - 1)
                 {
                     if (nextMap)
                     {
@@ -251,21 +259,10 @@ namespace WFTileCounter.ControllersProcessing
                         allTilesUploadedList.Clear();
 
                     }
-                }
 
 
 
-
-                if (metaDataList[i].First)
-                {
-
-                    
-
-                    
-
-
-
-                    mission.Type = metaDataList[i].MissionType;
+                mission.Type = metaDataList[i].MissionType;
                     tileset.Name = metaDataList[i].Tileset;
                     tileset.Faction = metaDataList[i].FactionName;
                     run.IdentityString = metaDataList[i].MapIdentifier;

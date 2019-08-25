@@ -19,5 +19,8 @@ namespace WFTileCounter.ModelsLogic
         public User User { get; set; }
         public IEnumerable<Tile> Tiles { get; set; }
         public IEnumerable<Tile> CompleteTileList { get; set; }
+
+        //if the Run.MapIdentifier was already found in the database, this flag get set to true.
+        public bool AlreadyProcessed { get; set; }
     }
 }
