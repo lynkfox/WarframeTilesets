@@ -141,6 +141,7 @@ namespace WFTileCounter.ControllersProcessing
                 foreach(var identifier in listOfMissionIdentifiers)
                 {
                     metaList.Find(x => x.MapIdentifier == identifier).First = true;
+                    metaList.Find(x => x.MapIdentifier == identifier).FullRun = true;
                 }
             } else //if only one map id
             {
