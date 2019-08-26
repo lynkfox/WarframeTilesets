@@ -620,7 +620,7 @@ namespace WFTileCounter.ControllersProcessing
 
         private TileImage GetMapImagePath(string tileName)
         {
-            var isTileInDB = _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).FirstOrDefault();
+            var isTileInDB = _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).Include(x=>x.TileImages).FirstOrDefault();
 
 
             var defaultTileImageData = new TileImage { ImagePath = "LotusFlower.png", AltText = "No Map Image Uploaded Yet" };
@@ -634,7 +634,7 @@ namespace WFTileCounter.ControllersProcessing
 
                 if (doesTileHaveImg.Count() > 0)
                 {
-                    var tileMapImg = _db.TileImages.Where(x => x.ViewName == "Map").FirstOrDefault();
+                    var tileMapImg = isTileInDB.TileImages.Where(x => x.ViewName == "Map").FirstOrDefault();
                     if (tileMapImg is null)
                     {
 
