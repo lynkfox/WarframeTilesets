@@ -67,7 +67,7 @@ namespace WFTileCounter.ControllersProcessing
 
 
 
-            //Move this next block of code into a Method
+            //Move this next block of code into a Method  --- and into the method that returns the list of ImgMetaData - get rid of the MultipleMapIdentifiers and add a Bool 'First' to each ImgData list, as well as the 'Partial Run' then check both
 
             List<MultipleMapIdentifiers> distinctMapWithTiles = new List<MultipleMapIdentifiers>();
 
