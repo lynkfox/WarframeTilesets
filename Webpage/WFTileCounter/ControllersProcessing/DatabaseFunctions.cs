@@ -51,9 +51,12 @@ namespace WFTileCounter.ControllersProcessing
             {
                 int newTiles = 0; //for ViewBagfor view return
 
-                var run = _db.Runs.Where(x => x.IdentityString == data.Run.IdentityString).FirstOrDefault();
-                if (run is null)
+                var run = _db.Runs.Where(x => x.IdentityString == data.Run.IdentityString ).FirstOrDefault();
+                if (run is null || data.Mission.Type == "Defense" || data.Mission.Type == "Interception")
                 {
+                    //finally found a situation where there might be the same map identifier string - Defense missions, wich only have 2 tiles. (interception probably too)
+                    // so we have to check for the Same IdString and if its a Def or Interception.
+
                     data.AlreadyProcessed = false;
 
                     var miss = _db.Missions.Where(x => x.Type == data.Mission.Type).FirstOrDefault();
@@ -128,7 +131,7 @@ namespace WFTileCounter.ControllersProcessing
                             {
                                 t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
                             }
-                            
+
                             mapPoint.Tile = t;
 
                         }
@@ -141,7 +144,7 @@ namespace WFTileCounter.ControllersProcessing
                 }
                 else
                 {
-                    /* If the Run was already found (Ie: The what I believe to be Unique Map Identifier string was already in the database)
+                    /* If the Run was already found (Ie: A Unique Map ID or same mapId + different date
                      * then figure out tiles are new, and add them
                      * 
                      * most likely scenario for this is a run got only partially uploaded at a time.
@@ -165,46 +168,74 @@ namespace WFTileCounter.ControllersProcessing
                      * 
                      * if it does, add it to MapPoints
                      */
-                    var tSetName = _db.Tilesets.Where(x => x.Name == data.Tileset.Name).FirstOrDefault();
-                   
 
-                    var tilesInDB = _db.Tiles.Where(x => x.Tileset == tSetName).ToList();
-                    
 
-                    var tileNames = tilesInDB.Select(x => x.Name).ToList();
-                    var processNames = data.Tiles.Select(x => x.Name).ToList();
+                    var alreadyInDBTiles = _db.MapPoints.Where(x => x.RunId == run.Id).Include(x => x.Tile).ToList();
+                    int additionalUniqueTiles = 0;
+                    int additionalTilesProcessed = 0;
 
-                    var mapPoint = new MapPoint();
 
+                    foreach (var tile in data.Tiles)
+                    {
+                        var mapPoint = new MapPoint();
+
+
+                        bool inMapPoints = alreadyInDBTiles.Any(x => x.Tile.Name == tile.Name);
+
+                        if (!inMapPoints)
+                        {
+                            mapPoint.Run = run;
+                            mapPoint.CoordsTaken = tile.Coords;
+                            var t = CheckTileAlreadyExists(tile.Name);
+
+                            if (t is null)
+                            {
+                                tile.Tileset = data.Tileset;
+                                mapPoint.Tile = tile;
+                                newTiles++;
+
+
+                            }
+                            else
+                            {
+                                if (!String.IsNullOrEmpty(tile.AlternateTileset))
+                                {
+                                    t.AlternateTileset = tile.AlternateTileset;
+                                    t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                                }
+                                else
+                                {
+                                    t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                                }
+
+                                mapPoint.Tile = t;
+
+
+                            }
+                            additionalUniqueTiles++;
+                            additionalTilesProcessed++;
+                            _db.MapPoints.Add(mapPoint);
+                        }
+                        else
+                        {
+                            additionalTilesProcessed++;
+                        }
+
+
+
+                    }
+
+                    run.UniqueTiles = _db.MapPoints.Where(x => x.RunId == run.Id).Count();
+                    run.TotalTiles += additionalTilesProcessed;
+
+
+                    run.FullRun = false;
 
                     data.AlreadyProcessed = true;
 
-                    foreach (var name in processNames)
-                    {
-                        if(!tileNames.Contains(name))
-                        {
 
-                            var newTile = CheckTileAlreadyExists(name);
-
-                            /* Learned something here. I was trying to set it as the Tileset from data, but to EF that is a different isntance of the tileset. Because
-                             * both the Tile and the MapPoint are linking to objects ALREADY in the database, we need to fetch the DATABASE versions of them. Run
-                             * was already fetched above at begining of if/else to check if it was null or not.
-                             */
-                            
-                            newTile.Tileset = tSetName;
-                            mapPoint.Tile = newTile;
-                            mapPoint.Run = run;
-
-                            _db.MapPoints.Add(mapPoint);
-                            newTiles++;
-                        }
-                    }
-
-                    
-                   
                 }
-
-                newTilesPerRun.Add(newTiles);
+                    newTilesPerRun.Add(newTiles);
 
                 await _db.SaveChangesAsync(); // Saving the changes after each Map Identifier string. Maybe better to save all at once, ie move it out of the loop entirely?
             }
@@ -229,7 +260,7 @@ namespace WFTileCounter.ControllersProcessing
 
             
 
-            bool nextMap = false;
+            
 
 
             List<InsertReadyData> allMapsInsertReady = new List<InsertReadyData>();
@@ -269,7 +300,7 @@ namespace WFTileCounter.ControllersProcessing
                     singleMapInsertReady.Run = run;
                     //processing.User = user;
 
-                    nextMap = true;
+                    
                 }
 
 
