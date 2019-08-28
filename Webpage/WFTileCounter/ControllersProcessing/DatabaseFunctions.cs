@@ -54,7 +54,7 @@ namespace WFTileCounter.ControllersProcessing
                 var run = _db.Runs.Where(x => x.IdentityString == data.Run.IdentityString ).FirstOrDefault();
                 if (run is null || data.Mission.Type == "Defense" || data.Mission.Type == "Interception")
                 {
-                    //finally found a situation where there might be the same map identifier string - Defense missions, wich only have 2 tiles. (interception probably too)
+                    //finally found a situation where there might be the same map identifier string - Defense missions, which only have 2 tiles. (interception probably too)
                     // so we have to check for the Same IdString and if its a Def or Interception.
 
                     data.AlreadyProcessed = false;
@@ -153,21 +153,6 @@ namespace WFTileCounter.ControllersProcessing
                      */
 
 
-                    /* I feel like im doing this all wrong and I need to re write it
-                     * 
-                     * Logic should be:
-                     * 
-                     * get list of tiles being inserted for this run (which already exists)
-                     * get list of MapPoints from the database for this run
-                     * 
-                     * find which tiles are NOT in the MapPoints.
-                     * 
-                     * check to see if that tile exists in Tiles in db
-                     * 
-                     * if it does not, add it to Tiles, then add it to MapPoints
-                     * 
-                     * if it does, add it to MapPoints
-                     */
 
 
                     var alreadyInDBTiles = _db.MapPoints.Where(x => x.RunId == run.Id).Include(x => x.Tile).ToList();
@@ -219,6 +204,9 @@ namespace WFTileCounter.ControllersProcessing
                         else
                         {
                             additionalTilesProcessed++;
+                            // so this might seem odd. Why increase this if its IS in MapPoints? because the most likely scenario is a duplicate tile
+                            // and we still want to try and count the total tiles in a run, even if there is a user error chance and it ends up being an image they already
+                            // uploaded before. But thats why, no matter what, we set it to FullRun=False, so it recieves less weight when we go to calculate tile density.
                         }
 
 

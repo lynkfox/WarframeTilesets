@@ -236,6 +236,7 @@ namespace WFTileCounter.ControllersProcessing
                         metaData.TileImageInfo = GetMapImagePath(metaData.TileName);
 
 
+                        //Special Cases
                         if(metaData.Tileset=="GrineerFortress")
                         {
                             metaData.FactionName = "GrineerQueens";
