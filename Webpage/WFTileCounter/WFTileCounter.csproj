@@ -28,7 +28,6 @@
   <ItemGroup>
     <Folder Include="Views\Process\DisplayTemplates\" />
     <Folder Include="Views\TIps\" />
-    <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
 </Project>

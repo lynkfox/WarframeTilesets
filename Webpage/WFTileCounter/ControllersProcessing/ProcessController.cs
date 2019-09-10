@@ -10,6 +10,7 @@ using WFTileCounter.ModelsView;
 using WFTileCounter.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WFTileCounter.ControllersProcessing
 {
@@ -26,11 +27,13 @@ namespace WFTileCounter.ControllersProcessing
     {
 
         private readonly DatabaseContext _db; //database context shortcut
-        
+        private IHostingEnvironment _env;
 
-        public ProcessController(DatabaseContext context)
+
+        public ProcessController(DatabaseContext context, IHostingEnvironment env)
         {
             _db = context;
+            _env = env;
         }
 
 
@@ -53,7 +56,26 @@ namespace WFTileCounter.ControllersProcessing
             return View("Success", insert);
         }
 
-        
+        public IActionResult ProcessUploadedFiles()
+        {
+            List<ImgMetaData> metaList = new List<ImgMetaData>();
+            var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
+            var webRoot = _env.WebRootPath;
+            //string userId = ViewData["UserID"].ToString();  -- temp data got get this to work?
+            string userId = "1";
+            string path = Path.Combine(webRoot, "temp_uploads", userId);
+
+            List<string> newPaths =_gf.MoveFilesToMapIdDirectory(path);
+
+            foreach(var nPath in newPaths)
+            {
+                metaList.AddRange(_gf.GetMetaList(nPath));
+            }
+            
+
+
+            return View("Review", metaList);
+        }
 
         public IActionResult ProcessFiles()
         {

@@ -10,12 +10,25 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WFTileCounter.ControllersProcessing;
 using WFTileCounter.Models;
 
 namespace WFTileCounter.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly DatabaseContext _db; //database context shortcut
+        private IHostingEnvironment _env;
+
+
+        public HomeController(DatabaseContext context, IHostingEnvironment env)
+        {
+            _db = context;
+            _env = env;
+        }
+
+
         public IActionResult Index()
         {
             return View();
@@ -45,34 +58,46 @@ namespace WFTileCounter.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadFile(IEnumerable<IFormFile> fileList)
         {
+            var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
+            string userId = "1";  // this will need to be updated to be dynamically assigned, and a default case for non users?
+            var webRoot = _env.WebRootPath;
+            string directoryPath = Path.Combine(webRoot,"temp_uploads", userId);
+
             foreach (var file in fileList)
             {
                 if (file == null || file.Length == 0)
                     return Content("file not selected");
 
-                var path = Path.Combine(
-                            System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads",
+               var imagePath = Path.Combine(directoryPath,
                             file.FileName);
+                
+                Directory.CreateDirectory(directoryPath);
 
 
-                if (System.IO.File.Exists(path))
+                if (System.IO.File.Exists(imagePath))
                 {
-                    System.IO.File.Delete(path);
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    System.IO.File.Delete(imagePath);
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
+                        
                     }
                 }
                 else
                 {
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    using (var stream = new FileStream(imagePath, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
+                        
                     }
+
                 }
+                
             }
 
-            return View("Index");
+
+            ViewData["UserID"] = userId;
+            return RedirectToAction("ProcessUploadedFiles", "Process");
         }
 
 

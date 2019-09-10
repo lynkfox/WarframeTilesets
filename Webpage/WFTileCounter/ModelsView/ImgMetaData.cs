@@ -40,6 +40,8 @@ namespace WFTileCounter.ModelsView
         [Display(Name ="Alternate Tileset:" )]
         public string AlternateTileset { get; set; }
         public TileImage TileImageInfo { get; set; }
+        public string UploadedScreenshotImagePath { get; set; }
+
 
 
         [Display(Name = "Possible Duplicate!!!")]

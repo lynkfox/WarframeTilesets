@@ -152,7 +152,71 @@ namespace WFTileCounter.ControllersProcessing
             return metaList;
         }
 
-        
+        internal List<string> MoveFilesToMapIdDirectory(string uploadPath)
+        {
+            
+            string[] filePaths = Directory.GetFiles(uploadPath);
+            bool validWFImage = true;
+            string newMapIdDirectoryPath ="";
+            List<string> newDirectoryPaths = new List<string>();
+            bool atLeastOneValidImageMoved = false;
+
+            foreach(var file in filePaths)
+            {
+
+
+                var directories = MetadataExtractor.ImageMetadataReader.ReadMetadata(file);
+                var values = new List<string>();
+                var mapInfo = new List<string>();
+
+
+
+                foreach (var directory in directories)
+                {
+                    string mapId = "";
+                    if (directory.Name == "JpegComment")
+                    {
+                        values = directory.Tags[0].Description.Split(new char[] { ' ' }).ToList();
+
+                        //remove all the extra info we don't need
+                        values.RemoveAll(x => x == "" || x == "Zone:" || x == "Log:" || x == "P:");
+                        if (values.Count == 7)
+                        {
+                            mapInfo = values[0].Split('/').ToList();
+                            mapId = mapInfo.Last().Substring(0,mapInfo.Last().Length - 3);
+                            // needs to use UserID eventually...
+                            newMapIdDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwRoot", "Uploads", "1", mapId);
+                            Directory.CreateDirectory(newMapIdDirectoryPath);
+                            validWFImage = true;
+                        }
+                        else
+                        { validWFImage = false;  }
+                    }
+                }
+
+                if(validWFImage)
+                {
+                    string newFileNameAndPath = Path.Combine(newMapIdDirectoryPath, Path.GetFileName(file).ToString());
+                    File.Move(file, newFileNameAndPath);
+                    if(newDirectoryPaths.Count == 0 || !newDirectoryPaths.Contains(newMapIdDirectoryPath))
+                    {
+                        newDirectoryPaths.Add(newMapIdDirectoryPath);
+                    }
+                    atLeastOneValidImageMoved = true;
+                }
+            }
+
+            if (atLeastOneValidImageMoved)
+            {
+                return newDirectoryPaths;
+            }
+            else
+            {
+                return null;
+            }
+            
+
+        }
 
 
 

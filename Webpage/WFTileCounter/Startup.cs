@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,10 @@ namespace WFTileCounter
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
+            //temp data requirements
+            services.AddSession();
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+
             services.Configure<FormOptions>(options =>
             {
                 options.ValueCountLimit = int.MaxValue;
@@ -64,6 +69,9 @@ namespace WFTileCounter
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            //temp data use
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
