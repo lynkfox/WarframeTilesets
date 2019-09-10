@@ -109,6 +109,14 @@ namespace WFTileCounter.ControllersProcessing
                 {
                     keepTheseTiles.Add(piece);
                 }
+                else
+                {
+                    //find the file in the upload section
+
+
+                    var pathToDeleteFile = _gf.GetPath(piece);
+                    System.IO.File.Delete(pathToDeleteFile);
+                }
                 //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
             }
 

@@ -50,6 +50,15 @@ namespace WFTileCounter.ControllersProcessing
             return @"C:\Users\lynkf\Pictures\Warframe";
         }
 
+        public string GetPath(ImgMetaData data)
+        {
+            string userId = "1"; // need to make this dynamic
+            string mapID = data.MapIdentifier.Substring(0, data.MapIdentifier.Length - 3);
+            string fileName = data.FileName;
+
+            return Path.Combine(Directory.GetCurrentDirectory(), "wwwRoot", "Uploads", userId, mapID, fileName);
+        }
+
 
         /* Reads a CSV file and returns a list of what DE uses to name their Missions added on to the Tileset Names, and what we're going to call them so its easier to read
          * 
@@ -160,6 +169,7 @@ namespace WFTileCounter.ControllersProcessing
             string newMapIdDirectoryPath ="";
             List<string> newDirectoryPaths = new List<string>();
             bool atLeastOneValidImageMoved = false;
+            string userId = "1"; // need to make this dynamic at some point...
 
             foreach(var file in filePaths)
             {
@@ -185,7 +195,7 @@ namespace WFTileCounter.ControllersProcessing
                             mapInfo = values[0].Split('/').ToList();
                             mapId = mapInfo.Last().Substring(0,mapInfo.Last().Length - 3);
                             // needs to use UserID eventually...
-                            newMapIdDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwRoot", "Uploads", "1", mapId);
+                            newMapIdDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwRoot", "Uploads", userId, mapId);
                             Directory.CreateDirectory(newMapIdDirectoryPath);
                             validWFImage = true;
                         }
