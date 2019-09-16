@@ -246,7 +246,7 @@ namespace WFTileCounter.ControllersProcessing
         public List<InsertReadyData> ConvertToDatabase(List<ImgMetaData> metaDataList)
         {
 
-            
+            GeneralFunctions _gf = new GeneralFunctions(_db);
 
             
 
@@ -279,8 +279,8 @@ namespace WFTileCounter.ControllersProcessing
                     run.LogRange = metaDataList[i].LogNum;
                     run.FullRun = metaDataList[i].FullRun;
 
-                    //test purposes, fix this to be dynamic later
-                    run.UserID = 1;
+                    
+                    run.UserID = _gf.GetUserId();
 
                     //add the unique data to the processing temp object
                     singleMapInsertReady.Mission = mission;

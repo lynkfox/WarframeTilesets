@@ -397,7 +397,197 @@ namespace WFTileCounter.ControllersProcessing
         private string GetTileName(string faction, string tilename, string tileset)
         {
 
-            string threeLtrQualifier = faction.Substring(0, 3);
+            string threeLtrQualifier = tilename.Substring(0, 3);
+
+            if(tileset == "CorpusGasCity" && threeLtrQualifier == "Gas")
+            {
+                return "Corpus" + tilename;
+            }
+            else if (tileset == "CorpusGasCity" && threeLtrQualifier != "Gas")
+            {
+                return "CorpusGas" + tilename;
+            } else if (tileset == "CorpusArchwing" && threeLtrQualifier.Substring(0,2) == "TR")
+            {
+                string adjustedTileName = tilename.Substring(2);
+                return "CorpusArchwing" + tilename;
+            }
+            else if (tileset == "CorpusArchwing" && threeLtrQualifier.Substring(0, 2) != "TR")
+            {
+                return "CorpusArchwing" + tilename;
+            }
+            else if (tileset == "CorpusIcePlanet" && threeLtrQualifier == "Ice")
+            {
+                return "Corpus" + tilename;
+            }
+            else if (tileset == "CorpusIcePlanet" && threeLtrQualifier != "Ice")
+            {
+                return "CorpusIce" + tilename;
+            }
+            else if (tileset == "CorpusOutpost" && tilename.Contains("Outpost"))
+            {
+                return "Corpus" + tilename;
+            }
+            else if (tileset == "CorpusOutpost" && !tilename.Contains("Outpost"))
+            {
+                if(threeLtrQualifier == "Crp")
+                {
+                    string adjustedTileName = tilename.Substring(3);
+                    return "CorpusOutpost" + adjustedTileName;
+                }
+                return "CorpusOutpost" + tilename;
+            }
+            else if (tileset == "CorpusShip" && threeLtrQualifier == "Crp")
+            {
+                string adjustedTileName = tilename.Substring(3);
+                return "CorpusShip" + adjustedTileName;
+            }
+            else if (tileset == "CorpusShip" && threeLtrQualifier != "Crp")
+            {
+                return "CorpusShip" + tilename;
+            }
+            else if (tileset == "CorpusToGrineer" && tilename.Contains("InvasionC2G"))
+            {
+                return tilename;
+            }
+            else if (tileset == "CorpusToGrineer" && !tilename.Contains("InvasionC2G"))
+            {
+                return "InvasionC2G" + tilename;
+            }
+            else if (tileset == "GrineerArchwing" && tilename.Contains("Spline"))
+            {
+                int tileSetLength = "Spline".Length;
+                string adjustedTileName = tilename.Substring(tileSetLength);
+                return "GrineerArchwing" + adjustedTileName;
+            }
+            else if (tileset == "GrineerArchwing" && !tilename.Contains("Spline"))
+            {
+                return "GrineerArchwing" + tilename;
+            }
+            else if (tileset == "GrineerAsteroid" && threeLtrQualifier == "Grn")
+            {
+                string adjustedTileName = tilename.Substring(3);
+                return "GrineerAsteroid" + adjustedTileName;
+            }
+            else if (tileset == "GrineerAsteroid" && threeLtrQualifier != "Grn")
+            {
+                return "GrineerAsteroid" + tilename;
+            }
+            else if (tileset == "GrineerForest" && threeLtrQualifier == "Gft")
+            {
+                string adjustedTileName = tilename.Substring(3);
+                return "GrineerForest" + adjustedTileName;
+            }
+            else if (tileset == "GrineerForest" && threeLtrQualifier == "Gft")
+            {
+                return "GrineerForest" + tilename;
+            }
+            else if (tileset == "GrineerFortress" && tilename.Contains("Fort"))
+            {
+                string adjustedTileName = tilename.Substring(4);
+                return "GrineerFortress" + adjustedTileName;
+            }
+            else if (tileset == "GrineerFortress" && threeLtrQualifier != "For")
+            {
+                return "GrineerFortress" + tilename;
+            }
+            else if (tileset == "GrineerGalleon" && tilename.Contains("Galleon"))
+            {
+                return "Grineer" + tilename;
+            }
+            else if (tileset == "GrineerGalleon" && !tilename.Contains("Galleon"))
+            {
+                if(threeLtrQualifier == "Grn")
+                {
+                    string adjustedTileName = tilename.Substring(3);
+                    return "GrineerGalleon" + adjustedTileName;
+                }
+                return "GrineerGalleon" + tilename;
+            }
+            else if (tileset == "GrineerOcean" && tilename.Contains("GrineerOcean"))
+            {
+                return tilename;
+            }
+            else if (tileset == "GrineerOcean" && !tilename.Contains("GrineerOcean"))
+            {
+                return "GrineerOcean" + tilename;
+            }
+            else if (tileset == "GrineerSettlement" && threeLtrQualifier == "Cmp")
+            {
+                string adjustedTileName = tilename.Substring(3);
+                return "GrineerSettlement" + tilename;
+            }
+            else if (tileset == "GrineerSettlement" && threeLtrQualifier != "Cmp")
+            {
+                if(tilename.Contains("GrineerSettlement"))
+                {
+                    return tilename;
+                }
+                else
+                {
+                    return "GrineerSettlement" + tilename;
+                }
+            }
+            else if (tileset == "GrineerShipyard" && tilename.Contains("Shipyards"))
+            {
+                return "Grineer" + tilename;
+            }
+            else if (tileset == "GrineerShipyard" && !tilename.Contains("Shipyards"))
+            {
+                return "GrineerShipyards" + tilename;
+            }
+            else if (tileset == "GrineerToCorpus" && tilename.Contains("InvasionG2C"))
+            {
+                return tilename;
+            }
+            else if (tileset == "GrineerToCorpus" && !tilename.Contains("InvasionG2C"))
+            {
+                return "InvasionG2C" + tilename;
+            }
+            else if (tileset == "InfestedCorpusShip" && tilename.Contains("Infested"))
+            {
+                return tilename;
+            }
+            else if (tileset == "InfestedCorpusShip" && !tilename.Contains("Infested"))
+            {
+                return "Infested" + tilename;
+            }
+            else if (tileset == "OrokinMoon" && tilename.Contains("Moon"))
+            {
+                return "Orokin"+tilename;
+            }
+            else if (tileset == "OrokinMoon" && !tilename.Contains("Moon"))
+            {
+                return "OrokinMoon" + tilename;
+            }
+            else if (tileset == "OrokinTower" && tilename.Contains("OrokinTower"))
+            {
+                return tilename;
+            }
+            else if (tileset == "OrokinTower" && !tilename.Contains("OrokinTower"))
+            {
+                return "OrokinTower" + tilename;
+            }
+            else if (tileset == "OrokinTowerDerelict" && tilename.Contains("Derelict"))
+            {
+                int tileNameLength = tilename.Length;
+                int lengthOfDerelictWord = "Derelict".Length;
+                if(tilename.Substring(tileNameLength-lengthOfDerelictWord) == "Derelict") // if the end of the tilename has Derelict on it already, we're going to move it to the front.
+                {
+                    string adjustedName = tilename.Substring(0, tileNameLength - lengthOfDerelictWord);
+                    return "OrokinDerelict" + adjustedName;
+                }
+                else
+                {
+                    return "Orokin" + tilename;
+                }
+                
+            }
+            else if (tileset == "OrokinTowerDerelict" && !tilename.Contains("Derelict"))
+            {
+                return "OrokinDerelict" + tilename;
+            }
+
+            /*
 
 
             //switch Gri to Grn to maintain how DE did it on tilesets that have it already
@@ -477,6 +667,9 @@ namespace WFTileCounter.ControllersProcessing
                 return tilename;
             }
 
+            */
+
+            return "??? tset: " +tileset + "tile: " + tilename;
             
         }
 
@@ -549,7 +742,7 @@ namespace WFTileCounter.ControllersProcessing
             }
 
 
-            return value + "??? - Check Me";
+            return value + "??? - Check Me: " +value;
 
         }
 

@@ -67,6 +67,11 @@ namespace WFTileCounter.ControllersProcessing
 
             List<string> newPaths =_gf.MoveFilesToMapIdDirectory(path);
 
+            if(newPaths.Count == 0)
+            {
+                return View("NoData");
+            }
+
             foreach(var nPath in newPaths)
             {
                 metaList.AddRange(_gf.GetMetaList(nPath));
