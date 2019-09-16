@@ -211,6 +211,9 @@ namespace WFTileCounter.ControllersProcessing
                         File.Move(file, newFileNameAndPath);
                         
                         
+                    } else //if file exists already
+                    {
+                        File.Delete(file); //delete it out of the temp uploads directory to clean up.
                     }
                     if (newDirectoryPaths.Count == 0 || !newDirectoryPaths.Contains(newMapIdDirectoryPath))
                     {
