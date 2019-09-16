@@ -342,3 +342,6 @@ healthchecksdb
 
 #Ingore the Upload Folder of the website and all directories below
 Uploads/
+
+#ignore the temp_uploads folder tool
+temp_uploads/
