@@ -341,4 +341,4 @@ healthchecksdb
 
 
 #Ingore the Upload Folder of the website and all directories below
-Upload/
+Uploads/
