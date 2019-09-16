@@ -404,7 +404,7 @@ namespace WFTileCounter.ControllersProcessing
             } else if (tileset == "CorpusArchwing" && threeLtrQualifier.Substring(0,2) == "TR")
             {
                 string adjustedTileName = tilename.Substring(2);
-                return "CorpusArchwing" + tilename;
+                return "CorpusArchwing" + adjustedTileName;
             }
             else if (tileset == "CorpusArchwing" && threeLtrQualifier.Substring(0, 2) != "TR")
             {
@@ -509,7 +509,7 @@ namespace WFTileCounter.ControllersProcessing
             else if (tileset == "GrineerSettlement" && threeLtrQualifier == "Cmp")
             {
                 string adjustedTileName = tilename.Substring(3);
-                return "GrineerSettlement" + tilename;
+                return "GrineerSettlement" + adjustedTileName;
             }
             else if (tileset == "GrineerSettlement" && threeLtrQualifier != "Cmp")
             {
@@ -560,6 +560,10 @@ namespace WFTileCounter.ControllersProcessing
             }
             else if (tileset == "OrokinTower" && !tilename.Contains("OrokinTower"))
             {
+                if(threeLtrQualifier == "Oro")
+                {
+                    tilename = tilename.Substring(3);
+                }
                 return "OrokinTower" + tilename;
             }
             else if (tileset == "OrokinTowerDerelict" && tilename.Contains("Derelict"))

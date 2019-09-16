@@ -120,7 +120,11 @@ namespace WFTileCounter.ControllersProcessing
 
 
                     var pathToDeleteFile = _gf.GetPath(piece);
-                    System.IO.File.Delete(pathToDeleteFile);
+                    if(System.IO.File.Exists(pathToDeleteFile))
+                    {
+                        System.IO.File.Delete(pathToDeleteFile);
+                    }
+                    
                 }
                 //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
             }
