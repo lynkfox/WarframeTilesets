@@ -104,7 +104,7 @@ namespace WFTileCounter.ControllersProcessing
                      */
 
                     List<MapPoint> map = new List<MapPoint>();
-                    foreach (var tile in data.Tiles)
+                    foreach (var tile in data.CompleteTileList)
                     {
                         var mapPoint = new MapPoint();
 

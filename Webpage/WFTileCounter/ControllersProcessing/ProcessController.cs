@@ -67,7 +67,7 @@ namespace WFTileCounter.ControllersProcessing
 
             List<string> newPaths =_gf.MoveFilesToMapIdDirectory(path);
 
-            if(newPaths.Count == 0 || newPaths is null)
+            if (newPaths == null)
             {
                 return View("NoData");
             }

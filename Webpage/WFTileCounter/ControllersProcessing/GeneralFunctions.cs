@@ -194,7 +194,6 @@ namespace WFTileCounter.ControllersProcessing
                         {
                             mapInfo = values[0].Split('/').ToList();
                             mapId = mapInfo.Last().Substring(0,mapInfo.Last().Length - 3);
-                            // needs to use UserID eventually...
                             newMapIdDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwRoot", "Uploads", userId, mapId);
                             Directory.CreateDirectory(newMapIdDirectoryPath);
                             validWFImage = true;
@@ -310,8 +309,9 @@ namespace WFTileCounter.ControllersProcessing
                         { // the only way that tileset will be null is if the tileset is one listed in the Non ProcedualSets list. if its null, then this is not a good tile, and we're tossing it.
                             return null;
                         }
-                        metaData.MapIdentifier = mapInfo[2];
-                        metaData.TileName = GetTileName(metaData.FactionName, tileNameHolder, metaData.Tileset);
+                        int mapIdLength = mapInfo[2].Length;
+                        metaData.MapIdentifier = mapInfo[2].Substring(0, mapIdLength - 3); // last 3 are .lp which we don't need for any purpose that I can see yet.
+                        metaData.TileName = GetTileName(tileNameHolder, metaData.Tileset);
                         mapInfo.Clear();
                         metaData.TileImageInfo = GetMapImagePath(metaData.TileName);
 
@@ -325,6 +325,13 @@ namespace WFTileCounter.ControllersProcessing
                         {
                             metaData.FactionName = "Infested";
                         }
+
+
+                        //get the new imagepath for where it will be stored on the server
+                        metaData.FileName = Path.GetFileName(path);
+                        string userId = GetUserId().ToString();
+                        string screenShotImagePath = Path.Combine("Uploads", userId, metaData.MapIdentifier, metaData.FileName);
+                        metaData.UploadedScreenshotImagePath = screenShotImagePath;
 
 
                         validFile = true;
@@ -379,7 +386,7 @@ namespace WFTileCounter.ControllersProcessing
 
         }
 
-        private string GetTileName(string faction, string tilename, string tileset)
+        private string GetTileName(string tilename, string tileset)
         {
 
             string threeLtrQualifier = tilename.Substring(0, 3);
