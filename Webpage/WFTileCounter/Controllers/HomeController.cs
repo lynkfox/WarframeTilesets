@@ -56,6 +56,7 @@ namespace WFTileCounter.Controllers
         // and I'll probably move it out of the HomeController.
 
         [HttpPost]
+        [DisableRequestSizeLimit]
         public async Task<IActionResult> UploadFile(IEnumerable<IFormFile> fileList)
         {
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.

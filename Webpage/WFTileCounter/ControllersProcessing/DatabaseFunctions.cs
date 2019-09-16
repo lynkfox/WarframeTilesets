@@ -122,15 +122,8 @@ namespace WFTileCounter.ControllersProcessing
                         }
                         else
                         {
-                            if (!String.IsNullOrEmpty(tile.AlternateTileset))
-                            {
-                                t.AlternateTileset = tile.AlternateTileset;
-                                t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
-                            }
-                            else
-                            {
-                                t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
-                            }
+                            t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                            
 
                             mapPoint.Tile = t;
 
@@ -183,15 +176,9 @@ namespace WFTileCounter.ControllersProcessing
                             }
                             else
                             {
-                                if (!String.IsNullOrEmpty(tile.AlternateTileset))
-                                {
-                                    t.AlternateTileset = tile.AlternateTileset;
-                                    t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
-                                }
-                                else
-                                {
-                                    t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
-                                }
+                               
+                               t.Tileset = _db.Tiles.Where(x => x.Name == t.Name).Include(x => x.Tileset).FirstOrDefault().Tileset;
+                                
 
                                 mapPoint.Tile = t;
 
@@ -296,7 +283,6 @@ namespace WFTileCounter.ControllersProcessing
                 var tile = new Tile();
                 tile.Name = metaDataList[i].TileName;
                 tile.Tileset = tileset;
-                tile.AlternateTileset = metaDataList[i].AlternateTileset;
                 tile.Coords = metaDataList[i].Coords;
 
                 var checkAgainstDatabase = CheckTileAlreadyExists(metaDataList[i].TileName);

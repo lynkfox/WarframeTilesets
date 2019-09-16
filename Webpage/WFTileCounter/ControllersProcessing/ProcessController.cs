@@ -67,7 +67,7 @@ namespace WFTileCounter.ControllersProcessing
 
             List<string> newPaths =_gf.MoveFilesToMapIdDirectory(path);
 
-            if(newPaths.Count == 0)
+            if(newPaths.Count == 0 || newPaths is null)
             {
                 return View("NoData");
             }
@@ -125,7 +125,7 @@ namespace WFTileCounter.ControllersProcessing
                 //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
             }
 
-            if (keepTheseTiles.Count() == 0)
+            if (keepTheseTiles.Count() == 0 || keepTheseTiles is null)
             {
                 return View("NoData");
             }

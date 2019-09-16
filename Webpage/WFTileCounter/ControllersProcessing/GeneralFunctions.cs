@@ -85,7 +85,7 @@ namespace WFTileCounter.ControllersProcessing
                 {
                     continue;
 
-                }else if(metaData.MissionType.Contains("???") || metaData.Tileset.Contains("???"))
+                }else if(metaData.MissionType.Contains("???") || metaData.Tileset.Contains("???") | metaData.TileName.Contains("???"))
                 {
                     //if the MissionType or the Tileset hits the final return, it will add ??? to the name. - this is usually a bad image, or something new that hasn't been added to special cases yet
                     // so we check for that so we can auto exclude files that don't have the proper checks for their MissionType/Tileset
@@ -168,7 +168,7 @@ namespace WFTileCounter.ControllersProcessing
             bool validWFImage = true;
             string newMapIdDirectoryPath ="";
             List<string> newDirectoryPaths = new List<string>();
-            bool atLeastOneValidImageMoved = false;
+            bool atLeastOneValidImageInDirectory = false;
             string userId = GetUserId().ToString();
 
             foreach(var file in filePaths)
@@ -207,16 +207,22 @@ namespace WFTileCounter.ControllersProcessing
                 if(validWFImage)
                 {
                     string newFileNameAndPath = Path.Combine(newMapIdDirectoryPath, Path.GetFileName(file).ToString());
-                    File.Move(file, newFileNameAndPath);
-                    if(newDirectoryPaths.Count == 0 || !newDirectoryPaths.Contains(newMapIdDirectoryPath))
+                    if(!File.Exists(newFileNameAndPath))
+                    {
+                        File.Move(file, newFileNameAndPath);
+                        
+                        
+                    }
+                    if (newDirectoryPaths.Count == 0 || !newDirectoryPaths.Contains(newMapIdDirectoryPath))
                     {
                         newDirectoryPaths.Add(newMapIdDirectoryPath);
                     }
-                    atLeastOneValidImageMoved = true;
+                    atLeastOneValidImageInDirectory = true;
+
                 }
             }
 
-            if (atLeastOneValidImageMoved)
+            if (atLeastOneValidImageInDirectory)
             {
                 return newDirectoryPaths;
             }
@@ -320,27 +326,6 @@ namespace WFTileCounter.ControllersProcessing
                             metaData.FactionName = "Infested";
                         }
 
-
-
-                        string[] tilesetNames = CheckDuplicateTileDiffTileset(metaData.TileName, metaData.Tileset);
-
-                        metaData.Tileset = tilesetNames[0];
-                        metaData.AlternateTileset = tilesetNames[1];
-
-                        // The Spy Vaults are identical with the same names across many different tilesets for corpus and grineer.
-                        // Lua Spy Vaults are unique to lua, no need to change them
-                        // Kuva Spyvaults are unique to Grineer Fortress, and we're using Kuva for their faction name.
-                        // we're overriding whatever the CheckDuplicateTileDifTileset might have set here, on purpose.
-                        if (metaData.TileName.Contains("SpyVault") && ( metaData.FactionName =="Grineer" || metaData.FactionName=="Corpus" )) 
-                        {
-                            metaData.AlternateTileset = metaData.FactionName;
-                            metaData.Tileset = metaData.FactionName + "SpyVault";
-                        }
-
-
-                        
-
-                        
 
                         validFile = true;
 
@@ -527,11 +512,11 @@ namespace WFTileCounter.ControllersProcessing
                     return "GrineerSettlement" + tilename;
                 }
             }
-            else if (tileset == "GrineerShipyard" && tilename.Contains("Shipyards"))
+            else if (tileset == "GrineerShipyards" && tilename.Contains("Shipyards"))
             {
                 return "Grineer" + tilename;
             }
-            else if (tileset == "GrineerShipyard" && !tilename.Contains("Shipyards"))
+            else if (tileset == "GrineerShipyards" && !tilename.Contains("Shipyards"))
             {
                 return "GrineerShipyards" + tilename;
             }
@@ -587,87 +572,6 @@ namespace WFTileCounter.ControllersProcessing
                 return "OrokinDerelict" + tilename;
             }
 
-            /*
-
-
-            //switch Gri to Grn to maintain how DE did it on tilesets that have it already
-
-            if (threeLtrQualifier == "Gri")
-            {
-                threeLtrQualifier = "Grn";
-            }
-            else if (threeLtrQualifier == "Cor") // To keep a sort of standard op, do the same for Corpus 
-            {
-                threeLtrQualifier = "Crp";
-            } else if (threeLtrQualifier == "Oro")
-            {
-                threeLtrQualifier = "Okn";
-            }
-
-
-            // first get the first 3 letters of the Faction: Cor, Gri, Oro, Inf
-
-            string alreadyThreeLtrQualifierCheck = tilename.Substring(0, 3);
-
-
-            //Special casses:
-
-
-            // some of the Derelict tiles don't have Derelict in them. Add it to the end, like the others
-            if (tileset == "OrokinTowerDerelict") 
-            {
-                if(tilename.Contains("Derelict"))
-                {
-                    return tilename;
-                }
-                else
-                {
-                    return tilename + "Derelict";
-                }
-            }
-            //These are Invasion names for the Tilesets. They use the same names as the regular tiles, but they have battle damage, usually. Adding a qualifier to seperate
-            else if (tileset == "GrineerToCorpus") 
-            {
-                return "Inv" + tilename;
-            }
-            else if (tileset == "CorpusToGrineer")
-            {
-                return "Inv" + tilename;
-
-            }
-            else if (tileset == "GrineerForest") //Grineer Forest Special case, uses Gft already so no need to add anything
-            {
-                return tilename;
-            }
-            else if (tileset == "CorpusGasCity") //Everyone of these tiles begins with Gas, making it unique enough.
-            {
-                return tilename;
-            }
-            else if (alreadyThreeLtrQualifierCheck != threeLtrQualifier || tilename.Contains("Corner")) //edge case, corner triggers Cor
-            {//if not, add it to make all tile names Unique (so DeadEnd2 on CorpusShip and DeadEnd2 on Orokin Tower are different.
-
-
-                
-
-                //finally check if it already starts with Crp or Grn, or contains another qualifier that will make it unique.
-                if (alreadyThreeLtrQualifierCheck == "Crp" || alreadyThreeLtrQualifierCheck == "Grn" || tilename.Contains("Grineer") || tilename.Contains("Corpus")
-                    || tilename.Contains("Infested") || tilename.Contains("Moon") || tilename.Contains("Derelict"))
-                {
-                    return tilename;
-                }
-                else
-                {
-                    return threeLtrQualifier + tilename;
-                }
-
-
-            }
-            else
-            {
-                return tilename;
-            }
-
-            */
 
             return "??? tset: " +tileset + "tile: " + tilename;
             
@@ -842,49 +746,7 @@ namespace WFTileCounter.ControllersProcessing
         }
 
 
-        private string[] CheckDuplicateTileDiffTileset(string tileName, string tileset)
-        {
-            var tileInDbPlusTileset = _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).FirstOrDefault();
-            string[] tilesetNames = new string[2];
-
-            if (tileInDbPlusTileset is null) // Can't find the tile in the db, must be a new one. Safe to set Tileset
-            {
-                tilesetNames[0] = tileset;
-                tilesetNames[1] = null;
-                return tilesetNames;
-            }
-            else if (tileInDbPlusTileset.Tileset.Name != tileset && !string.IsNullOrEmpty(tileInDbPlusTileset.AlternateTileset))
-            {
-                //find the tile, and it already has an alternate. 
-
-
-                /* note - this does not work if we find out a tile might stretch across 3 tilesets. I don't ... think they do? but we'll have to watch out
-                 */
-                tilesetNames[0] = tileInDbPlusTileset.Tileset.Name;
-                tilesetNames[1] = tileInDbPlusTileset.AlternateTileset;
-                return tilesetNames;
-            }
-            else if(tileInDbPlusTileset.Tileset.Name != tileset && string.IsNullOrEmpty(tileInDbPlusTileset.AlternateTileset))
-            {
-                //find the tile, and it has a null for AlternateTileset, and the tileset in the db is different than the one we're passing in.
-                tilesetNames[0] = tileInDbPlusTileset.Tileset.Name;
-                tilesetNames[1] = tileset;
-                return tilesetNames;
-            } else if(tileInDbPlusTileset.Tileset.Name == tileset)
-            {
-                //if the tile in the database has the same tilesetname as whats been passed in
-                
-                tilesetNames[0] = tileset;
-                tilesetNames[1] = tileInDbPlusTileset.AlternateTileset;
-                return tilesetNames;
-                
-            } else // should have caught all of possiblities above, but just in case: 
-            {
-                tilesetNames[0] = tileset;
-                tilesetNames[1] = tileInDbPlusTileset.AlternateTileset;
-                return tilesetNames;
-            }
-        }
+       
 
         private TileImage GetMapImagePath(string tileName)
         {

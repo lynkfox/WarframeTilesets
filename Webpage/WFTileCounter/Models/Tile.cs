@@ -25,9 +25,6 @@ namespace WFTileCounter.Models
         [MaxLength(100)]
         public Tileset Tileset { get; set; }
 
-        [Display(Name="Alternate Tileset: ")]
-        [MaxLength(100)]
-        public string AlternateTileset { get; set; }
 
 
         public TileDetail TileDetail { get; set; }

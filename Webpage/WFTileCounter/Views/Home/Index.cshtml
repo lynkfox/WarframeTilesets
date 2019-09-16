@@ -5,14 +5,26 @@
 
 
 
-    <environment include="Development">
-        <strong>Development Environment Only Command - Process all Pictures/Warframe files --></strong> @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
+<environment include="Development">
+    <strong>Development Environment Only Command - Process all Pictures/Warframe files in pictures directory --></strong> @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
 
-    </environment>
-
-
+</environment>
 
 
+<environment include="Development">
+    <strong>Development Environment</strong>
+
+
+<form asp-controller="Home" asp-action="UploadFile" method="post"
+      enctype="multipart/form-data">
+
+    <input type="file" name="fileList" multiple />
+    <button type="submit">Upload File</button>
+</form>
+
+
+<hr />
+</environment>
 <hr />
 
 
@@ -153,17 +165,6 @@
 
 
 <hr />
-<environment include="Development">
-    <strong>Development Environment - This is NOT HOOKED UP</strong>
-</environment>
 
-<form asp-controller="Home" asp-action="UploadFile" method="post"
-      enctype="multipart/form-data">
-
-    <input type="file" name="fileList" multiple />
-    <button type="submit">Upload File</button>
-</form>
-
-<hr />
 
 
