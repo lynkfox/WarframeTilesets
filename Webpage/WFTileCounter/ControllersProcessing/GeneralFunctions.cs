@@ -52,7 +52,7 @@ namespace WFTileCounter.ControllersProcessing
 
         public string GetPath(ImgMetaData data)
         {
-            string userId = "1"; // need to make this dynamic
+            string userId = GetUserId().ToString();
             string mapID = data.MapIdentifier.Substring(0, data.MapIdentifier.Length - 3);
             string fileName = data.FileName;
 
@@ -169,7 +169,7 @@ namespace WFTileCounter.ControllersProcessing
             string newMapIdDirectoryPath ="";
             List<string> newDirectoryPaths = new List<string>();
             bool atLeastOneValidImageMoved = false;
-            string userId = "1"; // need to make this dynamic at some point...
+            string userId = GetUserId().ToString();
 
             foreach(var file in filePaths)
             {
@@ -731,6 +731,12 @@ namespace WFTileCounter.ControllersProcessing
         }
 
 
+
+        public int GetUserId()
+        {
+            //return = ViewData["UserID"].ToString();  -- temp data got get this to work?
+            return 1;
+        }
 
 
 

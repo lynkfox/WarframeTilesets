@@ -59,7 +59,7 @@ namespace WFTileCounter.Controllers
         public async Task<IActionResult> UploadFile(IEnumerable<IFormFile> fileList)
         {
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
-            string userId = "1";  // this will need to be updated to be dynamically assigned, and a default case for non users?
+            string userId = _gf.GetUserId().ToString();
             var webRoot = _env.WebRootPath;
             string directoryPath = Path.Combine(webRoot,"temp_uploads", userId);
 

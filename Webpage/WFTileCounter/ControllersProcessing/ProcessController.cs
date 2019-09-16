@@ -61,8 +61,8 @@ namespace WFTileCounter.ControllersProcessing
             List<ImgMetaData> metaList = new List<ImgMetaData>();
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
             var webRoot = _env.WebRootPath;
-            //string userId = ViewData["UserID"].ToString();  -- temp data got get this to work?
-            string userId = "1";
+            
+            string userId = _gf.GetUserId().ToString();
             string path = Path.Combine(webRoot, "temp_uploads", userId);
 
             List<string> newPaths =_gf.MoveFilesToMapIdDirectory(path);
@@ -111,7 +111,7 @@ namespace WFTileCounter.ControllersProcessing
                 }
                 else
                 {
-                    //find the file in the upload section
+                    //find the file in the upload section and delete it.
 
 
                     var pathToDeleteFile = _gf.GetPath(piece);
