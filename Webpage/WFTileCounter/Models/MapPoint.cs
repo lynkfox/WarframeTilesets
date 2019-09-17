@@ -26,6 +26,7 @@ namespace WFTileCounter.Models
 
         public enum Scanable
         {
+            Nothing,
             Ordis,
             Somachord,
             FrameFighter,
@@ -37,6 +38,7 @@ namespace WFTileCounter.Models
 
         public enum Collectible
         {
+            Nothing,
             AyatanStatue,
             Medallion,
             AyatanMedallion
