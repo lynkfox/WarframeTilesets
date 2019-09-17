@@ -15,6 +15,32 @@ namespace WFTileCounter.Models
     
     public class MapPoint
     {
+
+        public enum Objective
+        {
+            Nothing,
+            MobileDefense,
+            CaptureSpawn,
+            DefectionRestPoint
+        }
+
+        public enum Scanable
+        {
+            Ordis,
+            Somachord,
+            FrameFighter,
+            OrdisSoma,
+            OrdisFrame,
+            SomaFrame,
+            AllThree
+        }
+
+        public enum Collectible
+        {
+            AyatanStatue,
+            Medallion,
+            AyatanMedallion
+        }
         [Key]
         public int Id { get; set; }
         [Display(Name = "Run ID: ")]
@@ -29,7 +55,11 @@ namespace WFTileCounter.Models
         [Display(Name = "Screenshot Coordinates: ")]
         public string CoordsTaken { get; set; }
 
-        
+
+        public Objective? Objectives { get; set; }
+        public Scanable? Scanables { get; set; }
+        public Collectible? Collectibles { get; set; }
+
         public Run Run { get; set; }
     }
 }

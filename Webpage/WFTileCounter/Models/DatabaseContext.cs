@@ -39,7 +39,18 @@ namespace WFTileCounter.Models
         public DbSet<VariantTile> VariantTiles { get; set; }
         public DbSet<TileDetail> TileDetails { get; set; }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MapPoint>()
+                .Property(c => c.Collectibles)
+                .HasConversion<string>();
+            modelBuilder.Entity<MapPoint>()
+                .Property(c => c.Objectives)
+                .HasConversion<string>();
+            modelBuilder.Entity<MapPoint>()
+                .Property(c => c.Scanables)
+                .HasConversion<string>();
+        }
 
     }
 }
