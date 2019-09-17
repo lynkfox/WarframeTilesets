@@ -44,6 +44,19 @@ namespace WFTileCounter.ModelsView
 
 
 
+        public bool AyatanStatue { get; set; }
+        public bool SyndicateMedallion { get; set; }
+        public bool Ordis { get; set; }
+        public bool Somachord { get; set; }
+        public bool Framefighter { get; set; }
+
+
+        public bool MobileDefenseObjective { get; set; }
+        public bool CaptureSpawn { get; set; }
+        public bool SimarisSpawn { get; set; }
+        public bool DefectionRestPoint { get; set; }
+        public bool KuvaSiphon { get; set; }
+
         [Display(Name = "Possible Duplicate!!!")]
         public bool PossibleDupe { get; set; }
         // for the view, to help alert if perhaps adding a duplicate tile

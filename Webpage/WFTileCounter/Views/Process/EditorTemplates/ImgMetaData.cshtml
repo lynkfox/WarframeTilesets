@@ -229,22 +229,103 @@
 
     <div class="row">
         <div class="col-3">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active list-group-item-dark" id="list-screenshot-list" data-toggle="list" href="#list-screenshot" role="tab" aria-controls="home">Uploaded Screenshot</a>
-                <a class="list-group-item list-group-item-action list-group-item-dark" id="list-generic-list" data-toggle="list" href="#list-generic" role="tab" aria-controls="messages">Generic Tile View</a>
+            
+            <div class="row">
+                <div class="col-12">
+                    <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" style="max-height: 200px; max-width:200px;" class="rounded img-fluid"></center>
+                </div>
             </div>
-            <br />
-            <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" style="max-height: 200px; max-width:200px;" class="rounded img-fluid"><br />Map Image for @Html.DisplayFor(a=>a.TileName)</center>
+            <div class="row">
+                <div class="col-12">
+                    <b>Special Objectives:</b>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/mobiledefense.png" style="width:30px" alt="Mobile Defense Objective" /><br /><span>@Html.CheckBoxFor(a => a.MobileDefenseObjective)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.MobileDefenseObjective)
+                        @Html.ValidationMessageFor(a => a.MobileDefenseObjective)
+                    </div>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/defectionrest.png" style="width:30px" alt="Defection Rest Point" /><br /><span>@Html.CheckBoxFor(a => a.DefectionRestPoint)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.DefectionRestPoint)
+                        @Html.ValidationMessageFor(a => a.DefectionRestPoint)
+                    </div>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/kuvasiphon.png" style="width:30px" alt="Kuva Sipon" /><br /><span>@Html.CheckBoxFor(a => a.KuvaSiphon)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.KuvaSiphon)
+                        @Html.ValidationMessageFor(a => a.KuvaSiphon)
+                    </div>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/capturespawn.png" style="width:30px" alt="Capture Spawn" /><br /><span>@Html.CheckBoxFor(a => a.CaptureSpawn)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.CaptureSpawn)
+                        @Html.ValidationMessageFor(a => a.CaptureSpawn)
+                    </div>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/simarisspawn.png" style="width:30px" alt="Simaris Spawn" /><br /><span>@Html.CheckBoxFor(a => a.SimarisSpawn)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.SimarisSpawn)
+                        @Html.ValidationMessageFor(a => a.SimarisSpawn)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <b>Scannables:</b>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/cephalon.png" style="width:30px" alt="Cephalon Fragment" /><br /><span>@Html.CheckBoxFor(a => a.Ordis)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.Ordis)
+                        @Html.ValidationMessageFor(a => a.Ordis)
+                    </div>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/somachord.png" style="width:30px" alt="Somachord Fragment" /><br /><span>@Html.CheckBoxFor(a => a.Somachord)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.Somachord)
+                        @Html.ValidationMessageFor(a => a.Somachord)
+                    </div>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/framefighter.png" style="width:30px" alt="Frame Fighter Fragment" /><br /><span>@Html.CheckBoxFor(a => a.Framefighter)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.Framefighter)
+                        @Html.ValidationMessageFor(a => a.Framefighter)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <b>Collectibles:</b>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/ayatanstatue.png" style="width:30px" alt="Ayatan Statue" /><br /><span>@Html.CheckBoxFor(a => a.AyatanStatue)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.AyatanStatue)
+                        @Html.ValidationMessageFor(a => a.AyatanStatue)
+                    </div>
+                </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/syndicatemedallion.png" style="width:30px" alt="Syndicate Medallion" /><br /><span>@Html.CheckBoxFor(a => a.SyndicateMedallion)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.SyndicateMedallion)
+                        @Html.ValidationMessageFor(a => a.SyndicateMedallion)
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="col-9">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-screenshot" role="tabpanel" aria-labelledby="list-screenshot-list">
+            
                     <center><img src="@Url.Content(String.Format("~/{0}", Model.UploadedScreenshotImagePath))" alt="@Model.FileName" style="max-height: 450px; max-width:4350px;" class="rounded img-fluid preview"></center>
-                </div>
-                
-                <div class="tab-pane fade" id="list-generic" role="tabpanel" aria-labelledby="list-generic-list">
-                    <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" style="max-height: 450px; max-width:450px;" class="rounded img-fluid"></center>
-                </div>
+
             </div>
         </div>
     </div>

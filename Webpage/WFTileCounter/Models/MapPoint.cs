@@ -21,7 +21,9 @@ namespace WFTileCounter.Models
             Nothing,
             MobileDefense,
             CaptureSpawn,
-            DefectionRestPoint
+            DefectionRestPoint,
+            SimarisSpawn,
+            KuvaSiphon
         }
 
         public enum Scanable
