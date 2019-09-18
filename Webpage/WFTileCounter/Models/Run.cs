@@ -53,6 +53,8 @@ namespace WFTileCounter.Models
         [Display(Name = "Partial Run?")]
         [StringLength(1)]
         public bool FullRun { get; set; }
+        [Display(Name ="Map Points Recorded:")]
+        public bool MapPointsUsed { get; set; }
 
 
 

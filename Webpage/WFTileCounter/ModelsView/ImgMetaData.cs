@@ -71,6 +71,8 @@ namespace WFTileCounter.ModelsView
         public bool First { get; set; }
         //Full run qualifier - true = yes, to best of user knoweldge. False = no.
         public bool FullRun { get; set; }
+        //Are they bothering to record map points here?
+        public bool MapPointsRecorded { get; set; }
 
 
     }

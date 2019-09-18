@@ -288,6 +288,7 @@ namespace WFTileCounter.ControllersProcessing
                     run.Mission = mission;
                     run.LogRange = metaDataList[i].LogNum;
                     run.FullRun = metaDataList[i].FullRun;
+                    run.MapPointsUsed = metaDataList[i].MapPointsRecorded;
 
                     
                     run.UserID = _gf.GetUserId();

@@ -21,7 +21,7 @@
 
     @if (Model.First)
     {
-        <div class="row mb-3 bg-info">
+        <div class="row mb-3 bg-info rounded">
 
 
             <div class="col-sm-2 font-weight-bold border-bottom border-light mb-2 align-items-center">
@@ -38,6 +38,7 @@
             </div>
             <div class="col-sm-3 border-bottom border-light mb-2">
                 <p class="text-center"><span>@Html.CheckBoxFor(a => a.FullRun)</span>  <b>Was this a Complete Run?</b></p>
+                <p class="text-center"><span>@Html.CheckBoxFor(a => a.MapPointsRecorded)</span>  <b>Recording Map Points?</b></p>
             </div>
             <div class="editor-field">
                 @Html.HiddenFor(a => a.First)
@@ -244,15 +245,15 @@
                     <b>Objectives:</b>
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Mobile Defense Objective" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Mobile Defense Objective"><br /><span>@Html.RadioButtonFor(a => a.Objective, "Mobile")</span></center>
+                    <center><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Mobile Defense Objective" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Mobile Defense Objective"><br /><span>@Html.RadioButtonFor(a => a.Objective, "MobileDefense")</span></center>
                     
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/defectionrest.png" style="width:25px" alt="Defection Rest Point" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Rest Point"><br /><span>@Html.RadioButtonFor(a => a.Objective, "Defection")</span></center>
+                    <center><img src="~/img/markers/defectionrest.png" style="width:25px" alt="Defection Rest Point" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Rest Point"><br /><span>@Html.RadioButtonFor(a => a.Objective, "DefectionRestPoint")</span></center>
                    
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Sipon" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"><br /><span>@Html.RadioButtonFor(a => a.Objective, "Kuva")</span></center>
+                    <center><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Sipon" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"><br /><span>@Html.RadioButtonFor(a => a.Objective, "KuvaSiphon")</span></center>
                     <div class="editor-field">
                         @Html.HiddenFor(a => a.Objective)
                         @Html.ValidationMessageFor(a => a.Objective)
