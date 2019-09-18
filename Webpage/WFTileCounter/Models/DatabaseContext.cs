@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WFTileCounter.Models;
 using WFTileCounter.ModelsLogic;
+using static WFTileCounter.Models.MapPoint;
 
 namespace WFTileCounter.Models
 {
@@ -52,14 +53,10 @@ namespace WFTileCounter.Models
                 .HasConversion(x => x.ToString(), x => (Scanable)Enum.Parse(typeof(Scanable), x));
             modelBuilder.Entity<MapPoint>()
                 .Property(c => c.Spawnable)
-<<<<<<< Updated upstream
-                .HasConversion<string>();
-=======
                 .HasConversion(x => x.ToString(), x => (Spawn)Enum.Parse(typeof(Spawn), x));
 
 
 
->>>>>>> Stashed changes
         }
 
     }

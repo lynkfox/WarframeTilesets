@@ -28,7 +28,9 @@ namespace WFTileCounter.Models
         {
             Nothing,
             SimarisSpawn,
-            CaptureSpawn
+            CaptureSpawn,
+            BothSpawn
+
         }
 
         public enum Scanable
@@ -47,7 +49,7 @@ namespace WFTileCounter.Models
         {
             Nothing,
             AyatanStatue,
-            Medallion,
+            SyndicateMedallion,
             AyatanMedallion
         }
         [Key]
@@ -64,21 +66,12 @@ namespace WFTileCounter.Models
         [Display(Name = "Screenshot Coordinates: ")]
         public string CoordsTaken { get; set; }
 
-<<<<<<< Updated upstream
-
-        public Objective? Objectives { get; set; }
-        public Scanable? Scanables { get; set; }
-        public Collectible? Collectibles { get; set; }
-        public Spawn? Spawnable { get; set; }
-
-=======
         
         public Objective Objectives { get; set; }
         public Scanable Scanables { get; set; }
         public Collectible Collectibles { get; set; }
 
         public Spawn Spawnable { get; set; }
->>>>>>> Stashed changes
 
         public Run Run { get; set; }
     }
