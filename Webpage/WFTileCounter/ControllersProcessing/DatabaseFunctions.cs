@@ -284,6 +284,7 @@ namespace WFTileCounter.ControllersProcessing
                 tile.Name = metaDataList[i].TileName;
                 tile.Tileset = tileset;
                 tile.Coords = metaDataList[i].Coords;
+                
 
                 var checkAgainstDatabase = CheckTileAlreadyExists(metaDataList[i].TileName);
                 if (checkAgainstDatabase is null)

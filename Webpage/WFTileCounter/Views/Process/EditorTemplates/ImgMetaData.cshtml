@@ -1,8 +1,12 @@
 ﻿@model  WFTileCounter.ModelsView.ImgMetaData
 
 
-
-
+    <script type="text/javascript">
+        //Initialize tooltip with jQuery
+        $(document).ready(function () {
+            $('.tooltips').tooltip();
+        });
+    </script>
 
 <style>
 
@@ -232,7 +236,7 @@
             
             <div class="row">
                 <div class="col-12">
-                    <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" style="max-height: 200px; max-width:200px;" class="rounded img-fluid"></center>
+                    <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.TileName)"></center>
                 </div>
             </div>
             <div class="row">
@@ -240,24 +244,18 @@
                     <b>Objectives:</b>
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Mobile Defense Objective" /><br /><span>@Html.CheckBoxFor(a => a.MobileDefenseObjective)</span></center>
-                    <div class="editor-field">
-                        @Html.HiddenFor(a => a.MobileDefenseObjective)
-                        @Html.ValidationMessageFor(a => a.MobileDefenseObjective)
-                    </div>
+                    <center><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Mobile Defense Objective" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Mobile Defense Objective"><br /><span>@Html.RadioButtonFor(a => a.Objective, "Mobile")</span></center>
+                    
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/defectionrest.png" style="width:25px" alt="Defection Rest Point" /><br /><span>@Html.CheckBoxFor(a => a.DefectionRestPoint)</span></center>
-                    <div class="editor-field">
-                        @Html.HiddenFor(a => a.DefectionRestPoint)
-                        @Html.ValidationMessageFor(a => a.DefectionRestPoint)
-                    </div>
+                    <center><img src="~/img/markers/defectionrest.png" style="width:25px" alt="Defection Rest Point" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Rest Point"><br /><span>@Html.RadioButtonFor(a => a.Objective, "Defection")</span></center>
+                   
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Sipon" /><br /><span>@Html.CheckBoxFor(a => a.KuvaSiphon)</span></center>
+                    <center><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Sipon" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"><br /><span>@Html.RadioButtonFor(a => a.Objective, "Kuva")</span></center>
                     <div class="editor-field">
-                        @Html.HiddenFor(a => a.KuvaSiphon)
-                        @Html.ValidationMessageFor(a => a.KuvaSiphon)
+                        @Html.HiddenFor(a => a.Objective)
+                        @Html.ValidationMessageFor(a => a.Objective)
                     </div>
                 </div>
                 </div>
@@ -266,14 +264,14 @@
                     <b>Spawns Locations:</b>
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" /><br /><span>@Html.CheckBoxFor(a => a.CaptureSpawn)</span></center>
+                    <center><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"><br /><span>@Html.CheckBoxFor(a => a.CaptureSpawn)</span></center>
                     <div class="editor-field">
                         @Html.HiddenFor(a => a.CaptureSpawn)
                         @Html.ValidationMessageFor(a => a.CaptureSpawn)
                     </div>
                 </div>
                 <div class="col-4">
-                    <center><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" /><br /><span>@Html.CheckBoxFor(a => a.SimarisSpawn)</span></center>
+                    <center><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"><br /><span>@Html.CheckBoxFor(a => a.SimarisSpawn)</span></center>
                     <div class="editor-field">
                         @Html.HiddenFor(a => a.SimarisSpawn)
                         @Html.ValidationMessageFor(a => a.SimarisSpawn)
@@ -285,21 +283,21 @@
                         <b>Scannables:</b>
                     </div>
                     <div class="col-4">
-                        <center><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" /><br /><span>@Html.CheckBoxFor(a => a.Ordis)</span></center>
+                        <center><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"><br /><span>@Html.CheckBoxFor(a => a.Ordis)</span></center>
                         <div class="editor-field">
                             @Html.HiddenFor(a => a.Ordis)
                             @Html.ValidationMessageFor(a => a.Ordis)
                         </div>
                     </div>
                     <div class="col-4">
-                        <center><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" /><br /><span>@Html.CheckBoxFor(a => a.Somachord)</span></center>
+                        <center><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"><br /><span>@Html.CheckBoxFor(a => a.Somachord)</span></center>
                         <div class="editor-field">
                             @Html.HiddenFor(a => a.Somachord)
                             @Html.ValidationMessageFor(a => a.Somachord)
                         </div>
                     </div>
                     <div class="col-4">
-                        <center><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" /><br /><span>@Html.CheckBoxFor(a => a.Framefighter)</span></center>
+                        <center><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"><br /><span>@Html.CheckBoxFor(a => a.Framefighter)</span></center>
                         <div class="editor-field">
                             @Html.HiddenFor(a => a.Framefighter)
                             @Html.ValidationMessageFor(a => a.Framefighter)
@@ -311,14 +309,14 @@
                         <b>Collectibles:</b>
                     </div>
                     <div class="col-4">
-                        <center><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" /><br /><span>@Html.CheckBoxFor(a => a.AyatanStatue)</span></center>
+                        <center><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"><br /><span>@Html.CheckBoxFor(a => a.AyatanStatue)</span></center>
                         <div class="editor-field">
                             @Html.HiddenFor(a => a.AyatanStatue)
                             @Html.ValidationMessageFor(a => a.AyatanStatue)
                         </div>
                     </div>
                     <div class="col-4">
-                        <center><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" /><br /><span>@Html.CheckBoxFor(a => a.SyndicateMedallion)</span></center>
+                        <center><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"><br /><span>@Html.CheckBoxFor(a => a.SyndicateMedallion)</span></center>
                         <div class="editor-field">
                             @Html.HiddenFor(a => a.SyndicateMedallion)
                             @Html.ValidationMessageFor(a => a.SyndicateMedallion)
@@ -329,7 +327,7 @@
             </div>
         <div class="col-9">
             
-                    <center><img src="@Url.Content(String.Format("~/{0}", Model.UploadedScreenshotImagePath))" alt="@Model.FileName" style="max-height: 450px; max-width:4350px;" class="rounded img-fluid preview"></center>
+                    <center><img src="@Url.Content(String.Format("~/{0}", Model.UploadedScreenshotImagePath))" alt="@Model.FileName"  class="rounded img-fluid"></center>
 
 
         </div>

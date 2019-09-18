@@ -31,15 +31,21 @@ namespace WFTileCounter.Models
         public IEnumerable<TileImage> TileImages { get; set; }
         public IEnumerable<MapPoint> MapPoints { get; set; }
 
+
+
+        //These are for keeping the same information with the same tile, but are to be added to the MapPoints table instead. 
         [NotMapped]
         public string Coords { get; set; }
-        //to be added to the MapPoints table during insert.
-
         [NotMapped]
         public bool NewTile { get; set; }
-
-
-
+        [NotMapped]
+        public string Collectibles { get; set; }
+        [NotMapped]
+        public string Objectives { get; set; }
+        [NotMapped]
+        public string Scanables { get; set; }
+        [NotMapped]
+        public string Spawnable { get; set; }
 
 
     }

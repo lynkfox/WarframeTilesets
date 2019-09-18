@@ -20,10 +20,15 @@ namespace WFTileCounter.Models
         {
             Nothing,
             MobileDefense,
-            CaptureSpawn,
             DefectionRestPoint,
-            SimarisSpawn,
             KuvaSiphon
+        }
+
+        public enum Spawn
+        {
+            Nothing,
+            SimarisSpawn,
+            CaptureSpawn
         }
 
         public enum Scanable
@@ -63,6 +68,8 @@ namespace WFTileCounter.Models
         public Objective? Objectives { get; set; }
         public Scanable? Scanables { get; set; }
         public Collectible? Collectibles { get; set; }
+        public Spawn? Spawnable { get; set; }
+
 
         public Run Run { get; set; }
     }

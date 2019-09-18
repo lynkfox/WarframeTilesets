@@ -50,6 +50,9 @@ namespace WFTileCounter.Models
             modelBuilder.Entity<MapPoint>()
                 .Property(c => c.Scanables)
                 .HasConversion<string>();
+            modelBuilder.Entity<MapPoint>()
+                .Property(c => c.Spawnable)
+                .HasConversion<string>();
         }
 
     }
