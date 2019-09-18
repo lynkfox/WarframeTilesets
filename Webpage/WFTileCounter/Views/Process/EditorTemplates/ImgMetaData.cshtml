@@ -323,6 +323,13 @@
                             @Html.ValidationMessageFor(a => a.SyndicateMedallion)
                         </div>
                     </div>
+                    <div class="col-4">
+                        <center><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"><br /><span>@Html.CheckBoxFor(a => a.RareLootChest)</span></center>
+                        <div class="editor-field">
+                            @Html.HiddenFor(a => a.RareLootChest)
+                            @Html.ValidationMessageFor(a => a.RareLootChest)
+                        </div>
+                    </div>
                 </div>
 
             </div>

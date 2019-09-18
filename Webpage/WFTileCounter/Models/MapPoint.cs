@@ -48,9 +48,14 @@ namespace WFTileCounter.Models
         public enum Collectible
         {
             Nothing,
-            AyatanStatue,
-            SyndicateMedallion,
-            AyatanMedallion
+            Ayatan,
+            Syndicate,
+            RareLoot,
+            AyatanSyndicate,
+            AyatanRareLoot,
+            SyndicateRareLoot,
+            AllThree
+
         }
         [Key]
         public int Id { get; set; }

@@ -44,13 +44,21 @@ namespace WFTileCounter.ModelsView
 
 
 
+        //collectibles
         public bool AyatanStatue { get; set; }
         public bool SyndicateMedallion { get; set; }
+        public bool RareLootChest { get; set; }
+
+        //scanables
         public bool Ordis { get; set; }
         public bool Somachord { get; set; }
         public bool Framefighter { get; set; }
+
+        //spawnables
         public bool CaptureSpawn { get; set; }
         public bool SimarisSpawn { get; set; }
+
+        //objectives
         public string Objective { get; set; }
 
         [Display(Name = "Possible Duplicate!!!")]

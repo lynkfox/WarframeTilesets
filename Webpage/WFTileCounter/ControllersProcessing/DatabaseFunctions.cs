@@ -320,23 +320,36 @@ namespace WFTileCounter.ControllersProcessing
 
                 
 
-                if(!metaDataList[i].AyatanStatue && !metaDataList[i].SyndicateMedallion)
+                if(!metaDataList[i].AyatanStatue && !metaDataList[i].SyndicateMedallion && !metaDataList[i].RareLootChest)
                 {
                     tile.Scanables = "Nothing";
                 }
-                else if(metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion)
+                else if(metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion && !metaDataList[i].RareLootChest)
                 {
-                    tile.Scanables = "AyatanMedallion";
-                } else if (metaDataList[i].AyatanStatue && !metaDataList[i].SyndicateMedallion)
+                    tile.Scanables = "AyatanSyndicate";
+                } else if (metaDataList[i].AyatanStatue && !metaDataList[i].SyndicateMedallion && !metaDataList[i].RareLootChest)
                 {
-                    tile.Scanables = "AyatanStatue";
+                    tile.Scanables = "Ayatan";
                 }
-                else if (!metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion)
+                else if (!metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion && !metaDataList[i].RareLootChest)
                 {
-                    tile.Scanables = "SyndicateMedallion";
+                    tile.Scanables = "Syndicate";
+                }
+                else if (!metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion && metaDataList[i].RareLootChest)
+                {
+                    tile.Scanables = "SyndicateRareLoot";
+                }
+                else if (metaDataList[i].AyatanStatue && !metaDataList[i].SyndicateMedallion && metaDataList[i].RareLootChest)
+                {
+                    tile.Scanables = "AyatanRareLoot";
+                }
+                else if (metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion && metaDataList[i].RareLootChest)
+                {
+                    tile.Scanables = "AllThree";
                 }
 
-                if(!metaDataList[i].SimarisSpawn && !metaDataList[i].CaptureSpawn)
+
+                if (!metaDataList[i].SimarisSpawn && !metaDataList[i].CaptureSpawn)
                 {
                     tile.Spawnable = "Nothing";
                 } else if (metaDataList[i].SimarisSpawn && metaDataList[i].CaptureSpawn)
