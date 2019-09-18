@@ -10,8 +10,8 @@ using WFTileCounter.Models;
 namespace WFTileCounter.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190822182910_SmallTileImgChanges")]
-    partial class SmallTileImgChanges
+    [Migration("20190918013741_MapPointsEnumCorrection")]
+    partial class MapPointsEnumCorrection
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,10 +27,22 @@ namespace WFTileCounter.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Collectibles")
+                        .IsRequired();
+
                     b.Property<string>("CoordsTaken")
                         .HasMaxLength(50);
 
+                    b.Property<string>("Objectives")
+                        .IsRequired();
+
                     b.Property<int>("RunId");
+
+                    b.Property<string>("Scanables")
+                        .IsRequired();
+
+                    b.Property<string>("Spawnable")
+                        .IsRequired();
 
                     b.Property<string>("TileName")
                         .IsRequired();
@@ -60,6 +72,9 @@ namespace WFTileCounter.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("FullRun")
+                        .HasMaxLength(1);
 
                     b.Property<string>("IdentityString")
                         .IsRequired()
@@ -155,7 +170,7 @@ namespace WFTileCounter.Migrations
                         .IsRequired()
                         .HasMaxLength(250);
 
-                    b.Property<string>("ImagePath")
+                    b.Property<string>("ImageName")
                         .IsRequired()
                         .HasMaxLength(250);
 

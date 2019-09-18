@@ -43,16 +43,23 @@ namespace WFTileCounter.Models
         {
             modelBuilder.Entity<MapPoint>()
                 .Property(c => c.Collectibles)
-                .HasConversion<string>();
+                .HasConversion(x => x.ToString(), x => (Collectible)Enum.Parse(typeof(Collectible), x));
             modelBuilder.Entity<MapPoint>()
                 .Property(c => c.Objectives)
-                .HasConversion<string>();
+                .HasConversion(x => x.ToString(), x => (Objective)Enum.Parse(typeof(Objective), x));
             modelBuilder.Entity<MapPoint>()
                 .Property(c => c.Scanables)
-                .HasConversion<string>();
+                .HasConversion(x => x.ToString(), x => (Scanable)Enum.Parse(typeof(Scanable), x));
             modelBuilder.Entity<MapPoint>()
                 .Property(c => c.Spawnable)
+<<<<<<< Updated upstream
                 .HasConversion<string>();
+=======
+                .HasConversion(x => x.ToString(), x => (Spawn)Enum.Parse(typeof(Spawn), x));
+
+
+
+>>>>>>> Stashed changes
         }
 
     }

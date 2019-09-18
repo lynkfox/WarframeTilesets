@@ -2,7 +2,7 @@
 
 namespace WFTileCounter.Migrations
 {
-    public partial class AddedSpawnabaleEnumToMapPoints : Migration
+    public partial class AddSpawnableToMapPoints : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

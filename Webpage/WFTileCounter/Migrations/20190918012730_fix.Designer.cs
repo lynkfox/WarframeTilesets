@@ -10,8 +10,8 @@ using WFTileCounter.Models;
 namespace WFTileCounter.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190823154605_PartialRunQualifierAddedToRuns")]
-    partial class PartialRunQualifierAddedToRuns
+    [Migration("20190918012730_fix")]
+    partial class fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,10 +27,18 @@ namespace WFTileCounter.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Collectibles");
+
                     b.Property<string>("CoordsTaken")
                         .HasMaxLength(50);
 
+                    b.Property<string>("Objectives");
+
                     b.Property<int>("RunId");
+
+                    b.Property<string>("Scanables");
+
+                    b.Property<string>("Spawnable");
 
                     b.Property<string>("TileName")
                         .IsRequired();
@@ -61,6 +69,9 @@ namespace WFTileCounter.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("FullRun")
+                        .HasMaxLength(1);
+
                     b.Property<string>("IdentityString")
                         .IsRequired()
                         .HasMaxLength(250);
@@ -69,9 +80,6 @@ namespace WFTileCounter.Migrations
                         .HasMaxLength(250);
 
                     b.Property<string>("MissionType");
-
-                    b.Property<string>("PartialRun")
-                        .HasMaxLength(1);
 
                     b.Property<DateTime>("RunDate");
 
@@ -94,9 +102,6 @@ namespace WFTileCounter.Migrations
                 {
                     b.Property<string>("Name")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("AlternateTileset")
                         .HasMaxLength(100);
 
                     b.Property<string>("TilesetName");

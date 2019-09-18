@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WFTileCounter.Migrations
 {
-    public partial class first : Migration
+    public partial class NewFirst : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,7 @@ namespace WFTileCounter.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Username = table.Column<string>(maxLength: 150, nullable: false),
                     email = table.Column<string>(maxLength: 150, nullable: false),
-                    RunsUploaded = table.Column<int>(nullable: false)
+                    RunsUploaded = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,7 +54,6 @@ namespace WFTileCounter.Migrations
                 columns: table => new
                 {
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    PopularName = table.Column<string>(maxLength: 100, nullable: true),
                     TilesetName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -80,7 +79,8 @@ namespace WFTileCounter.Migrations
                     IdentityString = table.Column<string>(maxLength: 250, nullable: false),
                     LogRange = table.Column<string>(maxLength: 250, nullable: true),
                     TotalTiles = table.Column<int>(nullable: false),
-                    UniqueTiles = table.Column<int>(nullable: false)
+                    UniqueTiles = table.Column<int>(nullable: false),
+                    FullRun = table.Column<bool>(maxLength: 1, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,6 +100,37 @@ namespace WFTileCounter.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TileDetails",
+                schema: "website",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TileName = table.Column<string>(nullable: false),
+                    PopularName = table.Column<string>(maxLength: 100, nullable: true),
+                    Exits = table.Column<int>(nullable: true),
+                    Consoles = table.Column<int>(nullable: true),
+                    LockerBanks = table.Column<int>(nullable: true),
+                    TotalLockers = table.Column<int>(nullable: true),
+                    Secrets = table.Column<int>(nullable: true),
+                    LootRooms = table.Column<int>(nullable: true),
+                    Hazards = table.Column<int>(nullable: true),
+                    Objectives = table.Column<string>(maxLength: 50, nullable: true),
+                    Description = table.Column<string>(type: "ntext", nullable: true),
+                    BehindName = table.Column<string>(type: "ntext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TileDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TileDetails_Tiles_TileName",
+                        column: x => x.TileName,
+                        principalTable: "Tiles",
+                        principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TileImages",
                 schema: "website",
                 columns: table => new
@@ -107,9 +138,9 @@ namespace WFTileCounter.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     TileName = table.Column<string>(nullable: false),
-                    TilesetName = table.Column<string>(nullable: true),
                     ViewName = table.Column<string>(maxLength: 50, nullable: true),
-                    ImgName = table.Column<string>(maxLength: 50, nullable: false)
+                    ImageName = table.Column<string>(maxLength: 250, nullable: false),
+                    AltText = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,12 +151,6 @@ namespace WFTileCounter.Migrations
                         principalTable: "Tiles",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TileImages_Tilesets_TilesetName",
-                        column: x => x.TilesetName,
-                        principalTable: "Tilesets",
-                        principalColumn: "Name",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,6 +162,7 @@ namespace WFTileCounter.Migrations
                     RunId = table.Column<int>(nullable: false),
                     TileName = table.Column<string>(nullable: false),
                     CoordsTaken = table.Column<string>(maxLength: 50, nullable: true)
+                    
                 },
                 constraints: table =>
                 {
@@ -152,6 +178,28 @@ namespace WFTileCounter.Migrations
                         column: x => x.TileName,
                         principalTable: "Tiles",
                         principalColumn: "Name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VariantTiles",
+                schema: "website",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TileName = table.Column<int>(nullable: false),
+                    VariantTileName = table.Column<string>(maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VariantTiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VariantTiles_TileDetails_TileName",
+                        column: x => x.TileName,
+                        principalSchema: "website",
+                        principalTable: "TileDetails",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -181,16 +229,24 @@ namespace WFTileCounter.Migrations
                 column: "TilesetName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TileDetails_TileName",
+                schema: "website",
+                table: "TileDetails",
+                column: "TileName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TileImages_TileName",
                 schema: "website",
                 table: "TileImages",
                 column: "TileName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TileImages_TilesetName",
+                name: "IX_VariantTiles_TileName",
                 schema: "website",
-                table: "TileImages",
-                column: "TilesetName");
+                table: "VariantTiles",
+                column: "TileName");
+                
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -203,16 +259,24 @@ namespace WFTileCounter.Migrations
                 schema: "website");
 
             migrationBuilder.DropTable(
+                name: "VariantTiles",
+                schema: "website");
+
+            migrationBuilder.DropTable(
                 name: "Runs");
 
             migrationBuilder.DropTable(
-                name: "Tiles");
+                name: "TileDetails",
+                schema: "website");
 
             migrationBuilder.DropTable(
                 name: "Missions");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Tiles");
 
             migrationBuilder.DropTable(
                 name: "Tilesets");

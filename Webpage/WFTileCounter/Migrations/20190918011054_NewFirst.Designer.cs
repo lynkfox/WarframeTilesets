@@ -10,8 +10,8 @@ using WFTileCounter.Models;
 namespace WFTileCounter.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190917024526_UpdateMapPointOptionsTypeAddNothigns")]
-    partial class UpdateMapPointOptionsTypeAddNothigns
+    [Migration("20190918011054_NewFirst")]
+    partial class NewFirst
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,16 +27,22 @@ namespace WFTileCounter.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Collectibles");
+                    b.Property<string>("Collectibles")
+                        .IsRequired();
 
                     b.Property<string>("CoordsTaken")
                         .HasMaxLength(50);
 
-                    b.Property<string>("Objectives");
+                    b.Property<string>("Objectives")
+                        .IsRequired();
 
                     b.Property<int>("RunId");
 
-                    b.Property<string>("Scanables");
+                    b.Property<string>("Scanables")
+                        .IsRequired();
+
+                    b.Property<string>("Spawnable")
+                        .IsRequired();
 
                     b.Property<string>("TileName")
                         .IsRequired();

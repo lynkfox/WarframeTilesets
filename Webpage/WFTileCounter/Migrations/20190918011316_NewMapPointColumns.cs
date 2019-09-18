@@ -2,14 +2,14 @@
 
 namespace WFTileCounter.Migrations
 {
-    public partial class newMapPointOptions : Migration
+    public partial class NewMapPointColumns : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "Collectibles",
-                table: "MapPoints",
-                nullable: true);
+    name: "Collectibles",
+    table: "MapPoints",
+    nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "Objectives",
@@ -25,8 +25,8 @@ namespace WFTileCounter.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Collectibles",
-                table: "MapPoints");
+    name: "Collectibles",
+    table: "MapPoints");
 
             migrationBuilder.DropColumn(
                 name: "Objectives",

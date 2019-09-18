@@ -10,8 +10,8 @@ using WFTileCounter.Models;
 namespace WFTileCounter.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190917023349_UpdateMapPointOptionsType")]
-    partial class UpdateMapPointOptionsType
+    [Migration("20190918012352_newSpawnableCol")]
+    partial class newSpawnableCol
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,9 @@ namespace WFTileCounter.Migrations
                     b.Property<int>("RunId");
 
                     b.Property<string>("Scanables");
+
+                    b.Property<string>("Spawnable")
+                        .IsRequired();
 
                     b.Property<string>("TileName")
                         .IsRequired();

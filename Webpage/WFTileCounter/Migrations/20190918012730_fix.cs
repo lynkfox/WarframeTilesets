@@ -2,24 +2,24 @@
 
 namespace WFTileCounter.Migrations
 {
-    public partial class NullableRunsUploaded : Migration
+    public partial class fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "RunsUploaded",
-                table: "Users",
+            migrationBuilder.AlterColumn<string>(
+                name: "Spawnable",
+                table: "MapPoints",
                 nullable: true,
-                oldClrType: typeof(int));
+                oldClrType: typeof(string));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "RunsUploaded",
-                table: "Users",
+            migrationBuilder.AlterColumn<string>(
+                name: "Spawnable",
+                table: "MapPoints",
                 nullable: false,
-                oldClrType: typeof(int),
+                oldClrType: typeof(string),
                 oldNullable: true);
         }
     }

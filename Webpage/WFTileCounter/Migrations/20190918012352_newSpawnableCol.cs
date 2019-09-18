@@ -2,7 +2,7 @@
 
 namespace WFTileCounter.Migrations
 {
-    public partial class UpdateMapPointOptionsType : Migration
+    public partial class newSpawnableCol : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,46 +10,52 @@ namespace WFTileCounter.Migrations
                 name: "Scanables",
                 table: "MapPoints",
                 nullable: true,
-                oldClrType: typeof(int),
-                oldNullable: true);
+                oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
                 name: "Objectives",
                 table: "MapPoints",
                 nullable: true,
-                oldClrType: typeof(int),
-                oldNullable: true);
+                oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
                 name: "Collectibles",
                 table: "MapPoints",
                 nullable: true,
-                oldClrType: typeof(int),
-                oldNullable: true);
+                oldClrType: typeof(string));
+
+            migrationBuilder.AddColumn<string>(
+                name: "Spawnable",
+                table: "MapPoints",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.AlterColumn<string>(
                 name: "Scanables",
                 table: "MapPoints",
-                nullable: true,
+                nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.AlterColumn<string>(
                 name: "Objectives",
                 table: "MapPoints",
-                nullable: true,
+                nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.AlterColumn<string>(
                 name: "Collectibles",
                 table: "MapPoints",
-                nullable: true,
+                nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
+
+            migrationBuilder.DropColumn(
+                name: "Spawnable",
+                table: "MapPoints");
         }
     }
 }
