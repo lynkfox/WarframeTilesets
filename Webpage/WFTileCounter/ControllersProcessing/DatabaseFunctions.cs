@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WFTileCounter.Models;
 using WFTileCounter.ModelsLogic;
 using WFTileCounter.ModelsView;
+using static WFTileCounter.Models.MapPoint;
 
 namespace WFTileCounter.ControllersProcessing
 {
@@ -112,6 +113,28 @@ namespace WFTileCounter.ControllersProcessing
 
                         mapPoint.Run = data.Run;
                         mapPoint.CoordsTaken = tile.Coords;
+                        if(Enum.TryParse(tile.Objectives, out Objective objective))
+                        {
+                            mapPoint.Objectives = objective;
+                        }
+                        if(Enum.TryParse(tile.Scanables, out Scanable scanable))
+                        {
+                            mapPoint.Scanables = scanable;
+                        }
+                        if(Enum.TryParse(tile.Spawnable, out Spawn spawnable))
+                        {
+                            mapPoint.Spawnable = spawnable;
+                        }
+                        if(Enum.TryParse(tile.Collectibles, out Collectible collectible))
+                        {
+                            mapPoint.Collectibles = collectible;
+                        }
+
+                        
+                        
+                        
+                        
+
 
                         if (t is null)
                         {
@@ -285,6 +308,81 @@ namespace WFTileCounter.ControllersProcessing
                 tile.Tileset = tileset;
                 tile.Coords = metaDataList[i].Coords;
                 
+                if(!String.IsNullOrEmpty(metaDataList[i].Objective))
+                {
+                    tile.Objectives = metaDataList[i].Objective;
+                }
+                else
+                {
+                    tile.Objectives = "Nothing";
+                }
+
+                
+
+                if(!metaDataList[i].AyatanStatue && !metaDataList[i].SyndicateMedallion)
+                {
+                    tile.Scanables = "Nothing";
+                }
+                else if(metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion)
+                {
+                    tile.Scanables = "AyatanMedallion";
+                } else if (metaDataList[i].AyatanStatue && !metaDataList[i].SyndicateMedallion)
+                {
+                    tile.Scanables = "AyatanStatue";
+                }
+                else if (!metaDataList[i].AyatanStatue && metaDataList[i].SyndicateMedallion)
+                {
+                    tile.Scanables = "SyndicateMedallion";
+                }
+
+                if(!metaDataList[i].SimarisSpawn && !metaDataList[i].CaptureSpawn)
+                {
+                    tile.Spawnable = "Nothing";
+                } else if (metaDataList[i].SimarisSpawn && metaDataList[i].CaptureSpawn)
+                {
+                    tile.Spawnable = "BothSpawn";
+                }
+                else if (metaDataList[i].SimarisSpawn && !metaDataList[i].CaptureSpawn)
+                {
+                    tile.Spawnable = "SimarisSpawn";
+                }
+                else if (!metaDataList[i].SimarisSpawn && metaDataList[i].CaptureSpawn)
+                {
+                    tile.Spawnable = "CaptureSpawn";
+                }
+
+                if(!metaDataList[i].Ordis && !metaDataList[i].Somachord && !metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "Nothing";
+                } else if (metaDataList[i].Ordis && !metaDataList[i].Somachord && !metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "Ordis";
+                }
+                else if (!metaDataList[i].Ordis && metaDataList[i].Somachord && !metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "Somachord";
+                }
+                else if (!metaDataList[i].Ordis && !metaDataList[i].Somachord && metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "FrameFighter";
+                }
+                else if (metaDataList[i].Ordis && metaDataList[i].Somachord && !metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "OrdisSoma";
+                }
+                else if (metaDataList[i].Ordis && !metaDataList[i].Somachord && metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "OrdisFrame";
+                }
+                else if (!metaDataList[i].Ordis && metaDataList[i].Somachord && metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "SomaFrame";
+                }
+                else if (metaDataList[i].Ordis && metaDataList[i].Somachord && metaDataList[i].Framefighter)
+                {
+                    tile.Scanables = "AllThree";
+                }
+
 
                 var checkAgainstDatabase = CheckTileAlreadyExists(metaDataList[i].TileName);
                 if (checkAgainstDatabase is null)

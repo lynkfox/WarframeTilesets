@@ -51,7 +51,7 @@ namespace WFTileCounter.ModelsView
         public bool Framefighter { get; set; }
         public bool CaptureSpawn { get; set; }
         public bool SimarisSpawn { get; set; }
-        public bool Objective { get; set; }
+        public string Objective { get; set; }
 
         [Display(Name = "Possible Duplicate!!!")]
         public bool PossibleDupe { get; set; }
