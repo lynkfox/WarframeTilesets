@@ -42,19 +42,11 @@ namespace WFTileCounter.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MapPoint>()
-                .Property(c => c.Collectibles)
-                .HasConversion(x => x.ToString(), x => (Collectible)Enum.Parse(typeof(Collectible), x));
+            
             modelBuilder.Entity<MapPoint>()
                 .Property(c => c.Objectives)
                 .HasConversion(x => x.ToString(), x => (Objective)Enum.Parse(typeof(Objective), x));
-            modelBuilder.Entity<MapPoint>()
-                .Property(c => c.Scanables)
-                .HasConversion(x => x.ToString(), x => (Scanable)Enum.Parse(typeof(Scanable), x));
-            modelBuilder.Entity<MapPoint>()
-                .Property(c => c.Spawnable)
-                .HasConversion(x => x.ToString(), x => (Spawn)Enum.Parse(typeof(Spawn), x));
-
+           
 
 
         }

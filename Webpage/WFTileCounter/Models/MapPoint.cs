@@ -24,39 +24,7 @@ namespace WFTileCounter.Models
             KuvaSiphon
         }
 
-        public enum Spawn
-        {
-            Nothing,
-            SimarisSpawn,
-            CaptureSpawn,
-            BothSpawn
-
-        }
-
-        public enum Scanable
-        {
-            Nothing,
-            Ordis,
-            Somachord,
-            FrameFighter,
-            OrdisSoma,
-            OrdisFrame,
-            SomaFrame,
-            AllThree
-        }
-
-        public enum Collectible
-        {
-            Nothing,
-            Ayatan,
-            Syndicate,
-            RareLoot,
-            AyatanSyndicate,
-            AyatanRareLoot,
-            SyndicateRareLoot,
-            AllThree
-
-        }
+        
         [Key]
         public int Id { get; set; }
         [Display(Name = "Run ID: ")]
@@ -73,10 +41,19 @@ namespace WFTileCounter.Models
 
         
         public Objective Objectives { get; set; }
-        public Scanable Scanables { get; set; }
-        public Collectible Collectibles { get; set; }
 
-        public Spawn Spawnable { get; set; }
+        public bool Ayatan { get; set; }
+        public bool Medallion { get; set; }
+        public bool RareContainer { get; set; }
+
+
+        public bool Cephalon { get; set; }
+        public bool Somachord { get; set; }
+        public bool FrameFighter { get; set; }
+
+        public bool CaptureSpawn { get; set; }
+        public bool SimarisSpawn { get; set; }
+        
 
         public Run Run { get; set; }
     }

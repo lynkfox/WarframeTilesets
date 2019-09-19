@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static WFTileCounter.Models.MapPoint;
 
 namespace WFTileCounter.Models
 {
@@ -38,14 +39,30 @@ namespace WFTileCounter.Models
         public string Coords { get; set; }
         [NotMapped]
         public bool NewTile { get; set; }
+        
+
         [NotMapped]
-        public string Collectibles { get; set; }
+        public Objective Objectives { get; set; }
+
         [NotMapped]
-        public string Objectives { get; set; }
+        public bool Ayatan { get; set; }
         [NotMapped]
-        public string Scanables { get; set; }
+        public bool Medallion { get; set; }
         [NotMapped]
-        public string Spawnable { get; set; }
+        public bool RareContainer { get; set; }
+
+        [NotMapped]
+        public bool Cephalon { get; set; }
+        [NotMapped]
+        public bool Somachord { get; set; }
+        [NotMapped]
+        public bool FrameFighter { get; set; }
+
+        [NotMapped]
+        public bool CaptureSpawn { get; set; }
+        [NotMapped]
+        public bool SimarisSpawn { get; set; }
+
 
 
     }
