@@ -62,6 +62,8 @@ namespace WFTileCounter.Models
         public bool CaptureSpawn { get; set; }
         [NotMapped]
         public bool SimarisSpawn { get; set; }
+        [NotMapped]
+        public bool Cache { get; set; }
 
 
 

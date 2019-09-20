@@ -278,6 +278,13 @@
                         @Html.ValidationMessageFor(a => a.SimarisSpawn)
                     </div>
                 </div>
+                <div class="col-4">
+                    <center><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location"><br /><span>@Html.CheckBoxFor(a => a.Cache)</span></center>
+                    <div class="editor-field">
+                        @Html.HiddenFor(a => a.Cache)
+                        @Html.ValidationMessageFor(a => a.Cache)
+                    </div>
+                </div>
             </div>
                 <div class="row">
                     <div class="col-12">

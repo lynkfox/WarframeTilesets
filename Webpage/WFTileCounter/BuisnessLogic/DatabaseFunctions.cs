@@ -123,6 +123,7 @@ namespace WFTileCounter.BuisnessLogic
                         mapPoint.FrameFighter = tile.FrameFighter;
                         mapPoint.CaptureSpawn = tile.CaptureSpawn;
                         mapPoint.SimarisSpawn = tile.SimarisSpawn;
+                        mapPoint.Cache = tile.Cache;
                             
 
 
@@ -181,6 +182,16 @@ namespace WFTileCounter.BuisnessLogic
                         {
                             mapPoint.Run = run;
                             mapPoint.CoordsTaken = tile.Coords;
+                            mapPoint.Objectives = tile.Objectives;
+                            mapPoint.Ayatan = tile.Ayatan;
+                            mapPoint.Medallion = tile.Medallion;
+                            mapPoint.RareContainer = tile.RareContainer;
+                            mapPoint.Cephalon = tile.Cephalon;
+                            mapPoint.Somachord = tile.Somachord;
+                            mapPoint.FrameFighter = tile.FrameFighter;
+                            mapPoint.CaptureSpawn = tile.CaptureSpawn;
+                            mapPoint.SimarisSpawn = tile.SimarisSpawn;
+                            mapPoint.Cache = tile.Cache;
                             var t = CheckTileAlreadyExists(tile.Name);
 
                             if (t is null)
@@ -325,6 +336,7 @@ namespace WFTileCounter.BuisnessLogic
                 tile.FrameFighter = metaDataList[i].Framefighter;
                 tile.CaptureSpawn = metaDataList[i].CaptureSpawn;
                 tile.SimarisSpawn = metaDataList[i].SimarisSpawn;
+                tile.Cache = metaDataList[i].Cache;
 
 
 

@@ -57,6 +57,7 @@ namespace WFTileCounter.ModelsView
         //spawnables
         public bool CaptureSpawn { get; set; }
         public bool SimarisSpawn { get; set; }
+        public bool Cache { get; set; }
 
         //objectives
         public string Objective { get; set; }

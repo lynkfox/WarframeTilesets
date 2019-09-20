@@ -53,7 +53,8 @@ namespace WFTileCounter.Models
 
         public bool CaptureSpawn { get; set; }
         public bool SimarisSpawn { get; set; }
-        
+        public bool Cache { get; set; }
+
 
         public Run Run { get; set; }
     }
