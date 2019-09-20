@@ -23,6 +23,7 @@ namespace WFTileCounter.ControllersProcessing
 
         public TileDetailsViewModel GetFullTileInformation(string tileName)
         {
+            var _gf = new GeneralFunctions(_db);
             var fullDetailsOfTile = new TileDetailsViewModel();
             var tile = _db.Tiles.Where(x => x.Name == tileName)
                 .Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles)
@@ -36,22 +37,9 @@ namespace WFTileCounter.ControllersProcessing
             fullDetailsOfTile.Tile = tile;
             fullDetailsOfTile.Details = tile.TileDetail;
             fullDetailsOfTile.Variants = tile.TileDetail.VariantTiles;
-            fullDetailsOfTile.Images = tile.TileImages;
+            fullDetailsOfTile.Images = tile.TileImages.Where(x=>x.ViewName !="Map";
 
-            //pull out the map image from the ienumerable returned by EF
-            var mapImage = tile.TileImages.Where(x => x.ImageName == "Map").FirstOrDefault();
-            if(mapImage is null) // if it doesn't exist, create the default
-            {
-                fullDetailsOfTile.Map = new TileImage { ImagePath = "LotusFlower.png", AltText = "No Map Image Uploaded Yet", ImageName = "Map" };
-                
-            }else
-            {
-                fullDetailsOfTile.Map = mapImage; // pull it out for seperate use in the View
-
-                //get the images again but this time without any titled "Map"
-                fullDetailsOfTile.Images = fullDetailsOfTile.Images.Where(x => x.ImageName != "Map"); 
-
-            }
+            fullDetailsOfTile.Map = _gf.GetMapImagePath(tile.Name);
 
 
             return fullDetailsOfTile;

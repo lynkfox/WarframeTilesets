@@ -769,7 +769,7 @@ namespace WFTileCounter.ControllersProcessing
 
        
 
-        private TileImage GetMapImagePath(string tileName)
+        public TileImage GetMapImagePath(string tileName)
         {
             var isTileInDB = _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).Include(x=>x.TileImages).FirstOrDefault();
 
