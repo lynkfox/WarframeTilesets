@@ -28,10 +28,8 @@ namespace WFTileCounter.Models
         public int? Exits { get; set; }
         [Display(Name = "Alarm Consoles:")]
         public int? Consoles { get; set; }
-        [Display(Name = "Locker Banks: ")]
-        public int? LockerBanks { get; set; }
         [Display(Name = "Total Lockers: ")]
-        public int? TotalLockers { get; set; }
+        public int? Lockers { get; set; }
         [Display(Name = "Secrets: ")]
         public int? Secrets { get; set; }
         [Display(Name = "Loot Rooms: ")]
@@ -47,6 +45,10 @@ namespace WFTileCounter.Models
         [Display(Name = "Reason for Popular Name: ")]
         [Column(TypeName = "ntext")]
         public string BehindName { get; set; }
+        [Column(TypeName = "ntext")]
+        public string SecretDescription { get; set; }
+        [Column(TypeName = "ntext")]
+        public string HazardDescription { get; set; }
 
         public IEnumerable<VariantTile> VariantTiles { get; set; }
     }

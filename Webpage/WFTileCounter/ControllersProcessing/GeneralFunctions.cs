@@ -47,7 +47,14 @@ namespace WFTileCounter.ControllersProcessing
             //return Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
 
 
-            return @"C:\Users\lynkf\Pictures\Warframe";
+            if(Directory.Exists(@"C:\Users\lynkf\Pictures\Warframe"))
+            {
+                return @"C:\Users\lynkf\Pictures\Warframe";
+            }
+            else
+            {
+                return @"C:\Users\lynkf\Desktop\WarframeTilesets\Uploads";
+            }
         }
 
         public string GetPath(ImgMetaData data)

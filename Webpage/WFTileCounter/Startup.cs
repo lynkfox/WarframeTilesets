@@ -78,6 +78,10 @@ namespace WFTileCounter
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "Tile",
+                    template: "{action}/{tileName:alpha}");
             });
         }
     }

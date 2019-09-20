@@ -400,7 +400,7 @@ namespace WFTileCounter.ControllersProcessing
 
 
 
-        //Just a quicky to keep this out of other functions.
+        //Refactoring Functions
 
         public bool CheckTilesetExists(string tilesetName)
         {

@@ -19,7 +19,7 @@
       enctype="multipart/form-data">
 
     <input type="file" name="fileList" multiple />
-    <button type="submit">Upload File</button>
+    <button type="submit">Upload Files</button>
 </form>
 
 
@@ -44,7 +44,7 @@
 </div>
 <div class="row bg-dark">
     <div class="col-md-4 border-right border-light align-self-center ">
-        <img src="~/img/exifinfo-example.png" alt="Exif Extracted Image Example" width="350" class="rounded">
+        <img src="~/img/exifinfo-example.png" alt="Exif Extracted Image Example" width="350" class="rounded img-fluid">
     </div>
 
     <div class="col-md-8">
@@ -125,40 +125,6 @@
 
 </div>
 
-<div class="row bg-dark border-light">
-    <div class="col-12">
-        <h2 class="text-center">Please Note:</h2>
-
-        <p>This page makes a couple of assumptions, due to the imprecise nature of how it is collecting the information (user taken screen shots)</p>
-        <ul style="list-style-type:square;">
-            <li>
-                Only Unique tile names are counted
-                <ul style="list-style-type:square;">
-                    <li>This means that even if the tile appears twice in the map, it only is added to the list of tiles for that map once</li>
-                    <li>This is because there is no definte way to determine if the screenshot was taken in the same room, or the next room (that may be the same tile) or on accident coming back through from a branch</li>
-                    <li>So Tile Appear Chance will be calculated on the idea that "at least one" will appear, and have no weight for appearing multiple times. ie: Each tile's chance of appearing at least once in a map</li>
-                </ul>
-            </li>
-            <li>
-                DE has a somewhat annoying lack of unified naming schemes for their tiles. So much so that there are duplicate names for tiles in different tilesets (I'm looking at you DeadEnd1 in CorpusShip and OrokinTower
-                <ul style="list-style-type:square;">
-                    <li>As such, every tile name that didn't already start with Crp, Grn, Oro, or Inf had it added to the front of the tilename. So DeadEnd1 became CrpDeadEnd1</li>
-                    <li>The exceptions are if it happened to already start with Grineer or Corpus (such as GrineerOcean tiles are named with that in front of the tile name)</li>
-                </ul>
-            </li>
-            <li>
-                We store Total Tiles and Unique Tiles for each Mission
-                <ul style="list-style-type:square;">
-                    <li>Total tiles is the number of images taken. So it is impercise and we ask that submitters do their best to keep images that are from the same room out of the upload</li>
-                    <li>Unique tiles is just a count of all the unique names.</li>
-
-                </ul>
-            </li>
-        </ul>
-
-    </div>
-
-</div>
 
 
 

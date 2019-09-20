@@ -1,0 +1,111 @@
+﻿@model WFTileCounter.ModelsView.TileDetailsViewModel
+
+@{
+    ViewData["Title"] = "EditTile";
+}
+
+<h1>ViewTile</h1>
+
+<div>
+    <h4>TileDetailsViewModel</h4>
+    <hr />
+</div>
+
+<form asp-controller="Tile" asp-action="Update" method="post">
+
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-3 border-rounded border-success">
+                <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
+
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col-3">
+                        <strong>DE Name of Tile</strong>
+                    </div>
+                    <div class="col-3">
+                        @Html.TextBoxFor(x => x.Tile.Name, new { @class = "form-control" })
+                    </div>
+                    <div class="col-3">
+                        <strong>Common Name</strong>
+                    </div>
+                    <div class="col-3">
+                        @Html.TextBoxFor(x => x.Tile.TileDetail.PopularName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <strong>Exits</strong>
+                    </div>
+                    <div class="col-2">
+                        @Html.TextBoxFor(x => x.Tile.TileDetail.Exits, new { @class = "form-control" })
+                    </div>
+                    <div class="col-2">
+                        <strong>Consoles</strong>
+                    </div>
+                    <div class="col-2">
+                        @Html.TextBoxFor(x => x.Tile.TileDetail.Consoles, new { @class = "form-control" })
+                    </div>
+                    <div class="col-2">
+                        <strong>Lockers</strong>
+                    </div>
+                    <div class="col-2">
+                        @Html.TextBoxFor(x => x.Tile.TileDetail.Lockers, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <strong>Closets</strong>
+                    </div>
+                    <div class="col-2">
+                        @Html.TextBoxFor(x => x.Tile.TileDetail.LootRooms, new { @class = "form-control" })
+                    </div>
+                    <div class="col-2">
+                        <strong>Secrets</strong>
+                    </div>
+                    <div class="col-2">
+                        @Html.TextBoxFor(x => x.Tile.TileDetail.Secrets, new { @class = "form-control" })
+                    </div>
+                    <div class="col-2">
+                        <strong>Hazards</strong>
+                    </div>
+                    <div class="col-2">
+                        @Html.TextBoxFor(x => x.Tile.TileDetail.Hazards, new { @class = "form-control" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <strong>Description</strong><br />
+                    @Html.TextAreaFor(x => x.Tile.TileDetail.Description, new { @class = "form-control" })
+                </div>
+                <div class="col-3">
+                    <strong>Secrets</strong><br />
+                    @Html.TextAreaFor(x => x.Tile.TileDetail.SecretDescription, new { @class = "form-control" })
+                </div>
+                <div class="col-3">
+                    <strong>Hazard</strong><br />
+                    @Html.TextAreaFor(x => x.Tile.TileDetail.HazardDescription, new { @class = "form-control" })
+                </div>
+                <div class="col-3">
+                    <strong>Reason For Popular Name</strong><br />
+                    @Html.TextAreaFor(x => x.Tile.TileDetail.BehindName, new { @class = "form-control" })
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+    
+
+    
+
+    <input type="submit" value="Update Tile" id="btnSubmit" />
+    <hr />
+</form>
+
