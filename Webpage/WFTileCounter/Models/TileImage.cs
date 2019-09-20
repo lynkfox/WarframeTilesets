@@ -36,6 +36,6 @@ namespace WFTileCounter.Models
         [NotMapped]
         public string ImagePath { get; set; }
         // path should start  (tilesetName) / (tilename) / (imagename).png or jpg  - from ~/wwwroot/img/tilesets/ is assumed for each image
-        // tilesetName and TileName will be created dynamically elsewhere and added into this NotMapped Property.
+        // tilesetName and TileName will be grabbed dynamically elsewhere and added into this NotMapped Property.
     }
 }

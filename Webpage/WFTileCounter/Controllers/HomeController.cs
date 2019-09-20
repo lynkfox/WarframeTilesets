@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WFTileCounter.ControllersProcessing;
+using WFTileCounter.BuisnessLogic;
 using WFTileCounter.Models;
 
 namespace WFTileCounter.Controllers

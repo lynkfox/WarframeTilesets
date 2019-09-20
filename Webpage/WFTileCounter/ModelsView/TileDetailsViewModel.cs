@@ -1,4 +1,5 @@
-﻿    using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -14,5 +15,8 @@ namespace WFTileCounter.ModelsView
         public IEnumerable<VariantTile> Variants { get; set; }
         public TileImage Map { get; set; } //because we want a default image if there is no map image stored, and dont want it to show up in the 'All Images' section
 
+        public List<SelectListItem> Numbers { get; set; }
+
+        
     }
 }

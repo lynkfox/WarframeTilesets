@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WFTileCounter.Models;
 using WFTileCounter.ModelsView;
 
-namespace WFTileCounter.ControllersProcessing
+namespace WFTileCounter.BuisnessLogic
 {
     public class TileFunctions
     {
@@ -31,13 +31,25 @@ namespace WFTileCounter.ControllersProcessing
                 
             if (tile is null)
             {
-                return null;
+                tile = new Tile();
+            }
+            if( tile.TileDetail is null)
+            {
+                tile.TileDetail = new TileDetail();
+            }
+            if( tile.TileDetail.VariantTiles is null)
+            {
+                tile.TileDetail.VariantTiles = new List<VariantTile>();
+            }
+            if (tile.TileImages is null)
+            {
+                tile.TileImages = new List<TileImage>();
             }
 
             fullDetailsOfTile.Tile = tile;
             fullDetailsOfTile.Details = tile.TileDetail;
             fullDetailsOfTile.Variants = tile.TileDetail.VariantTiles;
-            fullDetailsOfTile.Images = tile.TileImages.Where(x=>x.ViewName !="Map";
+            fullDetailsOfTile.Images = tile.TileImages.Where(x=>x.ViewName !="Map");
 
             fullDetailsOfTile.Map = _gf.GetMapImagePath(tile.Name);
 

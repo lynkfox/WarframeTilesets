@@ -9,7 +9,7 @@ using WFTileCounter.ModelsLogic;
 using WFTileCounter.ModelsView;
 using static WFTileCounter.Models.MapPoint;
 
-namespace WFTileCounter.ControllersProcessing
+namespace WFTileCounter.BuisnessLogic
 {
     public class DatabaseFunctions
     {

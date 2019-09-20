@@ -18,35 +18,37 @@ namespace WFTileCounter.Models
         public int Id { get; set; }
         [ForeignKey("TileName")]
         [MaxLength(100)]
-        [Display(Name = "Tile Name: ")]
+        [Display(Name = "DE Name")]
         [Required]
         public Tile Tile { get; set; }
         [MaxLength(100)]
-        [Display(Name = "Popular Name: ")]
+        [Display(Name = "Popular Name")]
         public string PopularName { get; set; }
-        [Display(Name = "Exits: ")]
+        [Display(Name = "#Exits")]
         public int? Exits { get; set; }
-        [Display(Name = "Alarm Consoles:")]
+        [Display(Name = "#Consoles")]
         public int? Consoles { get; set; }
-        [Display(Name = "Total Lockers: ")]
+        [Display(Name = "#Lockers")]
         public int? Lockers { get; set; }
-        [Display(Name = "Secrets: ")]
+        [Display(Name = "#Secrets")]
         public int? Secrets { get; set; }
-        [Display(Name = "Loot Rooms: ")]
+        [Display(Name = "#Closets")]
         public int? LootRooms { get; set; }
-        [Display(Name = "Hazards: ")]
+        [Display(Name = "#Hazards")]
         public int? Hazards { get; set; }
-        [Display(Name = "Possible Objectives:")]
+        [Display(Name = "Objectives")]
         [StringLength(50)]
         public string Objectives { get; set; }
-        [Display(Name = "Description: ")]
+        [Display(Name = "General Room Description: ")]
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
         [Display(Name = "Reason for Popular Name: ")]
         [Column(TypeName = "ntext")]
         public string BehindName { get; set; }
+        [Display(Name = "Description of Secrets ")]
         [Column(TypeName = "ntext")]
         public string SecretDescription { get; set; }
+        [Display(Name = "Description of Hazards")]
         [Column(TypeName = "ntext")]
         public string HazardDescription { get; set; }
 

@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 
-namespace WFTileCounter.ControllersProcessing
+namespace WFTileCounter.BuisnessLogic
 {
 
     /*This Controller is mostly used at the moment for testing purposes. - It has everything needed to parse, display, and insert the data into the database.

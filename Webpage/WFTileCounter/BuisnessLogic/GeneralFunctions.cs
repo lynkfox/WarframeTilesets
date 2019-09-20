@@ -9,7 +9,7 @@ using WFTileCounter.Models;
 using WFTileCounter.ModelsLogic;
 using WFTileCounter.ModelsView;
 
-namespace WFTileCounter.ControllersProcessing
+namespace WFTileCounter.BuisnessLogic
 {
     public class GeneralFunctions
     {

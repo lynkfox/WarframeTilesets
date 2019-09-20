@@ -17,92 +17,118 @@
     <div class="container">
         <div class="row">
             
-            <div class="col-3 border-rounded border-success">
+            <div class="col-md-4 border border-light">
                 <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
 
             </div>
-            <div class="col-9">
+            
+            <div class="col-md-8 border border-light">
                 <div class="row">
-                    <div class="col-3">
-                        <strong>DE Name of Tile</strong>
+                    <div class="col-md-6  border border-light">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.Name)</strong>
                     </div>
-                    <div class="col-3">
+                    <div class="col-md-6  border border-light">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.PopularName)</strong>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
                         @Html.TextBoxFor(x => x.Tile.Name, new { @class = "form-control" })
                     </div>
-                    <div class="col-3">
-                        <strong>Common Name</strong>
-                    </div>
-                    <div class="col-3">
+                    <div class="col-md-6">
                         @Html.TextBoxFor(x => x.Tile.TileDetail.PopularName, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-2">
-                        <strong>Exits</strong>
+                    <div class="col-md-2 border">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Consoles)</strong>
                     </div>
-                    <div class="col-2">
-                        @Html.TextBoxFor(x => x.Tile.TileDetail.Exits, new { @class = "form-control" })
+                    <div class="col-md-2 border">
+                        @Html.DropDownListFor(x => x.Tile.TileDetail.Consoles, Model.Numbers, new { @class = "form-control" })
                     </div>
-                    <div class="col-2">
-                        <strong>Consoles</strong>
+                    <div class="col-md-2 border">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Exits)</strong>
                     </div>
-                    <div class="col-2">
-                        @Html.TextBoxFor(x => x.Tile.TileDetail.Consoles, new { @class = "form-control" })
+                    <div class="col-md-2 border">
+                        @Html.DropDownListFor(x => x.Tile.TileDetail.Exits, Model.Numbers, new { @class = "form-control" })
                     </div>
-                    <div class="col-2">
-                        <strong>Lockers</strong>
+                    <div class="col-md-2 border">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Lockers)</strong>
                     </div>
-                    <div class="col-2">
-                        @Html.TextBoxFor(x => x.Tile.TileDetail.Lockers, new { @class = "form-control" })
+                    <div class="col-md-2 border">
+                        @Html.DropDownListFor(x => x.Tile.TileDetail.Lockers, Model.Numbers, new { @class = "form-control" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2 border">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Secrets)</strong>
+                    </div>
+                    <div class="col-md-2 border">
+                        @Html.DropDownListFor(x => x.Tile.TileDetail.Secrets, Model.Numbers, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2 border">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.LootRooms)</strong>
+                    </div>
+                    <div class="col-md-2 border">
+                        @Html.DropDownListFor(x => x.Tile.TileDetail.LootRooms, Model.Numbers, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2 border">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Hazards)</strong>
+                    </div>
+                    <div class="col-md-2 border">
+                        @Html.DropDownListFor(x => x.Tile.TileDetail.Hazards, Model.Numbers, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 border">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Description)</strong>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-2">
-                        <strong>Closets</strong>
-                    </div>
-                    <div class="col-2">
-                        @Html.TextBoxFor(x => x.Tile.TileDetail.LootRooms, new { @class = "form-control" })
-                    </div>
-                    <div class="col-2">
-                        <strong>Secrets</strong>
-                    </div>
-                    <div class="col-2">
-                        @Html.TextBoxFor(x => x.Tile.TileDetail.Secrets, new { @class = "form-control" })
-                    </div>
-                    <div class="col-2">
-                        <strong>Hazards</strong>
-                    </div>
-                    <div class="col-2">
-                        @Html.TextBoxFor(x => x.Tile.TileDetail.Hazards, new { @class = "form-control" })
+                    <div class="col-md-12 border">
+                        @Html.TextAreaFor(x => x.Tile.TileDetail.Description, new { @class = "form-control" })
                     </div>
                 </div>
 
             </div>
-
+        </div>
+            
             <div class="row">
-                <div class="col-3">
-                    <strong>Description</strong><br />
-                    @Html.TextAreaFor(x => x.Tile.TileDetail.Description, new { @class = "form-control" })
+                
+                <div class="col-md-4 border">
+                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.SecretDescription)</strong>
                 </div>
-                <div class="col-3">
-                    <strong>Secrets</strong><br />
+                <div class="col-md-4 border">
+                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.HazardDescription)</strong>
+                </div>
+                <div class="col-md-4 border">
+                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.BehindName)</strong>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="col-md-4 border">
+                    
                     @Html.TextAreaFor(x => x.Tile.TileDetail.SecretDescription, new { @class = "form-control" })
                 </div>
-                <div class="col-3">
-                    <strong>Hazard</strong><br />
+                <div class="col-md-4 border">
+                    
                     @Html.TextAreaFor(x => x.Tile.TileDetail.HazardDescription, new { @class = "form-control" })
                 </div>
-                <div class="col-3">
-                    <strong>Reason For Popular Name</strong><br />
+                <div class="col-md-4 border">
+                    
                     @Html.TextAreaFor(x => x.Tile.TileDetail.BehindName, new { @class = "form-control" })
                 </div>
             </div>
             
 
-        </div>
     </div>
     
-
+    
+    <br />
     
 
     <input type="submit" value="Update Tile" id="btnSubmit" />
