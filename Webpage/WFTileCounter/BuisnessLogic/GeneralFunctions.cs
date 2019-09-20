@@ -160,6 +160,7 @@ namespace WFTileCounter.BuisnessLogic
                 {
                     metaList.Find(x => x.MapIdentifier == identifier).First = true;
                     metaList.Find(x => x.MapIdentifier == identifier).FullRun = true;
+                    metaList.Find(x => x.MapIdentifier == identifier).MapPointsRecorded = true;
                 }
             }
 
