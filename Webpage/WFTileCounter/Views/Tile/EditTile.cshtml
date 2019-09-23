@@ -16,122 +16,217 @@
 
     <div class="container">
         <div class="row">
-            
+
             <div class="col-md-4 border border-light">
                 <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
 
             </div>
-            
+
             <div class="col-md-8 border border-light">
                 <div class="row">
-                    <div class="col-md-6  border border-light">
+                    <div class="col-md-6 mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.Name)</strong>
                     </div>
-                    <div class="col-md-6  border border-light">
+                    <div class="col-md-6 mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.PopularName)</strong>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6  border-bottom border-light mb-1  pb-1">
                         @Html.TextBoxFor(x => x.Tile.Name, new { @class = "form-control" })
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6  border-bottom border-light mb-1 pb-1">
                         @Html.TextBoxFor(x => x.Tile.TileDetail.PopularName, new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Consoles)</strong>
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         @Html.DropDownListFor(x => x.Tile.TileDetail.Consoles, Model.Numbers, new { @class = "form-control" })
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Exits)</strong>
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         @Html.DropDownListFor(x => x.Tile.TileDetail.Exits, Model.Numbers, new { @class = "form-control" })
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Lockers)</strong>
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         @Html.DropDownListFor(x => x.Tile.TileDetail.Lockers, Model.Numbers, new { @class = "form-control" })
                     </div>
 
                 </div>
                 <div class="row">
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Secrets)</strong>
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         @Html.DropDownListFor(x => x.Tile.TileDetail.Secrets, Model.Numbers, new { @class = "form-control" })
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.LootRooms)</strong>
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         @Html.DropDownListFor(x => x.Tile.TileDetail.LootRooms, Model.Numbers, new { @class = "form-control" })
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Hazards)</strong>
                     </div>
-                    <div class="col-md-2 border">
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
                         @Html.DropDownListFor(x => x.Tile.TileDetail.Hazards, Model.Numbers, new { @class = "form-control" })
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12 border">
+                    <div class="col-md-12  mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Description)</strong>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 border">
+                    <div class="col-md-12  mb-1 pb-1">
                         @Html.TextAreaFor(x => x.Tile.TileDetail.Description, new { @class = "form-control" })
                     </div>
                 </div>
 
             </div>
         </div>
-            
-            <div class="row">
-                
-                <div class="col-md-4 border">
-                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.SecretDescription)</strong>
-                </div>
-                <div class="col-md-4 border">
-                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.HazardDescription)</strong>
-                </div>
-                <div class="col-md-4 border">
-                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.BehindName)</strong>
-                </div>
+
+        <div class="row">
+
+            <div class="col-md-4 border-left mb-1 pb-1">
+                <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.SecretDescription)</strong>
             </div>
-            <div class="row">
+            <div class="col-md-4 mb-1 pb-1">
+                <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.HazardDescription)</strong>
+            </div>
+            <div class="col-md-4 border-right mb-1 pb-1">
+                <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.BehindName)</strong>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-4 border-left border-bottom mb-1 pb-1">
+
+                @Html.TextAreaFor(x => x.Tile.TileDetail.SecretDescription, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 border-bottom mb-1 pb-1">
+
+                @Html.TextAreaFor(x => x.Tile.TileDetail.HazardDescription, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 border-bottom border-right mb-1 pb-1">
+
+                @Html.TextAreaFor(x => x.Tile.TileDetail.BehindName, new { @class = "form-control" })
+            </div>
+        </div>
+
+
+
+        <div class="row">
+
+            <div class="col-md-12 border-light border-left border-right mb-1 pb-1">
+                <strong>Potential Mission Objectives in this Tile:</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1  mb-1 pb-1 border-bottom border-light border-left align-items-center">
+                @Html.DisplayNameFor(x => x.Tile.TileDetail.PlayerSpawn)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.CheckBoxFor(x => x.Tile.TileDetail.PlayerSpawn)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.DisplayNameFor(x => x.Tile.TileDetail.PlayerExtract)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.CheckBoxFor(x => x.Tile.TileDetail.PlayerExtract)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.DisplayNameFor(x => x.Tile.TileDetail.MobileDefense)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.CheckBoxFor(x => x.Tile.TileDetail.MobileDefense)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.DisplayNameFor(x => x.Tile.TileDetail.DefectionSpawn)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionSpawn)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
+                @Html.DisplayNameFor(x => x.Tile.TileDetail.DefectionRest)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light  align-items-center">
+                @Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionRest)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light  align-items-center">
+                @Html.DisplayNameFor(x => x.Tile.TileDetail.SurvivalPylon)
+            </div>
+            <div class="col-md-1 mb-1 pb-1 border-bottom border-light border-right  align-items-center">
+                @Html.CheckBoxFor(x => x.Tile.TileDetail.SurvivalPylon)
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12 border-light border-left border-right mb-1 pb-1">
+                <strong>Potential Collectibles and Spawn Points in this Tile:</strong>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 border-light border-right border-left border-bottom">
+                <div class="row justify-content-center">
+                    <div class="col-md-1  mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.CaptureSpawn)</span></center>
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.SimarisSpawn)</span></center>
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Cache)</span></center>
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Cephalon)</span></center>
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Somachord)</span></center>
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.FrameFighter)</span></center>
+
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1 align-items-center">
+                        <center><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Ayatan)</span></center>
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Medallion)</span></center>
+
+                    </div>
+                    <div class="col-md-1 mb-1 pb-1  align-items-center">
+                        <center><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.RareContainer)</span></center>
+
+                    </div>
+                </div>
                 
-                <div class="col-md-4 border">
-                    
-                    @Html.TextAreaFor(x => x.Tile.TileDetail.SecretDescription, new { @class = "form-control" })
-                </div>
-                <div class="col-md-4 border">
-                    
-                    @Html.TextAreaFor(x => x.Tile.TileDetail.HazardDescription, new { @class = "form-control" })
-                </div>
-                <div class="col-md-4 border">
-                    
-                    @Html.TextAreaFor(x => x.Tile.TileDetail.BehindName, new { @class = "form-control" })
-                </div>
             </div>
             
+
+        </div>
+
+
+
+
 
     </div>
-    
-    
-    <br />
-    
 
-    <input type="submit" value="Update Tile" id="btnSubmit" />
-    <hr />
+
+        <br />
+
+
+        <input type="submit" value="Update Tile" id="btnSubmit" />
+        <hr />
 </form>
 
