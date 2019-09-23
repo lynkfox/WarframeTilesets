@@ -56,5 +56,7 @@ namespace WFTileCounter.BuisnessLogic
 
             return fullDetailsOfTile;
         }
+
+        
     }
 }
