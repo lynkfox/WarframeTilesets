@@ -123,6 +123,7 @@ namespace WFTileCounter.Controllers
                     tileImage.ImageName = file.FileName;
                     tileImage.ImagePath = imagePath;
                     tileImage.Tile = tile;
+                    tileImage.TileName = tile.Name; // for later use when passing this model to the next controller
 
                     tileImagesList.Add(tileImage);
                     if (System.IO.File.Exists(imagePath))
@@ -147,6 +148,7 @@ namespace WFTileCounter.Controllers
 
                 }
 
+                //can I route this with  [Route("Tile/{tileset}/{tilename}/Edit")] and then be able to pullt he tilename dynamically? 
                 return View("ImageDetails", tileImagesList);
             }
 
@@ -160,11 +162,12 @@ namespace WFTileCounter.Controllers
 
         public async Task<IActionResult> ImageEdit(List<TileImage> images)
         {
-            var tile = _db.Tiles.Where(x => x.Name == images[0].Tile.Name).FirstOrDefault();
+            
 
             foreach(var img in images)
             {
-                img.Tile = tile;
+               
+                img.Tile = _db.Tiles.Where(x => x.Name == img.TileName).FirstOrDefault();
                 _db.Add(img);
             }
             await _db.SaveChangesAsync();

@@ -4,9 +4,12 @@
 }
 
     <div class="container">
-        @Html.DisplayNameFor(x => x.Tile)
-        @Html.DisplayFor(x => x.Tile.Name)
-
+        @Html.DisplayNameFor(x => x.TileName)
+        @Html.DisplayFor(x => x.TileName)
+        <div class="editor-field">
+            @Html.HiddenFor(x=>x.TileName)
+            @Html.ValidationMessageFor(x=>x.TileName)
+        </div>
         <br>
 
         @Html.DisplayNameFor(x => x.ImageName)
