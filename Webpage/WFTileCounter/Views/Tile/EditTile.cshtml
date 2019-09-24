@@ -217,9 +217,10 @@
             </div>
 
             <div class="row">
-                <div class="col-md-12 mb-1 pb-1  align-items-center">
-                    <strong>Upload new Images: </strong>
-                    <input type="file" name="fileList[]" multiple id="filesToUpload" onChange="makeFileList();" />
+                <div class="col-md-12 mb-1 pb-1 mt-1 pt-1  align-items-center">
+                    <strong>Upload new Images: </strong><br />
+                    @Html.TextBoxFor(model => model.ImageFiles, new { type = "file", multiple = "",  @id = "filesToUpload", @onchange="makeFileList();"})
+                    
                 </div>
             </div>
             <div class="row">

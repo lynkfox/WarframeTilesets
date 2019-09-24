@@ -63,7 +63,7 @@ namespace WFTileCounter.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(TileDetailsViewModel tileDetails, IEnumerable<IFormFile> fileList)
+        public async Task<IActionResult> Update(TileDetailsViewModel tileDetails)
         {
 
 
@@ -103,9 +103,9 @@ namespace WFTileCounter.Controllers
             string directoryPath = Path.Combine(webRoot,"img","tilesets",tilesetName, tileName);
             await _db.SaveChangesAsync();
 
-            if(fileList.Count()!=0)
+            if(tileDetails.ImageFiles.Count()!=0)
             {
-                foreach (var file in fileList)
+                foreach (var file in tileDetails.ImageFiles)
                 {
                     if (file == null || file.Length == 0)
                     {

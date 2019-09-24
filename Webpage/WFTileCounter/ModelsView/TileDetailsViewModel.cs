@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -17,7 +18,7 @@ namespace WFTileCounter.ModelsView
 
         public List<SelectListItem> Numbers { get; set; }
 
-     
-        
+
+        public IEnumerable<IFormFile> ImageFiles { get; set; }
     }
 }
