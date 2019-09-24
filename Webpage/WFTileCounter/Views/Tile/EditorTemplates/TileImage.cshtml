@@ -1,0 +1,26 @@
+﻿@model WFTileCounter.Models.TileImage
+@{
+    ViewData["Title"] = "TileImage";
+}
+
+    <div class="container">
+        @Html.DisplayNameFor(x => x.Tile)
+        @Html.DisplayFor(x => x.Tile.Name)
+
+        <br>
+
+        @Html.DisplayNameFor(x => x.ImageName)
+        @Html.TextBoxFor(x => x.ImageName)
+
+        <br>
+
+        @Html.DisplayNameFor(x => x.ViewName)
+        @Html.TextBoxFor(x => x.ViewName)
+
+        <br>
+
+        @Html.DisplayNameFor(x => x.AltText)
+        @Html.TextBoxFor(x => x.AltText)
+
+    </div>
+

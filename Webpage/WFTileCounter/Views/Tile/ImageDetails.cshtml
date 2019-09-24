@@ -1,0 +1,27 @@
+﻿@model IEnumerable<WFTileCounter.Models.TileImage>
+@{
+    ViewData["Title"] = "ImageDetails";
+}
+
+<h1>ImageDetails</h1>
+
+<h4>TileImage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Tile" asp-action="ImageEdit" method="post">
+
+
+            <input type="submit" value="Submit Data" id="btnSubmit" />
+            <hr />
+
+            @Html.EditorForModel()
+
+            <input type="submit" value="Submit Data" id="btnSubmit" />
+            <hr />
+        </form>
+    </div>
+</div>
+
+
+

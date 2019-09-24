@@ -105,11 +105,12 @@ namespace WFTileCounter.Controllers
 
             if(tileDetails.ImageFiles.Count()!=0)
             {
+                List<TileImage> tileImagesList = new List<TileImage>();
                 foreach (var file in tileDetails.ImageFiles)
                 {
                     if (file == null || file.Length == 0)
                     {
-                        break;
+                        continue;
                     }
 
                     var imagePath = Path.Combine(directoryPath,
@@ -117,7 +118,13 @@ namespace WFTileCounter.Controllers
 
                     Directory.CreateDirectory(directoryPath);
 
+                    var tileImage = new TileImage();
 
+                    tileImage.ImageName = file.FileName;
+                    tileImage.ImagePath = imagePath;
+                    tileImage.Tile = tile;
+
+                    tileImagesList.Add(tileImage);
                     if (System.IO.File.Exists(imagePath))
                     {
                         //need overwrite option?
@@ -140,7 +147,7 @@ namespace WFTileCounter.Controllers
 
                 }
 
-                return View("Index");
+                return View("ImageDetails", tileImagesList);
             }
 
             
@@ -150,6 +157,20 @@ namespace WFTileCounter.Controllers
             //else return 404
         }
 
+
+        public async Task<IActionResult> ImageEdit(List<TileImage> images)
+        {
+            var tile = _db.Tiles.Where(x => x.Name == images[0].Tile.Name).FirstOrDefault();
+
+            foreach(var img in images)
+            {
+                img.Tile = tile;
+                _db.Add(img);
+            }
+            await _db.SaveChangesAsync();
+
+            return View("Index");
+        }
 
 
         private static List<SelectListItem> GenerateNumbers()
