@@ -51,9 +51,10 @@ namespace WFTileCounter.Controllers
             return View();
         }
 
-
-        //This is not currently set up to work. It is stored here for future development once out of testing phases
-        // and I'll probably move it out of the HomeController.
+        public IActionResult UploadFiles()
+        {
+            return View("Upload");
+        }
 
         [HttpPost]
         [DisableRequestSizeLimit]

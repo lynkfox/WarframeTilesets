@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,12 +18,13 @@ namespace WFTileCounter.Controllers
     {
 
         private readonly DatabaseContext _db; //database context shortcut
+        private IHostingEnvironment _env;
 
 
-
-        public TileController(DatabaseContext context)
+        public TileController(DatabaseContext context, IHostingEnvironment env)
         {
             _db = context;
+            _env = env;
         }
 
 
@@ -59,14 +63,14 @@ namespace WFTileCounter.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(TileDetailsViewModel tileDetails)
+        public async Task<IActionResult> Update(TileDetailsViewModel tileDetails, IEnumerable<IFormFile> fileList)
         {
 
 
             //if(GetUser()== Approved Admin ID)
 
 
-            var tile = _db.Tiles.Where(x => x.Name == tileDetails.Tile.Name).Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles).Include(x => x.TileImages).FirstOrDefault();
+            var tile = _db.Tiles.Where(x => x.Name == tileDetails.Tile.Name).Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles).Include(x => x.TileImages).Include(x=>x.Tileset).FirstOrDefault();
 
             //Tile Edit can only pull from tiles already in the datbaase, so it should damn well exist.
 
@@ -93,40 +97,53 @@ namespace WFTileCounter.Controllers
                 _db.TileDetails.Update(tileDetailsAlreadyInDb);
             }
 
-
-            /*
-             * 
-             * var variantsAlreadyInDb = tile.TileDetail.VariantTiles;
-            var varientsInInsert = tileDetails.Tile.TileDetail.VariantTiles;
-
-            var imagesAlreadyInDb = tile.TileImages;
-            var imagesInInsert = tileDetails.Tile.TileImages;
-
-            //Check to see if there is already a list of Variant Tiles in the db. If not, add each varient listed one by one.
-           if (variantsAlreadyInDb is null)
-            {
-                foreach(var varient in varientsInInsert)
-                {
-                    _db.VariantTiles.Add(varient);
-                }
-            }
-            else // if there already is a list, find out if the variant suggested is already in the list. If it is, ignore because it is just a single col. Otherwise, add it new.
-            {
-                var listOfVariant
-                foreach (var varient in varientsInInsert)
-                {
-                    string varTileName = varient.VariantTileName.ToString();
-                    if(!variantsAlreadyInDb.Contains(varTileName))
-                    {
-                        _db.VariantTiles.Add(varient);
-                    }
-                }
-
-            }
-
-        */
-
+            
+            var webRoot = _env.WebRootPath;
+            string tilesetName = tile.Tileset.Name.ToString();
+            string directoryPath = Path.Combine(webRoot,"img","tilesets",tilesetName, tileName);
             await _db.SaveChangesAsync();
+
+            if(fileList.Count()!=0)
+            {
+                foreach (var file in fileList)
+                {
+                    if (file == null || file.Length == 0)
+                    {
+                        break;
+                    }
+
+                    var imagePath = Path.Combine(directoryPath,
+                                 file.FileName);
+
+                    Directory.CreateDirectory(directoryPath);
+
+
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        //need overwrite option?
+                        System.IO.File.Delete(imagePath);
+                        using (var stream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+
+                        }
+                    }
+                    else
+                    {
+                        using (var stream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+
+                        }
+
+                    }
+
+                }
+
+                return View("Index");
+            }
+
+            
 
             return View("Index");
 

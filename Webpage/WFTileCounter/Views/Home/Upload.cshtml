@@ -1,0 +1,36 @@
+﻿
+
+<h1>Upload</h1>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 border-light border-right border-bottom pb-2 mb-2">
+            <form asp-controller="Home" asp-action="UploadFile" method="post"
+                  enctype="multipart/form-data">
+
+                <input type="file" name="fileList[]" multiple id="filesToUpload" onChange="makeFileList();" />
+                <button type="submit">Upload Files</button>
+            </form>
+        </div>
+
+        
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 border-light border-right">
+            <ul id="fileList" class="list-group"></ul>
+
+        </div>
+        <div class="col-md-8">
+            <ul>
+                <li>Tips for a Good Upload</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+

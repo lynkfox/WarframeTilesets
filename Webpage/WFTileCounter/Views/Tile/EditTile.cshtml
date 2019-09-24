@@ -4,6 +4,9 @@
     ViewData["Title"] = "EditTile";
 }
 
+
+
+
 <h1>ViewTile</h1>
 
 <div>
@@ -11,7 +14,7 @@
     <hr />
 </div>
 
-<form asp-controller="Tile" asp-action="Update" method="post">
+<form asp-controller="Tile" asp-action="Update" method="post" enctype="multipart/form-data">
 
 
     <div class="container">
@@ -210,9 +213,20 @@
 
                     </div>
                 </div>
-                
+
             </div>
-            
+
+            <div class="row">
+                <div class="col-md-12 mb-1 pb-1  align-items-center">
+                    <strong>Upload new Images: </strong>
+                    <input type="file" name="fileList[]" multiple id="filesToUpload" onChange="makeFileList();" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-1 pb-1  align-items-center">
+                    <ul id="fileList"class="list-group list-group-horizontal"></ul>
+                </div>
+            </div>
 
         </div>
 
@@ -223,10 +237,10 @@
     </div>
 
 
-        <br />
+    <br />
 
 
-        <input type="submit" value="Update Tile" id="btnSubmit" />
-        <hr />
+    <input type="submit" value="Update Tile" id="btnSubmit" />
+    <hr />
 </form>
 

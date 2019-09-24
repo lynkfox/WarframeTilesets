@@ -34,11 +34,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <environment include="Development">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Process" asp-action="ProcessFiles">Development Link -> Grab Files</a>
-
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Process" asp-action="ProcessFiles">Development Link -> Grab Files</a>
+                            </li>
                         </environment>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Process" asp-action="ProcessFiles">Process Files</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UploadFiles">Upload Files</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Introduction</a>
