@@ -56,7 +56,6 @@ namespace WFTileCounter.BuisnessLogic
             fullDetailsOfTile.Variants = tile.TileDetail.VariantTiles;
             fullDetailsOfTile.Images = tile.TileImages.Where(x=>x.ViewName !="Map");
 
-            /*snag any recoreded collectibles from the MapPoints database, to see if any of them are already set for this tile
             var mapPointCollectibles = _db.MapPoints.Where(x => x.Tile.Name == tileName);
             fullDetailsOfTile.Details.Ayatan = mapPointCollectibles.Where(x => x.Ayatan).Any();
             fullDetailsOfTile.Details.CaptureSpawn = mapPointCollectibles.Where(x => x.CaptureSpawn).Any();
@@ -66,7 +65,7 @@ namespace WFTileCounter.BuisnessLogic
             fullDetailsOfTile.Details.SimarisSpawn = mapPointCollectibles.Where(x => x.SimarisSpawn).Any();
             fullDetailsOfTile.Details.Somachord = mapPointCollectibles.Where(x => x.Somachord).Any();
             fullDetailsOfTile.Details.Cache = mapPointCollectibles.Where(x => x.Cache).Any();
-            */
+            
             foreach (var img in fullDetailsOfTile.Images)
             {
                 img.ImagePath = GetImagePath(img.ImageName, tile.Name);

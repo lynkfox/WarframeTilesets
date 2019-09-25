@@ -1,16 +1,16 @@
 ﻿@model WFTileCounter.ModelsView.TileDetailsViewModel
 
 @{
-    ViewData["Title"] = "EditTile";
+    ViewData["Title"] = "Edit Tile";
 }
 
 
 
 
-<h1>ViewTile</h1>
+<h1>Edit Tile Information</h1>
 
 <div>
-    <h4>TileDetailsViewModel</h4>
+    <h4>Editing Tile Information for @Html.DisplayFor(x=>x.Tile.Name)</h4>
     <hr />
 </div>
 
@@ -216,24 +216,13 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-md-12 mb-1 pb-1 mt-1 pt-1  align-items-center">
-                    <strong>Upload new Images: </strong><br />
-                    @Html.TextBoxFor(model => model.ImageFiles, new { type = "file", multiple = "",  @id = "filesToUpload", @onchange="makeFileList();"})
-                    
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 mb-1 pb-1  align-items-center">
-                    <ul id="fileList"class="list-group list-group-horizontal"></ul>
-                </div>
-            </div>
+            
 
         </div>
 
         <div class="row">
 
-            <div class="col-md-12 border-light border">
+            <div class="col-md-12">
                 <div class="row">
                     <div class="col-mid-12 pb-1 mb-1">
                         <strong>Images Currently Uploaded of Tile</strong>
@@ -290,8 +279,21 @@
 
 
                         </div>
-                        
 
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-1 pb-1 mt-1 pt-1  align-items-center">
+                        <strong>Upload new Images: </strong><br />
+                        @Html.TextBoxFor(model => model.ImageFiles, new { type = "file", multiple = "", @id = "filesToUpload", @onchange = "makeFileList();" })
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-1 pb-1  align-items-center">
+                        <ul id="fileList" class="list-group list-group-horizontal"></ul>
                     </div>
                 </div>
             </div>
