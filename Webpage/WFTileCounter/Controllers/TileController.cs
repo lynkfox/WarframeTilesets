@@ -102,8 +102,10 @@ namespace WFTileCounter.Controllers
             string tilesetName = tile.Tileset.Name.ToString();
             string directoryPath = Path.Combine(webRoot,"img","tilesets",tilesetName, tileName);
             await _db.SaveChangesAsync();
+            if(tileDetails.ImageFiles is null)
+            {
 
-            if(tileDetails.ImageFiles.Count()!=0)
+            }else //(tileDetails.ImageFiles.Count()!=0)
             {
                 List<TileImage> tileImagesList = new List<TileImage>();
                 foreach (var file in tileDetails.ImageFiles)

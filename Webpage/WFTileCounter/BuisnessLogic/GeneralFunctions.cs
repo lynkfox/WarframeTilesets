@@ -57,6 +57,7 @@ namespace WFTileCounter.BuisnessLogic
             }
         }
 
+
         public string GetPath(ImgMetaData data)
         {
             string userId = GetUserId().ToString();
