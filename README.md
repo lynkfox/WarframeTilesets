@@ -9,31 +9,29 @@ Most of these folders will contain images in regards to the tiles in various pro
 
 ## Webpage
 
-This section contains (Currently) work to figure out just how common various tiles are. It uses an ASP.Net Core MVC application that will read in screenshots from the game that contain metadata, display the meta data, then add it to a sql server.
+The page that is the centerpiece of this project.
 
-As of 8/16/19 the webpage works in my personal test environment (that is, the SQL server is only hosted on my computer, and it pulls directly from my Pictures/Warframe folder on my c:drive) There are *many* unique and special cases to the way Digital Extremes titles its map tiles, and as such there is much work to do to figure them out and build exceptions for them, before I release this into the wild for others to upload their images for.
+Contains an Upload ability:  upload warframe screenshots, sorted into directories by userID/mapId/ and stored (indefinitely atm)
 
-There is a SQL create script for creating a similar database (but this is in the progress of being a CodeFirst application, so you shouldn't need it), and you'll have to adjust the code to look properly for your images if you want to run this yourself.
+Ability to view individual tile's information and update the information in the database.
 
-(Ie: the uploads button 'works' but doesn't actually do anything yet)
+CodeFirst database structure, so anyone can install the database structure anywhere.
+
+Basic Functionality of major points is in place as of 9/26/19. 
 
 ## Future Webpage Plans
 
 * Allow user profiles
-* Allow users to upload images, and have the meta data pulled from and processed
-* Upload files into temp directories that will be destroyed at the end of the process.
 * Figure out the best way to prevent sql lockups from many users using the page at once. (Concurancy Checks!!!)
 		*(this should actually not be that much of an issue, because most users will only be able to insert, not update - but still)*
 * make it look much damn better
 
-* tie in the Tileset images I'm creating above. Show the map image for each tile during the 'check' process of parsing out the data. 
 * have various links to the Tileset indexes, and the Tiles themselves, to show secrets and other information.
 * Show statistics of how common tiles from aggregated data from many runs, what mission type it is most common in
 
 * SuperUsers with the ability to Update Tile Pages
 * Regular  Users with the ability to request a change, but that needs to be approved by SuperUsers
 
-* Record Type of Special Add To Mission - Ie: Kuva Siphon, Kuva Flood, Syndicate, Void Rift, Nightmare
 
 ## Recent Changes
 
@@ -48,7 +46,19 @@ There is a SQL create script for creating a similar database (but this is in the
 * Renamed ProcessFiles view to Review
 * Submit button on Review now properly filters out 'Unchecked' files before submitting them into the database.
 
+
+### 9/26
+* Files can be uploaded using the Upload button (no longer scanning my pictures/warframe directory)
+* Files stored in directory structure userId/mapId
+* Tile Information View mostly complete
+* Tile Information Edit mostly complete
+* Review of Uploaded Tiles shows image uploaded, map of tile, and the ability to add points to that tile (Kuva, Ayatan, Medallion, Mobile Defense, ect)
+* All tiles saved in MapPoints now, not just unique ones - flag for potential 'Bad runs' with extra multiples of the same tile or not all the tiles. 
+* flag for runs that did not include the extra add points (ayatan, ect)
+* Ability to upload Map/View images.
+
 #### Upcoming To Do:
-* Special clause if keepTheseTiles.Count == 0, to return a different view.
-* secondary list to show off which files were not processed into the database?
-* rework the 'Inserted' display (currently Index. Change to 'Success'? or 'Inserted'?)
+* Add Variant's links to Tile View and Edit Tile
+* Index ability to pick out tiles directly.
+* Next Tile/Previous Tile options for alphabetical movement through the tiles of a tileset on the view pages
+* users
