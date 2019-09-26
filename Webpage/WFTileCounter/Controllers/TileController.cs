@@ -36,8 +36,30 @@ namespace WFTileCounter.Controllers
         }
 
         [HttpGet]
+        [Route("Tile/{tileset}/{tilename}")]
+        public IActionResult ViewTile([FromRoute] string tileName,[FromRoute] string tileset)
+        {
+
+            var _tf = new TileFunctions(_db);
+
+
+            string fullTileName = tileset + tileName;
+            var details = _tf.GetFullTileInformation(fullTileName);
+
+            
+
+            if(details is null)
+            {
+                return View("Index");
+            }
+
+            return View("View", details);
+
+        }
+
+        [HttpGet]
         [Route("Tile/{tileset}/{tilename}/Edit")]
-        public IActionResult EditTile([FromRoute] string tileName,[FromRoute] string tileset)
+        public IActionResult EditTile([FromRoute] string tileName, [FromRoute] string tileset)
         {
 
             var _tf = new TileFunctions(_db);
@@ -48,9 +70,9 @@ namespace WFTileCounter.Controllers
             string fullTileName = tileset + tileName;
             var details = _tf.GetFullTileInformation(fullTileName);
 
-            
 
-            if(details is null)
+
+            if (details is null)
             {
                 return View("Index");
             }
@@ -79,7 +101,7 @@ namespace WFTileCounter.Controllers
             var tileDetailsAlreadyInDb = tile.TileDetail;
             var tileDetailsInInsert = tileDetails.Tile.TileDetail;
 
-            var tileName = tile.Name.ToString();
+            string tileName = tile.Name.ToString();
 
 
 
@@ -154,9 +176,11 @@ namespace WFTileCounter.Controllers
                 return View("ImageDetails", tileImagesList);
             }
 
-            
 
-            return View("Index");
+            string smallTileName = tileName.Replace(tilesetName, "");
+
+
+            return RedirectToAction("ViewTile", new { tileset = tilesetName, tilename = smallTileName });
 
             //else return 404
         }
@@ -164,17 +188,26 @@ namespace WFTileCounter.Controllers
 
         public async Task<IActionResult> ImageEdit(List<TileImage> images)
         {
-            
 
+            string tileName ="", tilesetName ="";
             foreach(var img in images)
             {
+                
                
-                img.Tile = _db.Tiles.Where(x => x.Name == img.TileName).FirstOrDefault();
+                img.Tile = _db.Tiles.Where(x => x.Name == img.TileName).Include(x=>x.Tileset).FirstOrDefault();
+
                 _db.Add(img);
+
+                if (images.First() == img)
+                {
+                    tilesetName = img.Tile.Tileset.Name;
+                    tileName = img.Tile.Name;
+                    tileName = tileName.Replace(tilesetName, "");
+                }
             }
             await _db.SaveChangesAsync();
 
-            return View("Index");
+            return RedirectToAction("ViewTile", new { tileset = tilesetName, tilename = tileName });
         }
 
 

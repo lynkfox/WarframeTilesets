@@ -20,7 +20,7 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-md-4 border border-light">
+            <div class="col-md-4 mb-1">
                 <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
 
             </div>
@@ -28,21 +28,34 @@
             <div class="col-md-8 border border-light">
                 <div class="row">
                     <div class="col-md-6 mb-1 pb-1">
-                        <strong>@Html.DisplayNameFor(x => x.Tile.Name)</strong>
+                        <div class="row">
+                            <div class="col-md-12 mb-1 pb-1 ">
+                                <strong>@Html.DisplayNameFor(x => x.Tile.Name)</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-1 pb-1 border-bottom border-light">
+                                @Html.TextBoxFor(x => x.Tile.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="col-md-6 mb-1 pb-1">
-                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.PopularName)</strong>
+                        <div class="row">
+                            <div class="col-md-12 mb-1 pb-1">
+                                <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.PopularName)</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-1 pb-1 border-bottom border-light">
+                                @Html.TextBoxFor(x => x.Tile.TileDetail.PopularName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6  border-bottom border-light mb-1  pb-1">
-                        @Html.TextBoxFor(x => x.Tile.Name, new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-6  border-bottom border-light mb-1 pb-1">
-                        @Html.TextBoxFor(x => x.Tile.TileDetail.PopularName, new { @class = "form-control" })
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Consoles)</strong>
@@ -101,33 +114,45 @@
 
         <div class="row">
 
-            <div class="col-md-4 border-left mb-1 pb-1">
-                <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.SecretDescription)</strong>
+            <div class="col-md-4 mb-1 pb-1">
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.SecretDescription)</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(x => x.Tile.TileDetail.SecretDescription, new { @class = "form-control" })
+                    </div>
+                </div>
             </div>
             <div class="col-md-4 mb-1 pb-1">
-                <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.HazardDescription)</strong>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.HazardDescription)</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(x => x.Tile.TileDetail.HazardDescription, new { @class = "form-control" })
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 border-right mb-1 pb-1">
-                <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.BehindName)</strong>
+            <div class="col-md-4 mb-1 pb-1">
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.BehindName)</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(x => x.Tile.TileDetail.BehindName, new { @class = "form-control" })
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
+            
 
-            <div class="col-md-4 border-left border-bottom mb-1 pb-1">
-
-                @Html.TextAreaFor(x => x.Tile.TileDetail.SecretDescription, new { @class = "form-control" })
             </div>
-            <div class="col-md-4 border-bottom mb-1 pb-1">
-
-                @Html.TextAreaFor(x => x.Tile.TileDetail.HazardDescription, new { @class = "form-control" })
-            </div>
-            <div class="col-md-4 border-bottom border-right mb-1 pb-1">
-
-                @Html.TextAreaFor(x => x.Tile.TileDetail.BehindName, new { @class = "form-control" })
-            </div>
-        </div>
-
-
 
         <div class="row">
 
