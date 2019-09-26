@@ -82,6 +82,8 @@ namespace WFTileCounter.BuisnessLogic
             return View("Review", metaList);
         }
 
+
+        //depreciated
         public IActionResult ProcessFiles()
         {
             List<ImgMetaData> metaList = new List<ImgMetaData>();

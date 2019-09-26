@@ -11,7 +11,7 @@
             <form asp-controller="Home" asp-action="UploadFile" method="post"
                   enctype="multipart/form-data">
 
-                <input type="file" name="fileList[]" multiple id="filesToUpload" onChange="makeFileList();" />
+                <input type="file" name="fileList" multiple id="filesToUpload" onChange="makeFileList();" />
                 <button type="submit">Upload Files</button>
             </form>
         </div>

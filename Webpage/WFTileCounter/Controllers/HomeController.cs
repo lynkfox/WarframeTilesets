@@ -65,6 +65,8 @@ namespace WFTileCounter.Controllers
             var webRoot = _env.WebRootPath;
             string directoryPath = Path.Combine(webRoot,"temp_uploads", userId);
 
+            Directory.CreateDirectory(directoryPath);
+
             foreach (var file in fileList)
             {
                 if (file == null || file.Length == 0)
@@ -73,7 +75,7 @@ namespace WFTileCounter.Controllers
                var imagePath = Path.Combine(directoryPath,
                             file.FileName);
                 
-                Directory.CreateDirectory(directoryPath);
+                
 
 
                 if (System.IO.File.Exists(imagePath))
