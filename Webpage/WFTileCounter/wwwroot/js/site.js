@@ -25,5 +25,18 @@ function makeFileList() {
         li.setAttribute('class', 'list-group-item list-group-item-dark')
         ul.appendChild(li);
     }
-}
+};
+
+$(document).ready(function () {
+    $('#objectives input').change(function () {
+        if (this.checked == true) {
+            this.style.borderColor = "#17A2B8"
+        } else {
+            this.style.borderColor = "#F8F9FA"
+        }
+    });
+});
+
+
+
 

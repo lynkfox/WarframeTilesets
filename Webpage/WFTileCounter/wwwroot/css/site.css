@@ -62,6 +62,12 @@ body {
 }
 
 .preview:hover .large{
-    left 20px;
+    left: 20px;
     top: -150px;
+}
+
+/*Custom Css*/
+
+.collectibleBorderChecked {
+    border-color: #17A2B8 !important;
 }

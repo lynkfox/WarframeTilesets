@@ -141,7 +141,7 @@
                 </div>
                 <div class="row ">
                     <div class="col-md-12 mb-1 pb-1 text-center ">
-                        <div class="d-flex justify-content-start">
+                        <div class="d-flex justify-content-center flex-wrap">
                             @if (Model.Tile.TileDetail.PlayerSpawn)
                             {
                                 <span class="d-sm-inline-flex m-1 p-1 bg-light text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential Spawn point.">
@@ -194,7 +194,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="d-flex justify-content-start">
+                        <div class="d-flex justify-content-center flex-wrap">
                             @if (Model.Tile.TileDetail.CaptureSpawn)
                             {
                                 <img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile">

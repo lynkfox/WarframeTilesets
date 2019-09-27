@@ -35,10 +35,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 mb-1 pb-1 border-bottom border-light">
-                                @Html.TextBoxFor(x => x.Tile.Name, new { @class = "form-control" })
+                                @Html.TextBoxFor(x => x.Tile.Name, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="col-md-6 mb-1 pb-1">
                         <div class="row">
@@ -51,11 +51,11 @@
                                 @Html.TextBoxFor(x => x.Tile.TileDetail.PopularName, new { @class = "form-control" })
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
-                
+
                 <div class="row">
                     <div class="col-md-2 border-bottom mb-1 pb-1">
                         <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Consoles)</strong>
@@ -150,100 +150,88 @@
                     </div>
                 </div>
             </div>
-            
 
-            </div>
 
-        <div class="row">
-
-            <div class="col-md-12 border-light border-left border-right mb-1 pb-1">
-                <strong>Potential Mission Objectives in this Tile:</strong>
-            </div>
         </div>
         <div class="row">
-            <div class="col-md-1  mb-1 pb-1 border-bottom border-light border-left align-items-center">
-                @Html.DisplayNameFor(x => x.Tile.TileDetail.PlayerSpawn)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.CheckBoxFor(x => x.Tile.TileDetail.PlayerSpawn)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.DisplayNameFor(x => x.Tile.TileDetail.PlayerExtract)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.CheckBoxFor(x => x.Tile.TileDetail.PlayerExtract)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.DisplayNameFor(x => x.Tile.TileDetail.MobileDefense)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.CheckBoxFor(x => x.Tile.TileDetail.MobileDefense)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.DisplayNameFor(x => x.Tile.TileDetail.DefectionSpawn)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionSpawn)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light align-items-center">
-                @Html.DisplayNameFor(x => x.Tile.TileDetail.DefectionRest)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light  align-items-center">
-                @Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionRest)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light  align-items-center">
-                @Html.DisplayNameFor(x => x.Tile.TileDetail.SurvivalPylon)
-            </div>
-            <div class="col-md-1 mb-1 pb-1 border-bottom border-light border-right  align-items-center">
-                @Html.CheckBoxFor(x => x.Tile.TileDetail.SurvivalPylon)
-            </div>
-        </div>
-        <div class="row">
+            <div class="col-md-12 border-light border mb-1 pb-1">
+                <div class="row">
+                    <div class="col-md-12 mb-1 pb-1">
+                        <strong>Potential Mission Objectives in this Tile:</strong>
+                    </div>
 
-            <div class="col-md-12 border-light border-left border-right mb-1 pb-1">
-                <strong>Potential Collectibles and Spawn Points in this Tile:</strong>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 border-light border-right border-left border-bottom">
-                <div class="row justify-content-center">
-                    <div class="col-md-1  mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.CaptureSpawn)</span></center>
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.SimarisSpawn)</span></center>
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Cache)</span></center>
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Cephalon)</span></center>
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Somachord)</span></center>
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.FrameFighter)</span></center>
-
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1 align-items-center">
-                        <center><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Ayatan)</span></center>
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.Medallion)</span></center>
-
-                    </div>
-                    <div class="col-md-1 mb-1 pb-1  align-items-center">
-                        <center><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"><br /><span>@Html.CheckBoxFor(a => a.Tile.TileDetail.RareContainer)</span></center>
-
-                    </div>
                 </div>
+                <div id="objectives" class="d-flex justify-content-center flex-wrap">
+                    <div  class="d-inline-flex m-1 p-1 rounded border-light border @(Model.Tile.TileDetail.PlayerSpawn ? "bg-secondary" : "bg-dark")" >
+                        <span><label asp-for="Tile.TileDetail.PlayerSpawn"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.PlayerSpawn, new { @onclick = "checkBoxParent(this)" })</span>
+                    </div>
 
+                    <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.PlayerExtract ? "bg-secondary" : "bg-dark")">
+                        <span><label asp-for="Tile.TileDetail.PlayerExtract"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.PlayerExtract)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.MobileDefense ? "bg-secondary" : "bg-dark")">
+                        <span><label asp-for="Tile.TileDetail.MobileDefense"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.MobileDefense)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.DefectionSpawn ? "bg-secondary" : "bg-dark")">
+                        <span><label asp-for="Tile.TileDetail.DefectionSpawn"></label>  <span class="ml-2">@Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionSpawn)</span>
+</div>
+                    <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.DefectionRest ? "bg-secondary" : "bg-dark")">
+                        <span><label asp-for="Tile.TileDetail.DefectionRest"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionRest)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.SurvivalPylon? "bg-secondary" : "bg-dark")">
+                        <span><label asp-for="Tile.TileDetail.SurvivalPylon"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.SurvivalPylon)</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 border-light border mb-1 pb-1">
+                <div class="row">
+                    <div class="col-md-12 mb-1 pb-1">
+                        <strong>Potential Collectibles and Spawn Points in this Tile:</strong>
+                    </div>
+
+                </div>
+                <div id="collectibles" class="d-flex justify-content-center flex-wrap">
+                    <div class="d-inline-flex m-1 p-1 rounded @(Model.Tile.TileDetail.CaptureSpawn ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.CaptureSpawn"><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"></label> @Html.CheckBoxFor(a => a.Tile.TileDetail.CaptureSpawn)</span>
+                    </div>
+
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.SimarisSpawn ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.SimarisSpawn"><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.SimarisSpawn)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.Cache ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.Cache"><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.Cache)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.Cephalon ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.Cephalon"><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.Cephalon)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.Somachord ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.Somachord"><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.Somachord)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.FrameFighter ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.FrameFighter"><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.FrameFighter)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.Ayatan ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.Ayatan"><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.Ayatan)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.Medallion ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.Medallion"><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.Medallion)</span>
+                    </div>
+                    <div class="d-inline-flex m-1  p-1 rounded @(Model.Tile.TileDetail.RareContainer ? "border-info" : "border-light") border bg-dark">
+                        <span><label asp-for="Tile.TileDetail.RareContainer"><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"> </label>@Html.CheckBoxFor(a => a.Tile.TileDetail.RareContainer)</span>
+                    </div>
+
+                </div>
             </div>
 
-            
 
         </div>
+
+        
 
         <div class="row">
 
@@ -322,7 +310,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
 
