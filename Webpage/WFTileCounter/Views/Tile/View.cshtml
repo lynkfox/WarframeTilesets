@@ -261,7 +261,7 @@
 
                         @foreach (var variant in Model.Variants)
                         {
-                            <a asp-controller="Tile" asp-action="ViewTile" >@variant.VariantTileName</a>
+                            @Html.ActionLink(variant.VariantTileName, "ViewTile", "Tile", new { tileset = variant.TilesetPath, tilename = variant.TilePath})
                         }
 
                     </div>

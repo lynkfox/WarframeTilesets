@@ -56,6 +56,18 @@ namespace WFTileCounter.BuisnessLogic
             fullDetailsOfTile.Variants = tile.TileDetail.VariantTiles.ToList();
             fullDetailsOfTile.Images = tile.TileImages.Where(x=>x.ViewName !="Map");
 
+            if(fullDetailsOfTile.Variants.Count()>0)
+            {
+                foreach(var variant in fullDetailsOfTile.Variants)
+                {
+                    var varTile = _db.Tiles.Where(x => x.Name == variant.VariantTileName).Include(x=>x.Tileset).FirstOrDefault();
+                    
+                    variant.TilesetPath = varTile.Tileset.Name;
+
+                    variant.TilePath = varTile.Name.Replace(variant.TilesetPath, "");
+
+                }
+            }
 
             while(fullDetailsOfTile.Variants.Count()<5)
             {

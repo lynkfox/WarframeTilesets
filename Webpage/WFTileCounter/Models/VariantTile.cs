@@ -28,5 +28,10 @@ namespace WFTileCounter.Models
         [Display(Name = "Variant: ")]
         [Required]
         public string VariantTileName { get; set; }
+
+        [NotMapped]
+        public string TilesetPath { get; set; }
+        [NotMapped]
+        public string TilePath { get; set; }
     }
 }
