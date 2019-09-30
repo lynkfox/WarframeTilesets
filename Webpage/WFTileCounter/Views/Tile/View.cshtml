@@ -132,123 +132,147 @@
         </div>
     </div>
     <div class="row">
-            <div class="col-md-6">
-                <div class="row">
+        <div class="col-md-4">
+            <div class="row">
 
-                    <div class="col-md-12  mb-1 pb-1">
-                        <strong>Potential Mission Objectives in this Tile:</strong>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col-md-12 mb-1 pb-1 text-center ">
-                        <div class="d-flex justify-content-center flex-wrap">
-                            @if (Model.Tile.TileDetail.PlayerSpawn)
-                            {
-                                <span class="d-sm-inline-flex m-1 p-1 bg-light text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential Spawn point.">
-                                    Potential Spawn
-                                </span>
-                            }
-                            @if (Model.Tile.TileDetail.PlayerExtract)
-                            {
-                                <span class="d-sm-inline-flex m-1 p-1 bg-success text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is an Extraction point.">
-                                    Extraction Point
-                                </span>
-                            }
-                            @if (Model.Tile.TileDetail.MobileDefense)
-                            {
-                                <span class="d-sm-inline-flex m-1 p-1 bg-warning text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Mobile Defense objective point.">
-                                    Mobile Defense
-                                </span>
-
-                            }
-                            @if (Model.Tile.TileDetail.DefectionSpawn)
-                            {
-                                <span class="d-sm-inline-flex m-1 p-1 bg-primary text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a place where Defectors may spawn.">
-                                    Defectors Spawn
-                                </span>
-                            }
-                            @if (Model.Tile.TileDetail.DefectionRest)
-                            {
-                                <span class="d-sm-inline-flex m-1 p-1 bg-info text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Defection Life Support Pylons.">
-                                    Defection Support
-                                </span>
-                            }
-                            @if (Model.Tile.TileDetail.SurvivalPylon)
-                            {
-                                <span class="d-sm-inline-flex m-1 p-1 bg-warning text-muted text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Survival Life Support Pylons.">
-                                    Life Support Pylon
-                                </span>
-                            }
-                        </div>
-                        
-                    </div>
-
-
+                <div class="col-md-12  mb-1 pb-1">
+                    <strong>Potential Mission Objectives in this Tile:</strong>
                 </div>
             </div>
-            <div class"col-mid-6">
-                <div class="row">
-                    <div class="col-md-12 mb-1 pb-1">
-                        <strong>Potential Collectibles and Spawn Points:</strong>
+            <div class="row ">
+                <div class="col-md-12 mb-1 pb-1 text-center ">
+                    <div class="d-flex justify-content-center flex-wrap">
+                        @if (Model.Tile.TileDetail.PlayerSpawn)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-light text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential Spawn point.">
+                                Potential Spawn
+                            </span>
+                        }
+                        @if (Model.Tile.TileDetail.PlayerExtract)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-success text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is an Extraction point.">
+                                Extraction Point
+                            </span>
+                        }
+                        @if (Model.Tile.TileDetail.MobileDefense)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-warning text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Mobile Defense objective point.">
+                                Mobile Defense
+                            </span>
+
+                        }
+                        @if (Model.Tile.TileDetail.DefectionSpawn)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-primary text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a place where Defectors may spawn.">
+                                Defectors Spawn
+                            </span>
+                        }
+                        @if (Model.Tile.TileDetail.DefectionRest)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-info text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Defection Life Support Pylons.">
+                                Defection Support
+                            </span>
+                        }
+                        @if (Model.Tile.TileDetail.SurvivalPylon)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-warning text-muted text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Survival Life Support Pylons.">
+                                Life Support Pylon
+                            </span>
+                        }
                     </div>
+
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="d-flex justify-content-center flex-wrap">
-                            @if (Model.Tile.TileDetail.CaptureSpawn)
-                            {
-                                <img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile">
-                            }
-                            @if (Model.Tile.TileDetail.SimarisSpawn)
-                            {
-                                <img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile">
-
-                            }
-                            @if (Model.Tile.TileDetail.Cache)
-                            {
-                                <img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location">
-
-                            }
-                            @if (Model.Tile.TileDetail.Cephalon)
-                            {
-                                <img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment">
-
-                            }
-                            @if (Model.Tile.TileDetail.Somachord)
-                            {
-                                <img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment">
-
-                            }
-                            @if (Model.Tile.TileDetail.FrameFighter)
-                            {
-                                <img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment">
-
-                            }
-                            @if (Model.Tile.TileDetail.Ayatan)
-                            {
-                                <img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue">
-
-                            }
-                            @if (Model.Tile.TileDetail.Medallion)
-                            {
-                                <img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion">
-
-                            }
-                            @if (Model.Tile.TileDetail.RareContainer)
-                            {
-                                <img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest">
-
-                            }
-
-                        </div>
-
-                    </div>
 
 
-
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12 mb-1 pb-1">
+                    <strong>Potential Collectibles and Spawn Points:</strong>
                 </div>
             </div>
-           
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-center flex-wrap">
+                        @if (Model.Tile.TileDetail.CaptureSpawn)
+                        {
+                            <img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile">
+                        }
+                        @if (Model.Tile.TileDetail.SimarisSpawn)
+                        {
+                            <img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile">
+
+                        }
+                        @if (Model.Tile.TileDetail.Cache)
+                        {
+                            <img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location">
+
+                        }
+                        @if (Model.Tile.TileDetail.Cephalon)
+                        {
+                            <img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment">
+
+                        }
+                        @if (Model.Tile.TileDetail.Somachord)
+                        {
+                            <img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment">
+
+                        }
+                        @if (Model.Tile.TileDetail.FrameFighter)
+                        {
+                            <img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment">
+
+                        }
+                        @if (Model.Tile.TileDetail.Ayatan)
+                        {
+                            <img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue">
+
+                        }
+                        @if (Model.Tile.TileDetail.Medallion)
+                        {
+                            <img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion">
+
+                        }
+                        @if (Model.Tile.TileDetail.RareContainer)
+                        {
+                            <img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest">
+
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12 mb-1 pb-1">
+                    <strong>Variant Tiles:</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="variants" class="d-flex align-items-start flex-column">
+
+                        @foreach (var variant in Model.Variants)
+                        {
+                            <a asp-controller="Tile" asp-action="ViewTile" >@variant.VariantTileName</a>
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
     </div>
 
     

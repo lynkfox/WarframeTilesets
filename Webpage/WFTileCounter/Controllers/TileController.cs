@@ -35,8 +35,12 @@ namespace WFTileCounter.Controllers
             return View();
         }
 
+
+
+
+        // This is the Controller for viewing tile information.
         [HttpGet]
-        [Route("Tile/{tileset}/{tilename}")]
+        [Route("Tile/{tileset}/{tileName}")]
         public IActionResult ViewTile([FromRoute] string tileName,[FromRoute] string tileset)
         {
 
@@ -56,6 +60,9 @@ namespace WFTileCounter.Controllers
             return View("View", details);
 
         }
+
+
+
 
         [HttpGet]
         [Route("Tile/{tileset}/{tilename}/Edit")]
@@ -94,7 +101,10 @@ namespace WFTileCounter.Controllers
 
             var tile = _db.Tiles.Where(x => x.Name == tileDetails.Tile.Name).Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles).Include(x => x.TileImages).Include(x=>x.Tileset).FirstOrDefault();
 
-            //Tile Edit can only pull from tiles already in the datbaase, so it should damn well exist.
+            if(tile is null)
+            {
+                return View("NoTile");
+            }
 
             //clean up to make things look better:
 
@@ -103,7 +113,7 @@ namespace WFTileCounter.Controllers
 
             string tileName = tile.Name.ToString();
 
-
+            
 
 
             //Check to see if the TileDetails exist for given tile. If not, add them, if so, update them.
@@ -119,11 +129,66 @@ namespace WFTileCounter.Controllers
                 _db.TileDetails.Update(tileDetailsAlreadyInDb);
             }
 
+
+            // deal with the Variant Tile List
+
+            var tileVariantsInDb = tile.TileDetail.VariantTiles;
+            var tileVariantsInInsert = tileDetails.Variants.Where(x => !string.IsNullOrEmpty(x.VariantTileName)).ToList();
+
+            if(tileVariantsInDb is null)
+            {
+                for(int i=0; i<tileVariantsInInsert.Count(); i++)
+                {
+                    var variant = tileVariantsInInsert[i];
+                    if (tileDetailsAlreadyInDb is null)
+                    {
+                        variant.Details = tileDetailsInInsert;
+                    }
+                    else
+                    {
+                        variant.Details = tileDetailsAlreadyInDb;
+                    }
+                    _db.VariantTiles.Add(variant);
+                }
+            }
+            else
+            {
+                foreach (var variant in tileVariantsInInsert)
+                {
+                    string variantName = variant.VariantTileName;
+                    int variantId = variant.Id;
+
+
+
+                    //if the Variant already has an ID, which should mean we pulled it from the database to display it...
+                    if (tileVariantsInDb.Where(x => x.Id == variantId).Any())
+                    {
+                        var variantDB = tileVariantsInDb.Where(x => x.Id == variantId).FirstOrDefault();
+                        variantDB = variant;
+                        _db.VariantTiles.Update(variantDB);
+                    }
+                    else //don't have an id and so not yet in the db
+                    {
+                        //if the VairantName isn't already listed for this particular tile
+                        if (!tileVariantsInDb.Where(x => x.VariantTileName == variantName).Any())
+                        {
+                            _db.Add(variant);
+                        }
+                    }
+                }
+            }
+
             
+
+
+            await _db.SaveChangesAsync();
+
             var webRoot = _env.WebRootPath;
             string tilesetName = tile.Tileset.Name.ToString();
             string directoryPath = Path.Combine(webRoot,"img","tilesets",tilesetName, tileName);
-            await _db.SaveChangesAsync();
+
+
+            
             if(tileDetails.ImageFiles is null)
             {
 

@@ -82,8 +82,9 @@ namespace WFTileCounter
                     template: "{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
-                    name: "Tile",
-                    template: "{action}/{tileName:alpha}");
+                    name: "TileView",
+                    template: "{controler=Tile}/{tileset}/{tileName}",
+                    defaults: new { controller = "Tile", action = "ViewTile" });
             });
         }
     }

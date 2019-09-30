@@ -1,4 +1,4 @@
-select Count(Distinct Runs.Id) as CorpusShipRuns,
+  select Count(Distinct Runs.Id) as CorpusShipRuns,
 (Select  Count(Distinct Runs.IdentityString) as Capture from Runs Inner Join MapPoints on runs.ID = MapPoints.RunId
 Inner Join Tiles on mapPoints.TileName = Tiles.Name And Tiles.TilesetName = 'CorpusShip' where MissionType = 'Exterminate' ) as Exterminate,
 (Select  Count(Distinct Runs.IdentityString) as Capture from Runs Inner Join MapPoints on runs.ID = MapPoints.RunId

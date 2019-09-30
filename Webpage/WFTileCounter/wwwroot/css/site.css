@@ -71,3 +71,12 @@ body {
 .collectibleBorderChecked {
     border-color: #17A2B8 !important;
 }
+#mapContainer {
+    max-height:200px;
+}
+
+#mapContainer .img-fluid {
+    display: block;
+    width: auto;
+    max-height: 200px;
+}

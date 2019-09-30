@@ -1,8 +1,23 @@
 ﻿@model WFTileCounter.ModelsView.TileDetailsViewModel
-
+@{int variantCount = Model.Variants.Count(); }
 @{
     ViewData["Title"] = "Edit Tile";
 }
+
+
+
+    <script>
+        $(document).ready(function () {
+            var addButton = $(".add_field_button");
+            var maxFields = 5;
+            var locationOfFields $("#variants");
+
+            $(addButton).click(function () {
+                var inputField=$("<input type=\"text\" clas=\"mb-1\" asp-for=\"\")
+            });
+        });
+    </script>
+
 
 
 
@@ -10,18 +25,19 @@
 <h1>Edit Tile Information</h1>
 
 <div>
-    <h4>Editing Tile Information for @Html.DisplayFor(x=>x.Tile.Name)</h4>
+    <h4>Editing Tile Information for @Html.DisplayFor(x => x.Tile.Name)</h4>
     <hr />
 </div>
 
 <form asp-controller="Tile" asp-action="Update" method="post" enctype="multipart/form-data">
 
+    <input name="__RequestVerificationToken" type="hidden" value="<random-looking-value=here>" />
 
     <div class="container">
         <div class="row">
 
-            <div class="col-md-4 mb-1">
-                <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
+            <div id="mapContainer" class="col-md-4 mb-1" style="max-height:275px;">
+                <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" style="max-height:275px;" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x => x.Tile.Name)"></center>
 
             </div>
 
@@ -154,7 +170,7 @@
 
         </div>
         <div class="row">
-            <div class="col-md-12 border-light border mb-1 pb-1">
+            <div class="col-md-4 border-light border mb-1 pb-1">
                 <div class="row">
                     <div class="col-md-12 mb-1 pb-1">
                         <strong>Potential Mission Objectives in this Tile:</strong>
@@ -162,7 +178,7 @@
 
                 </div>
                 <div id="objectives" class="d-flex justify-content-center flex-wrap">
-                    <div  class="d-inline-flex m-1 p-1 rounded border-light border @(Model.Tile.TileDetail.PlayerSpawn ? "bg-secondary" : "bg-dark")" >
+                    <div class="d-inline-flex m-1 p-1 rounded border-light border @(Model.Tile.TileDetail.PlayerSpawn ? "bg-secondary" : "bg-dark")">
                         <span><label asp-for="Tile.TileDetail.PlayerSpawn"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.PlayerSpawn, new { @onclick = "checkBoxParent(this)" })</span>
                     </div>
 
@@ -173,22 +189,19 @@
                         <span><label asp-for="Tile.TileDetail.MobileDefense"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.MobileDefense)</span>
                     </div>
                     <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.DefectionSpawn ? "bg-secondary" : "bg-dark")">
-                        <span><label asp-for="Tile.TileDetail.DefectionSpawn"></label>  <span class="ml-2">@Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionSpawn)</span>
-</div>
+                        <span><label asp-for="Tile.TileDetail.DefectionSpawn"></label>  @Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionSpawn)</span>
+                    </div>
                     <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.DefectionRest ? "bg-secondary" : "bg-dark")">
                         <span><label asp-for="Tile.TileDetail.DefectionRest"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.DefectionRest)</span>
                     </div>
-                    <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.SurvivalPylon? "bg-secondary" : "bg-dark")">
+                    <div class="d-inline-flex m-1  p-1 rounded border-light border @(Model.Tile.TileDetail.SurvivalPylon ? "bg-secondary" : "bg-dark")">
                         <span><label asp-for="Tile.TileDetail.SurvivalPylon"></label> @Html.CheckBoxFor(x => x.Tile.TileDetail.SurvivalPylon)</span>
                     </div>
 
                 </div>
             </div>
-        </div>
 
-
-        <div class="row">
-            <div class="col-md-12 border-light border mb-1 pb-1">
+            <div class="col-md-4 border-light border mb-1 pb-1">
                 <div class="row">
                     <div class="col-md-12 mb-1 pb-1">
                         <strong>Potential Collectibles and Spawn Points in this Tile:</strong>
@@ -227,11 +240,23 @@
 
                 </div>
             </div>
+            <div class="col-md-4 border-light border mb-1 pb-1">
+                <div class="row">
+                    <div class="col-md-12 mb-1 pb-1">
+                        <strong>Variant Tile Names (TilesetTileName format):</strong>
+                    </div>
 
+                </div>
+                <div id="variants" class="d-flex align-items-start flex-column">
+
+                    @Html.EditorFor(x => x.Variants)
+
+                </div>
+            </div>
 
         </div>
 
-        
+
 
         <div class="row">
 

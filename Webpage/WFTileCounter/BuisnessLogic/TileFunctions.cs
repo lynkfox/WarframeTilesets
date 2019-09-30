@@ -53,19 +53,52 @@ namespace WFTileCounter.BuisnessLogic
 
             fullDetailsOfTile.Tile = tile;
             fullDetailsOfTile.Details = tile.TileDetail;
-            fullDetailsOfTile.Variants = tile.TileDetail.VariantTiles;
+            fullDetailsOfTile.Variants = tile.TileDetail.VariantTiles.ToList();
             fullDetailsOfTile.Images = tile.TileImages.Where(x=>x.ViewName !="Map");
 
+
+            while(fullDetailsOfTile.Variants.Count()<5)
+            {
+                fullDetailsOfTile.Variants.Add(new VariantTile { Details = fullDetailsOfTile.Tile.TileDetail, VariantTileName = "" });
+            }
+
+
+
             var mapPointCollectibles = _db.MapPoints.Where(x => x.Tile.Name == tileName);
-            fullDetailsOfTile.Details.Ayatan = mapPointCollectibles.Where(x => x.Ayatan).Any();
-            fullDetailsOfTile.Details.CaptureSpawn = mapPointCollectibles.Where(x => x.CaptureSpawn).Any();
-            fullDetailsOfTile.Details.FrameFighter = mapPointCollectibles.Where(x => x.FrameFighter).Any();
-            fullDetailsOfTile.Details.Medallion = mapPointCollectibles.Where(x => x.Medallion).Any();
-            fullDetailsOfTile.Details.RareContainer = mapPointCollectibles.Where(x => x.RareContainer).Any();
-            fullDetailsOfTile.Details.SimarisSpawn = mapPointCollectibles.Where(x => x.SimarisSpawn).Any();
-            fullDetailsOfTile.Details.Somachord = mapPointCollectibles.Where(x => x.Somachord).Any();
-            fullDetailsOfTile.Details.Cache = mapPointCollectibles.Where(x => x.Cache).Any();
-            
+
+            if(mapPointCollectibles.Where(x => x.Ayatan).Any() || tile.TileDetail.Ayatan)
+            {
+                fullDetailsOfTile.Details.Ayatan = true;
+            }
+            if (mapPointCollectibles.Where(x => x.CaptureSpawn).Any() || tile.TileDetail.CaptureSpawn)
+            {
+                fullDetailsOfTile.Details.CaptureSpawn = true;
+            }
+            if (mapPointCollectibles.Where(x => x.FrameFighter).Any() || tile.TileDetail.FrameFighter)
+            {
+                fullDetailsOfTile.Details.FrameFighter = true;
+            }
+            if (mapPointCollectibles.Where(x => x.Medallion).Any() || tile.TileDetail.Medallion)
+            {
+                fullDetailsOfTile.Details.Medallion= true;
+            }
+            if (mapPointCollectibles.Where(x => x.RareContainer).Any() || tile.TileDetail.RareContainer)
+            {
+                fullDetailsOfTile.Details.RareContainer = true;
+            }
+            if (mapPointCollectibles.Where(x => x.SimarisSpawn).Any() || tile.TileDetail.SimarisSpawn)
+            {
+                fullDetailsOfTile.Details.SimarisSpawn = true;
+            }
+            if (mapPointCollectibles.Where(x => x.Somachord).Any() || tile.TileDetail.Somachord)
+            {
+                fullDetailsOfTile.Details.Somachord = true;
+            }
+            if (mapPointCollectibles.Where(x => x.Cache).Any() || tile.TileDetail.Cache)
+            {
+                fullDetailsOfTile.Details.Cache = true;
+            }
+
             foreach (var img in fullDetailsOfTile.Images)
             {
                 img.ImagePath = GetImagePath(img.ImageName, tile.Name);
