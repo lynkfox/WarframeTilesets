@@ -55,9 +55,13 @@ namespace WFTileCounter.Controllers
             if(details is null)
             {
                 return View("NoTile");
+            }else if (details.Tile.TileDetail is null)
+            {
+                details.Tile.TileDetail = new TileDetail();
             }
 
             details.ShortTileName = tileName;
+            details.TilesetName = tileset;
 
             return View("View", details);
 
@@ -263,7 +267,19 @@ namespace WFTileCounter.Controllers
                
                 img.Tile = _db.Tiles.Where(x => x.Name == img.TileName).Include(x=>x.Tileset).FirstOrDefault();
 
-                _db.Add(img);
+                var imgInDb = _db.TileImages.Where(x => x.ViewName == img.ViewName && x.TileName == img.TileName).FirstOrDefault();
+                if(imgInDb is null)
+                {
+                    _db.Add(img);
+                }
+                else
+                {
+                    imgInDb = img;
+                    _db.TileImages.Update(imgInDb);
+
+                }
+
+                
 
                 if (images.First() == img)
                 {

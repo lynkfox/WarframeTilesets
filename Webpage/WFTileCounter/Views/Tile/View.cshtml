@@ -1,26 +1,66 @@
 ﻿@model WFTileCounter.ModelsView.TileDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.Tile.Tileset.Name + " / " + Model.ShortTileName + " - ( " + (string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) + ")";
+    ViewData["Title"] = Model.TilesetName + " / " + Model.ShortTileName + " - ( " + (string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) + ")";
 }
 
 
 
 
-    <h1>@Html.DisplayFor(x => x.Tile.Tileset.Name) / @Html.DisplayFor(x => x.ShortTileName) - ( @(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) )</h1>
+    <h1>@Html.DisplayFor(x => x.TilesetName) / @Html.DisplayFor(x => x.ShortTileName) - ( @(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) )</h1>
 
 
 <div class="container">
     <div class="row">
 
         <div class="col-md-4 mb-1 pb-1 justify-content-start">
-            <div class="row">
-                <div class="col-md-12 align-self-center">
-                    <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
+            @if (Model.MapImages.Count() == 1)
+            {
+                var picture = Model.MapImages.First();
+
+                <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x => picture.AltText)">
+            }
+            else
+            {
+
+                <div id="mapImagesCarousel" class="carousel slide" data-ride="carousel">
+
+                    <div class="carousel-inner" role="listbox">
+                        @foreach (var picture in Model.MapImages)
+                        {
+                            if (Model.MapImages.First() == picture)
+                            {
+                                <div class="carousel-item active">
+                                    <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x => picture.AltText)">
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item">
+                                    <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x => picture.AltText) of @Model.Tile.Name">
+
+                                </div>
+
+                            }
+
+
+                        }
+
+                    </div>
+                    <a class="carousel-control-prev" href="#mapImagesCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon mapPrev" aria-hidden="true"></span>
+                        <span class="sr-only text-dark">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#mapImagesCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only text-dark">Next</span>
+                    </a>
+
+
 
                 </div>
-            </div>
-            
+            }
                 <div class="row">
                     <div class="col-md-12 mb-1 pb-1">
                         <strong>Variant Tiles:</strong>
@@ -46,8 +86,8 @@
 
 
                 </div>
-            
-        </div>
+
+            </div>
 
         <div class="col-md-8 border border-light">
             <div class="row">

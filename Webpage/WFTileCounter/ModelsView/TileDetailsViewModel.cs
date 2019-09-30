@@ -12,10 +12,12 @@ namespace WFTileCounter.ModelsView
     {
         public Tile Tile{ get; set; }
         public string ShortTileName { get; set; }
+        public string TilesetName { get; set; }
         public TileDetail Details { get; set; }
         public IEnumerable<TileImage> Images { get; set; }
+        
         public List<VariantTile> Variants { get; set; }
-        public TileImage Map { get; set; } //because we want a default image if there is no map image stored, and dont want it to show up in the 'All Images' section
+        public List<TileImage> MapImages { get; set; } //because we want a default image if there is no map image stored, and dont want it to show up in the 'All Images' section
 
         public List<SelectListItem> Numbers { get; set; }
 

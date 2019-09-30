@@ -126,15 +126,30 @@ namespace WFTileCounter.BuisnessLogic
                 img.ImagePath = GetImagePath(img.ImageName, tile.Name);
             }
 
-            fullDetailsOfTile.Images = OrderImages(fullDetailsOfTile.Images.ToList());
+            fullDetailsOfTile.Images = OrderImages(fullDetailsOfTile.Images);
 
-            fullDetailsOfTile.Map = _gf.GetMapImagePath(tile.Name);
+            fullDetailsOfTile.MapImages = tile.TileImages.Where(x => x.ViewName.Contains("Map")).OrderBy(x=>x.ViewName).ToList();
+
+            if (fullDetailsOfTile.MapImages is null || fullDetailsOfTile.MapImages.Count()==0)
+            {
+                var defaultTileImageData = new TileImage { ImagePath = "LotusFlower.png", AltText = "No Map Image Uploaded Yet", ViewName="No Map Image Uploaded Yet"};
+
+                fullDetailsOfTile.MapImages.Add(defaultTileImageData);
+            }
+            else
+            {
+                foreach (var map in fullDetailsOfTile.MapImages)
+                {
+                    map.ImagePath = GetImagePath(map.ImageName, tile.Name);
+                }
+            }
+            
 
 
             return fullDetailsOfTile;
         }
 
-        private IEnumerable<TileImage> OrderImages(List<TileImage> imageList)
+        private IEnumerable<TileImage> OrderImages(IEnumerable<TileImage> imageList)
         {
             List<TileImage> sortedImages = new List<TileImage>();
 
@@ -143,12 +158,16 @@ namespace WFTileCounter.BuisnessLogic
                 return imageList;
             }
 
-            var overviewImage = imageList.Where(x => x.ViewName == "Overview").FirstOrDefault();
+            var overviewImages = imageList.Where(x => x.ViewName == "Overview").OrderBy(x=>x.ViewName);
 
-            if(!(overviewImage is null))
+            if (!(overviewImages is null))
             {
-                sortedImages.Add(overviewImage);
+                foreach (var img in overviewImages)
+                {
+                    sortedImages.Add(img);
+                }
             }
+
 
             var exitImages = imageList.Where(x => x.ViewName.Contains("Exit")).OrderBy(x => x.ViewName);
 

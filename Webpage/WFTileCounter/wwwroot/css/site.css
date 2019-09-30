@@ -71,12 +71,13 @@ body {
 .collectibleBorderChecked {
     border-color: #17A2B8 !important;
 }
-#mapContainer {
-    max-height:200px;
+
+
+.carousel .carousel-indicators li {
+    background-color: #fff;
+    background-color: rgba(70,70,70,.25);
 }
 
-#mapContainer .img-fluid {
-    display: block;
-    width: auto;
-    max-height: 200px;
+.carousel .carousel-indicators .active {
+    background-color: #444;
 }

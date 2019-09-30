@@ -6,17 +6,7 @@
 
 
 
-    <script>
-        $(document).ready(function () {
-            var addButton = $(".add_field_button");
-            var maxFields = 5;
-            var locationOfFields $("#variants");
 
-            $(addButton).click(function () {
-                var inputField=$("<input type=\"text\" clas=\"mb-1\" asp-for=\"\")
-            });
-        });
-    </script>
 
 
 
@@ -35,11 +25,59 @@
 
     <div class="container">
         <div class="row">
+            <div class="col-md-4">
+                @if (Model.MapImages.Count() == 1)
+                        {
+                            var picture = Model.MapImages.First();
 
-            <div id="mapContainer" class="col-md-4 mb-1" style="max-height:275px;">
-                <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" style="max-height:275px;" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x => x.Tile.Name)"></center>
+                    <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x=>picture.AltText)">
+                }
+                else
+                {
+                    <div id="mapImagesCarousel" class="carousel slide" data-ride="carousel">
+
+
+                        <div class="carousel-inner" role="listbox">
+                            @foreach (var picture in Model.MapImages)
+                            {
+                                if (Model.MapImages.First() == picture)
+                                {
+                                    <div class="carousel-item active">
+                                        <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x=>picture.AltText)">
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="carousel-item">
+                                        <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x=>picture.AltText) of @Model.Tile.Name">
+
+                                    </div>
+
+                                }
+
+
+                            }
+
+                        </div>
+                        <a class="carousel-control-prev" href="#mapImagesCarousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon mapPrev" aria-hidden="true"></span>
+                            <span class="sr-only text-dark">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#mapImagesCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only text-dark">Next</span>
+                        </a>
+
+
+
+                    </div>
+                }
 
             </div>
+            
+
+            
 
             <div class="col-md-8 border border-light">
                 <div class="row">
