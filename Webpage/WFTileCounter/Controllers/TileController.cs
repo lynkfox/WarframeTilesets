@@ -281,14 +281,15 @@ namespace WFTileCounter.Controllers
                
                 img.Tile = _db.Tiles.Where(x => x.Name == img.TileName).Include(x=>x.Tileset).FirstOrDefault();
 
-                var imgInDb = _db.TileImages.Where(x => x.ViewName == img.ViewName && x.TileName == img.TileName).FirstOrDefault();
+                var imgInDb = _db.TileImages.Where(x => x.ImageName == img.ImageName && x.TileName == img.TileName).FirstOrDefault();
                 if(imgInDb is null)
                 {
                     _db.Add(img);
                 }
                 else
                 {
-                    imgInDb = img;
+                    imgInDb.ViewName = img.ViewName;
+                    imgInDb.AltText = img.AltText;
                     _db.TileImages.Update(imgInDb);
 
                 }
