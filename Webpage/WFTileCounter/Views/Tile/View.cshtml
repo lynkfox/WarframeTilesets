@@ -7,8 +7,8 @@
 
 
 
-    <h1>@Html.DisplayFor(x => x.TilesetName) / @Html.DisplayFor(x => x.ShortTileName) <i> "@(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName)" </i></h1>
-
+    <h1>@Html.DisplayFor(x => x.TilesetName) - @Html.DisplayFor(x => x.ShortTileName) </h1>
+<h3><i> "@(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName)" </i></h3>
 
 <div class="container">
     <div class="row">
