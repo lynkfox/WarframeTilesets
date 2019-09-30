@@ -54,8 +54,10 @@ namespace WFTileCounter.Controllers
 
             if(details is null)
             {
-                return View("Index");
+                return View("NoTile");
             }
+
+            details.ShortTileName = tileName;
 
             return View("View", details);
 

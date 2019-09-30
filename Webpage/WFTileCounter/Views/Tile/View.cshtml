@@ -1,21 +1,52 @@
 ﻿@model WFTileCounter.ModelsView.TileDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.Tile.Name;
+    ViewData["Title"] = Model.Tile.Tileset.Name + " / " + Model.ShortTileName + " - ( " + (string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) + ")";
 }
 
 
 
 
-<h1>@Html.DisplayFor(x => x.Tile.Name)</h1>
+    <h1>@Html.DisplayFor(x => x.Tile.Tileset.Name) / @Html.DisplayFor(x => x.ShortTileName) - ( @(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) )</h1>
 
 
 <div class="container">
     <div class="row">
 
-        <div class="col-md-4 mb-1 pb-1">
-            <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
+        <div class="col-md-4 mb-1 pb-1 justify-content-start">
+            <div class="row">
+                <div class="col-md-12 align-self-center">
+                    <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.Map.ImagePath))" alt="@Model.Map.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.Tile.Name)"></center>
 
+                </div>
+            </div>
+            
+                <div class="row">
+                    <div class="col-md-12 mb-1 pb-1">
+                        <strong>Variant Tiles:</strong>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="variants" class="list-group align-items-start  text-light">
+
+                            @foreach (var variant in Model.Variants)
+                            {
+                                if (!string.IsNullOrEmpty(variant.VariantTileName))
+                                {
+                                    @Html.ActionLink(variant.VariantTileName, "ViewTile", "Tile", new { tileset = variant.TilesetPath, tilename = variant.TilePath }, new { @class = "list-group-item list-group-item-action list-group-item-dark", @style = "text-color:#007BFF" })
+                                }
+
+                            }
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            
         </div>
 
         <div class="col-md-8 border border-light">
@@ -132,11 +163,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="row">
 
-                <div class="col-md-12  mb-1 pb-1">
-                    <strong>Potential Mission Objectives in this Tile:</strong>
+                <div class="col-md-12  mb-1 pb-1 justify-content-center">
+                    <center><strong>Potential Mission Objectives in this Tile:</strong></center>
                 </div>
             </div>
             <div class="row ">
@@ -186,10 +217,10 @@
 
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="row">
-                <div class="col-md-12 mb-1 pb-1">
-                    <strong>Potential Collectibles and Spawn Points:</strong>
+                <div class="col-md-12 mb-1 pb-1 justify-content-center">
+                    <center><strong>Potential Collectibles and Spawn Points:</strong></center>
                 </div>
             </div>
             <div class="row">
@@ -197,46 +228,46 @@
                     <div class="d-flex justify-content-center flex-wrap">
                         @if (Model.Tile.TileDetail.CaptureSpawn)
                         {
-                            <img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile">
+                            <img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile">
                         }
                         @if (Model.Tile.TileDetail.SimarisSpawn)
                         {
-                            <img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile">
+                            <img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile">
 
                         }
                         @if (Model.Tile.TileDetail.Cache)
                         {
-                            <img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location">
+                            <img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cache Location">
 
                         }
                         @if (Model.Tile.TileDetail.Cephalon)
                         {
-                            <img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment">
+                            <img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment">
 
                         }
                         @if (Model.Tile.TileDetail.Somachord)
                         {
-                            <img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment">
+                            <img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Somachord Fragment">
 
                         }
                         @if (Model.Tile.TileDetail.FrameFighter)
                         {
-                            <img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment">
+                            <img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment">
 
                         }
                         @if (Model.Tile.TileDetail.Ayatan)
                         {
-                            <img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue">
+                            <img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Ayatan Statue">
 
                         }
                         @if (Model.Tile.TileDetail.Medallion)
                         {
-                            <img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion">
+                            <img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion">
 
                         }
                         @if (Model.Tile.TileDetail.RareContainer)
                         {
-                            <img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest">
+                            <img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest">
 
                         }
 
@@ -249,29 +280,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12 mb-1 pb-1">
-                    <strong>Variant Tiles:</strong>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="variants" class="d-flex align-items-start flex-column">
-
-                        @foreach (var variant in Model.Variants)
-                        {
-                            @Html.ActionLink(variant.VariantTileName, "ViewTile", "Tile", new { tileset = variant.TilesetPath, tilename = variant.TilePath})
-                        }
-
-                    </div>
-
-                </div>
-
-
-
-            </div>
-        </div>
+        
 
     </div>
 

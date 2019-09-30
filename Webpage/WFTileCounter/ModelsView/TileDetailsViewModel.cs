@@ -11,6 +11,7 @@ namespace WFTileCounter.ModelsView
     public class TileDetailsViewModel
     {
         public Tile Tile{ get; set; }
+        public string ShortTileName { get; set; }
         public TileDetail Details { get; set; }
         public IEnumerable<TileImage> Images { get; set; }
         public List<VariantTile> Variants { get; set; }
