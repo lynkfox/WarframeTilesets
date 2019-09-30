@@ -62,16 +62,8 @@ namespace WFTileCounter.BuisnessLogic
                 foreach(var variant in fullDetailsOfTile.Variants)
                 {
                     var varTile = _db.Tiles.Where(x => x.Name == variant.VariantTileName).Include(x=>x.Tileset).FirstOrDefault();
-                    if(varTile is null)
-                    {
-                        variant.TilesetPath = "Unknown";
-                    }
-                    else
-                    {
-                        variant.TilesetPath = varTile.Tileset.Name;
 
-                        
-                    }
+                    variant.TilesetPath = varTile.Tileset.Name;
 
                     variant.TilePath = varTile.Name.Replace(variant.TilesetPath, "");
 

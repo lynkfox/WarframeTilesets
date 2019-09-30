@@ -142,21 +142,29 @@ namespace WFTileCounter.Controllers
 
             var tileVariantsInDb = tile.TileDetail.VariantTiles;
             var tileVariantsInInsert = tileDetails.Variants.Where(x => !string.IsNullOrEmpty(x.VariantTileName)).ToList();
+            
 
             if(tileVariantsInDb is null)
             {
                 for(int i=0; i<tileVariantsInInsert.Count(); i++)
                 {
                     var variant = tileVariantsInInsert[i];
-                    if (tileDetailsAlreadyInDb is null)
+
+                    var tileActuallyInDbForVariant = _db.Tiles.Where(x => x.Name == variant.VariantTileName).FirstOrDefault();
+                    if(!(tileActuallyInDbForVariant is null)) //if the tilename properly exists
                     {
-                        variant.Details = tileDetailsInInsert;
-                    }
-                    else
-                    {
-                        variant.Details = tileDetailsAlreadyInDb;
-                    }
-                    _db.VariantTiles.Add(variant);
+                        if (tileDetailsAlreadyInDb is null)
+                        {
+                            variant.Details = tileDetailsInInsert;
+                        }
+                        else
+                        {
+                            variant.Details = tileDetailsAlreadyInDb;
+                        }
+                        _db.VariantTiles.Add(variant);
+                    } //else (throw error about variant Tile Name
+
+                    
                 }
             }
             else
@@ -177,11 +185,15 @@ namespace WFTileCounter.Controllers
                     }
                     else //don't have an id and so not yet in the db
                     {
-                        //if the VairantName isn't already listed for this particular tile
-                        if (!tileVariantsInDb.Where(x => x.VariantTileName == variantName).Any())
+                        var tileActuallyInDbForVariant = _db.Tiles.Where(x => x.Name == variant.VariantTileName).FirstOrDefault();
+                        if (!(tileActuallyInDbForVariant is null)) //if the tilename properly exists
                         {
-                            _db.Add(variant);
-                        }
+                            //if the VairantName isn't already listed for this particular tile
+                            if (!tileVariantsInDb.Where(x => x.VariantTileName == variantName).Any())
+                            {
+                                _db.Add(variant);
+                            }
+                        } // else throw error about variant Tile Name not existing
                     }
                 }
             }
