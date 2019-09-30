@@ -60,6 +60,8 @@ namespace WFTileCounter.Controllers
                 details.Tile.TileDetail = new TileDetail();
             }
 
+            details.Variants = details.Variants.Where(x => !string.IsNullOrEmpty(x.VariantTileName)).ToList();
+
             details.ShortTileName = tileName;
             details.TilesetName = tileset;
 

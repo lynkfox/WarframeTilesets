@@ -1,13 +1,13 @@
 ﻿@model WFTileCounter.ModelsView.TileDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.TilesetName + " / " + Model.ShortTileName + " - ( " + (string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) + ")";
+    ViewData["Title"] = Model.TilesetName + " / " + Model.ShortTileName + " - \"" + (string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) + "\"";
 }
 
 
 
 
-    <h1>@Html.DisplayFor(x => x.TilesetName) / @Html.DisplayFor(x => x.ShortTileName) - ( @(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName) )</h1>
+    <h1>@Html.DisplayFor(x => x.TilesetName) / @Html.DisplayFor(x => x.ShortTileName) <i> "@(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName)" </i></h1>
 
 
 <div class="container">
@@ -61,6 +61,8 @@
 
                 </div>
             }
+            @if (Model.Variants.Count > 0)
+            {
                 <div class="row">
                     <div class="col-md-12 mb-1 pb-1">
                         <strong>Variant Tiles:</strong>
@@ -86,8 +88,10 @@
 
 
                 </div>
+            }
 
-            </div>
+
+        </div>
 
         <div class="col-md-8 border border-light">
             <div class="row">
