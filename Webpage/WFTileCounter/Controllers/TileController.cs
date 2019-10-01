@@ -230,9 +230,11 @@ namespace WFTileCounter.Controllers
                     var tileImage = new TileImage();
 
                     tileImage.ImageName = file.FileName;
-                    tileImage.ImagePath = imagePath;
+                    tileImage.ImagePath = Path.Combine(tilesetName, tileName, file.FileName);
                     tileImage.Tile = tile;
                     tileImage.TileName = tile.Name; // for later use when passing this model to the next controller
+
+                    
 
                     tileImagesList.Add(tileImage);
                     if (System.IO.File.Exists(imagePath))

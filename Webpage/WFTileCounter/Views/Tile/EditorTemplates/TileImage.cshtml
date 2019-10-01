@@ -3,27 +3,38 @@
     ViewData["Title"] = "TileImage";
 }
 
-    <div class="container">
-        @Html.DisplayNameFor(x => x.TileName)
-        @Html.DisplayFor(x => x.TileName)
-        <div class="editor-field">
-            @Html.HiddenFor(x=>x.TileName)
-            @Html.ValidationMessageFor(x=>x.TileName)
-        </div>
-        <br>
-
-        @Html.DisplayNameFor(x => x.ImageName)
-        @Html.TextBoxFor(x => x.ImageName)
-
-        <br>
-
-        @Html.DisplayNameFor(x => x.ViewName)
-        @Html.TextBoxFor(x => x.ViewName)
-
-        <br>
-
-        @Html.DisplayNameFor(x => x.AltText)
-        @Html.TextBoxFor(x => x.AltText)
-
+    <div class="editor-field">
+        @Html.HiddenFor(x => x.TileName)
+        @Html.ValidationMessageFor(x => x.TileName)
+        @Html.HiddenFor(x => x.ImageName)
+        @Html.ValidationMessageFor(x => x.ImageName)
     </div>
+    <div class="col-md-6 mb-1 border-info border rounded">
+        <div class="row">
+            <div class="col-sm-12 mb-1 font-weight-bold justify-content-center">
+                @Html.DisplayFor(x => x.ImageName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 mb-1 justify-content-start">
+                @Html.DisplayNameFor(x => x.ViewName) 
+            </div>
+            <div class="col-sm-9 mb-1 justify-content-center">
+                @Html.TextBoxFor(x => x.ViewName)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 mb-1 justify-content-start">
+                @Html.DisplayNameFor(x => x.AltText)
+            </div>
+            <div class="col-sm-9 mb-1 justify-content-center">
+                @Html.TextBoxFor(x => x.AltText)
+            </div>
+        </div>
 
+        <div class="row  d-flex justify-content-center">
+            <div class="col-sm-12 mb-2  align-items-center text-center">
+                <img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.ImagePath))" class="rounded img-fluid" />
+            </div>
+        </div>
+    </div>

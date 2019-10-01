@@ -1,22 +1,27 @@
 ﻿@model IEnumerable<WFTileCounter.Models.TileImage>
 @{
-    ViewData["Title"] = "ImageDetails";
+    ViewData["Title"] = "Edit Image Details for Tile";
 }
 
-<h1>ImageDetails</h1>
+<h1>Edit details for Images</h1>
 
-<h4>TileImage</h4>
-<hr />
+@foreach (var image in Model)
+{
+    if (Model.First() == image)
+    {
+        <h4>@image.TileName</h4>
+    }
+}
+
+
 <div class="row">
     <div class="col-md-12">
         <form asp-controller="Tile" asp-action="ImageEdit" method="post">
 
-
-            <input type="submit" value="Submit Data" id="btnSubmit" />
             <hr />
-
-            @Html.EditorForModel()
-
+            <div class="row">
+                @Html.EditorForModel()
+            </div>
             <input type="submit" value="Submit Data" id="btnSubmit" />
             <hr />
         </form>
