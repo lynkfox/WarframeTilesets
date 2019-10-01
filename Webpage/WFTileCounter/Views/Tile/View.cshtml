@@ -140,17 +140,79 @@
                     @Html.DisplayFor(x => x.Tile.TileDetail.Secrets)
                 </div>
                 <div class="col-md-2 border-bottom mb-1 pb-1">
-                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.LootRooms)</strong>
-                </div>
-                <div class="col-md-2 border-bottom mb-1 pb-1">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.LootRooms)
-                </div>
-                <div class="col-md-2 border-bottom mb-1 pb-1">
                     <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Hazards)</strong>
                 </div>
                 <div class="col-md-2 border-bottom mb-1 pb-1">
                     @Html.DisplayFor(x => x.Tile.TileDetail.Hazards)
                 </div>
+                @if (Model.TilesetName.Contains("Corpus"))
+                {
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
+                        <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.LootRooms)</strong>
+                    </div>
+                    <div class="col-md-2 border-bottom mb-1 pb-1">
+                        @Html.DisplayFor(x => x.Tile.TileDetail.LootRooms)
+                    </div>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 border-light border-bottom mb-1">
+                    <div class="d-flex justify-content-center flex-wrap">
+                        <span class="d-sm-inline-flex m-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Potential Collectibles that might spawn here.">
+                            Collectibles
+                        </span>
+                        @if (Model.Tile.TileDetail.CaptureSpawn)
+                        {
+                            <span><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"></span>
+                        }
+                        @if (Model.Tile.TileDetail.SimarisSpawn)
+                        {
+                            <span><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"></span>
+
+                        }
+                        @if (Model.Tile.TileDetail.Cache)
+                        {
+                            <span><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cache Location"></span>
+
+                        }
+                        @if (Model.Tile.TileDetail.Cephalon)
+                        {
+                            <span><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"></span>
+
+                        }
+                        @if (Model.Tile.TileDetail.Somachord)
+                        {
+                            <span><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"></span>
+
+                        }
+                        @if (Model.Tile.TileDetail.FrameFighter)
+                        {
+                            <span><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"></span>
+
+                        }
+                        @if (Model.Tile.TileDetail.Ayatan)
+                        {
+                            <span><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"></span>
+
+                        }
+                        @if (Model.Tile.TileDetail.Medallion)
+                        {
+                            <span><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"></span>
+
+                        }
+                        @if (Model.Tile.TileDetail.RareContainer)
+                        {
+                            <span><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"></span>
+
+                        }
+
+                    </div>
+
+                </div>
+
+
+
             </div>
 
             <div class="row">
@@ -204,16 +266,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row">
-
-                <div class="col-md-12  mb-1 pb-1 justify-content-center">
-                    <center><strong>Potential Mission Objectives in this Tile:</strong></center>
-                </div>
-            </div>
             <div class="row ">
                 <div class="col-md-12 mb-1 pb-1 text-center ">
                     <div class="d-flex justify-content-center flex-wrap">
@@ -260,76 +312,11 @@
 
 
             </div>
+
+
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-12 mb-1 pb-1 justify-content-center">
-                    <center><strong>Potential Collectibles and Spawn Points:</strong></center>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex justify-content-center flex-wrap">
-                        @if (Model.Tile.TileDetail.CaptureSpawn)
-                        {
-                            <img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile">
-                        }
-                        @if (Model.Tile.TileDetail.SimarisSpawn)
-                        {
-                            <img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile">
-
-                        }
-                        @if (Model.Tile.TileDetail.Cache)
-                        {
-                            <img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cache Location">
-
-                        }
-                        @if (Model.Tile.TileDetail.Cephalon)
-                        {
-                            <img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment">
-
-                        }
-                        @if (Model.Tile.TileDetail.Somachord)
-                        {
-                            <img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Somachord Fragment">
-
-                        }
-                        @if (Model.Tile.TileDetail.FrameFighter)
-                        {
-                            <img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment">
-
-                        }
-                        @if (Model.Tile.TileDetail.Ayatan)
-                        {
-                            <img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Ayatan Statue">
-
-                        }
-                        @if (Model.Tile.TileDetail.Medallion)
-                        {
-                            <img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion">
-
-                        }
-                        @if (Model.Tile.TileDetail.RareContainer)
-                        {
-                            <img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest">
-
-                        }
-
-                    </div>
-
-                </div>
-
-
-
-            </div>
-        </div>
-
-        
-
     </div>
-
-    
-    
+   
 
     <div class="row">
 
