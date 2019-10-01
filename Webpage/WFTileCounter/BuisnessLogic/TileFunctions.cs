@@ -158,7 +158,7 @@ namespace WFTileCounter.BuisnessLogic
                 return imageList;
             }
 
-            var overviewImages = imageList.Where(x => x.ViewName == "Overview").OrderBy(x=>x.ViewName);
+            var overviewImages = imageList.Where(x => x.ViewName.Contains("Overview")).OrderBy(x=>x.ViewName);
 
             if (!(overviewImages is null))
             {
@@ -198,6 +198,17 @@ namespace WFTileCounter.BuisnessLogic
                     sortedImages.Add(img);
                 }
             }
+
+            var anyOtherImages = imageList.Where(x => !x.ViewName.Contains("Closet") && !x.ViewName.Contains("Secret") && !x.ViewName.Contains("Exit") && !x.ViewName.Contains("Overview")).OrderBy(x => x.ViewName);
+
+            if (!(anyOtherImages is null))
+            {
+                foreach (var img in anyOtherImages)
+                {
+                    sortedImages.Add(img);
+                }
+            }
+
             return sortedImages;
 
         }
