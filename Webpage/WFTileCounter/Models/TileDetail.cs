@@ -24,17 +24,17 @@ namespace WFTileCounter.Models
         [MaxLength(100)]
         [Display(Name = "Popular Name")]
         public string PopularName { get; set; }
-        [Display(Name = "#Exits")]
+        [Display(Name = "# Exits")]
         public int? Exits { get; set; }
-        [Display(Name = "#Consoles")]
+        [Display(Name = "# Consoles")]
         public int? Consoles { get; set; }
-        [Display(Name = "#Lockers")]
+        [Display(Name = "# Lockers")]
         public int? Lockers { get; set; }
-        [Display(Name = "#Secrets")]
+        [Display(Name = "# Secrets")]
         public int? Secrets { get; set; }
-        [Display(Name = "#Closets")]
+        [Display(Name = "# Closets")]
         public int? LootRooms { get; set; }
-        [Display(Name = "#Hazards")]
+        [Display(Name = "# Hazards")]
         public int? Hazards { get; set; }
         
         [Display(Name = "General Room Description: ")]

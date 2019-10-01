@@ -112,69 +112,69 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2 mb-1 pb-1">
-                    <div class="w-100 mb-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Alarm Consoles.">
+                <div class="col-md-3 mb-1 pb-1 ">
+                    <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Alarm Consoles.">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Consoles)
                     </div>
                 </div>
-                <div class="col-md-2 mb-1 pb-1 text-center">
+                <div class="col-md-1 mb-1 p-1 text-center">
                     @Html.DisplayFor(x => x.Tile.TileDetail.Consoles)
                 </div>
-                <div class="col-md-2 mb-1 pb-1">
-                    <div class="w-100 mb-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Exits.">
+                <div class="col-md-3 mb-1 pb-1">
+                    <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Exits.">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Exits)
                     </div>
                 </div>
-                <div class="col-md-2 mb-1 pb-1 text-center">
+                <div class="col-md-1 mb-1 p-1 text-center">
                     @Html.DisplayFor(x => x.Tile.TileDetail.Exits)
                 </div>
-                <div class="col-md-2 mb-1 pb-1">
-                    <div class="mw-100 mb-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Total number of Lockers (open and closed).">
+                <div class="col-md-3 mb-1 pb-1">
+                    <div class="mw-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Total number of Lockers (open and closed).">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Lockers)
                     </div>
                 </div>
-                <div class="col-md-2  mb-1 pb-1 text-center">
+                <div class="col-md-1  mb-1 p-1 text-center">
                     @Html.DisplayFor(x => x.Tile.TileDetail.Lockers)
                 </div>
 
             </div>
             <div class="row">
-                <div class="col-md-2  mb-1 pb-1">
-                    <div class="w-100 mb-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Secret locations.">
+                <div class="col-md-3  mb-1 pb-1">
+                    <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Secret locations.">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Secrets)
                     </div>
                 </div>
-                <div class="col-md-2 mb-1 pb-1 text-center">
+                <div class="col-md-1 mb-1 p-1 text-center">
                     @Html.DisplayFor(x => x.Tile.TileDetail.Secrets)
                 </div>
-                <div class="col-md-2  mb-1 pb-1">
-                    <div class="w-100 mb-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Potential Hazards (such as Breakable Windows).">
+                <div class="col-md-3  mb-1 pb-1">
+                    <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Potential Hazards (such as Breakable Windows).">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Hazards)
                     </div>
                 </div>
-                <div class="col-md-2 mb-1 pb-1 text-center">
+                <div class="col-md-1 mb-1 p-1 text-center">
                     @Html.DisplayFor(x => x.Tile.TileDetail.Hazards)
                 </div>
                 @if (Model.TilesetName.Contains("Corpus"))
                 {
-                    <div class="col-md-2  mb-1 pb-1">
-                        <div class="w-100 mb-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Exits that always lead to a Loot Closet (Corpus Tilesets Only).">
+                    <div class="col-md-3  mb-1 pb-1">
+                        <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Exits that always lead to a Loot Closet (Corpus Tilesets Only).">
                             @Html.DisplayNameFor(x => x.Tile.TileDetail.LootRooms)
                         </div>
                     </div>
-                    <div class="col-md-2  mb-1 pb-1 text-center">
+                    <div class="col-md-1  mb-1 p-1 text-center">
                         @Html.DisplayFor(x => x.Tile.TileDetail.LootRooms)
                     </div>
                 }
             </div>
 
             <div class="row">
-                <div class="col-md-2 mb-1 pb-1">
-                    <div class="w-100 mb-1 p-1 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Potential Collectibles that might spawn here.">
+                <div class="col-md-3 mb-1 pb-1">
+                    <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Potential Collectibles that might spawn here.">
                         Collectibles
                     </div>
                 </div>
-                <div class="col-md-10 mb-1">
+                <div class="col-md-9 mb-1">
                     <div class="d-flex justify-content-center flex-wrap">
 
                         @if (Model.Tile.TileDetail.CaptureSpawn)
