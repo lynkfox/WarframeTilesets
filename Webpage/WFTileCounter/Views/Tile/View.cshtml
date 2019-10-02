@@ -67,10 +67,13 @@
                 <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseMapKey" aria-expanded="false" aria-controls="collapseMapKey">
                     Map Key
                 </button>
-            
-                <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVariants" aria-expanded="false" aria-controls="collapseVariants">
-                    Possible Variants
-                </button>
+                @if (Model.Variants.Count > 0)
+                {
+                    <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVariants" aria-expanded="false" aria-controls="collapseVariants">
+                        Possible Variants
+                    </button>
+                }
+
             </div>
         </div>
             <div class="row">
@@ -80,11 +83,13 @@
                     <div class="collapse" id="collapseMapKey">
                         <div class="card card-body bg-dark text-light">
                             <div class="d-flex justify-content-center flex-wrap">
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExit.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Room Exit"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapAlarm.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Console"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapSpawn.png" style="width:20px" alt="Map Key: Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Player Spawn"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExit.png" style="width:20px" alt="Map Key: Exit" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Room Exit"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapAlarm.png" style="width:20px" alt="Map Key: Console" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Console"></span>
                                 @if (Model.TilesetName.Contains("Corpus"))
                                 {
-                                    <span class="bg-light rounded mr-1"><img src="~/img/markers/mapCorpusLocker.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Locker"></span>
+                                    <span class="bg-light rounded mr-1"><img src="~/img/markers/mapCorpusLocker.png" style="width:20px" alt="Map Key: Corpus Locker" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Sets of Lockers"></span>
+                                    <span class="bg-light rounded mr-1"><img src="~/img/markers/mapLootRoom.png" style="width:20px" alt="Map Key: Loot Closet" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Loot Closet"></span>
                                 }
                                 else if (Model.TilesetName.Contains("Grineer"))
                                 {
@@ -94,10 +99,11 @@
                                 {
                                     //Add Orokin Locker Symbol
                                 }
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapObjective.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Potential Objective Location"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapSecret.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Secret Entrance/Location"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapElevator.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Elevator"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExplosive.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Hazard or Destructible Object"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapObjective.png" style="width:20px" alt="Map Key: Potential Objective" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Potential Objective Location"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapSecret.png" style="width:20px" alt="Map Key: Secret Entrance" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Secret Entrance/Location"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapElevator.png" style="width:20px" alt="Map Key: Elevator" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Elevator"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExplosive.png" style="width:20px" alt="Map Key: Hazard or Destructible" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Hazard or Destructible Object"></span>
+
                             </div>
                         </div>
                     </div>

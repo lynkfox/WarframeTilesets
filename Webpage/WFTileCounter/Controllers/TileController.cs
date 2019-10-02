@@ -313,7 +313,7 @@ namespace WFTileCounter.Controllers
 
         private static List<SelectListItem> GenerateNumbers()
         {
-            var numbers = (from p in Enumerable.Range(0, 20)
+            var numbers = (from p in Enumerable.Range(0, 26)
                            select new SelectListItem
                            {
                                Text = p.ToString(),
