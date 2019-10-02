@@ -3,9 +3,18 @@
 
 // Write your JavaScript code.
 
+
+//Bootstrap Enablers
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})
+
+
+//FileList for Upload Files
 
 function makeFileList() {
     var input = document.getElementById("filesToUpload");
@@ -27,6 +36,8 @@ function makeFileList() {
     }
 };
 
+
+//Attempt at Highlight Border of Flexbox when Checkbox checked.
 $(document).ready(function () {
     $('#objectives input').change(function () {
         if (this.checked == true) {

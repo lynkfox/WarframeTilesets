@@ -14,6 +14,7 @@
     <div class="row">
 
         <div class="col-md-4 mb-1 pb-1 justify-content-start">
+
             @if (Model.MapImages.Count() == 1)
             {
                 var picture = Model.MapImages.First();
@@ -61,33 +62,73 @@
 
                 </div>
             }
+        <div class="row text-center">
+            <div class="col-md-12 mb-1 pb-1 mt-1 text-center">
+                <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseMapKey" aria-expanded="false" aria-controls="collapseMapKey">
+                    Map Key
+                </button>
+            
+                <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVariants" aria-expanded="false" aria-controls="collapseVariants">
+                    Possible Variants
+                </button>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-12 mb-1 pb-1">
+                    
+                    
+                    <div class="collapse" id="collapseMapKey">
+                        <div class="card card-body bg-dark text-light">
+                            <div class="d-flex justify-content-center flex-wrap">
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExit.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Room Exit"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapAlarm.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Console"></span>
+                                @if (Model.TilesetName.Contains("Corpus"))
+                                {
+                                    <span class="bg-light rounded mr-1"><img src="~/img/markers/mapCorpusLocker.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Locker"></span>
+                                }
+                                else if (Model.TilesetName.Contains("Grineer"))
+                                {
+                                    //add Grineer Locker Symbol
+                                }
+                                else
+                                {
+                                    //Add Orokin Locker Symbol
+                                }
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapObjective.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Potential Objective Location"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapSecret.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Secret Entrance/Location"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapElevator.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Elevator"></span>
+                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExplosive.png" style="width:20px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Hazard or Destructible Object"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             @if (Model.Variants.Count > 0)
             {
+
                 <div class="row">
                     <div class="col-md-12 mb-1 pb-1">
-                        <strong>Variant Tiles:</strong>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="variants" class="list-group align-items-start  text-light">
+                        
+                        <div class="collapse" id="collapseVariants">
+                            <div class="card card-body bg-dark text-light">
+                                <div id="variants" class="list-group align-items-start  text-light">
 
-                            @foreach (var variant in Model.Variants)
-                            {
-                                if (!string.IsNullOrEmpty(variant.VariantTileName))
-                                {
-                                    @Html.ActionLink(variant.VariantTileName, "ViewTile", "Tile", new { tileset = variant.TilesetPath, tilename = variant.TilePath }, new { @class = "list-group-item list-group-item-action list-group-item-dark", @style = "text-color:#007BFF" })
-                                }
+                                    @foreach (var variant in Model.Variants)
+                                    {
+                                        if (!string.IsNullOrEmpty(variant.VariantTileName))
+                                        {
+                                            @Html.ActionLink(variant.VariantTileName, "ViewTile", "Tile", new { tileset = variant.TilesetPath, tilename = variant.TilePath }, new { @class = "list-group-item list-group-item-action list-group-item-dark", @style = "text-color:#007BFF" })
+                                        }
 
-                            }
+                                    }
 
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-
-
-
                 </div>
+
             }
 
 
@@ -112,122 +153,117 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 mb-1 pb-1 ">
+                <div class="col-md-4 mb-1 pb-1 ">
                     <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Alarm Consoles.">
+                        
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Consoles)
+                        <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.Consoles)</span>
                     </div>
                 </div>
-                <div class="col-md-1 mb-1 p-1 text-center">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.Consoles)
-                </div>
-                <div class="col-md-3 mb-1 pb-1">
+                
+                <div class="col-md-4 mb-1 pb-1">
                     <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Exits.">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Exits)
+                        <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.Exits)</span>
                     </div>
                 </div>
-                <div class="col-md-1 mb-1 p-1 text-center">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.Exits)
-                </div>
-                <div class="col-md-3 mb-1 pb-1">
+                
+                <div class="col-md-4 mb-1 pb-1">
                     <div class="mw-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Total number of Lockers (open and closed).">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Lockers)
+                        <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.Lockers)</span>
                     </div>
-                </div>
-                <div class="col-md-1  mb-1 p-1 text-center">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.Lockers)
                 </div>
 
             </div>
             <div class="row">
-                <div class="col-md-3  mb-1 pb-1">
+                <div class="col-md-4  mb-1 pb-1">
                     <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Secret locations.">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Secrets)
+                        <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.Secrets)</span>
                     </div>
                 </div>
-                <div class="col-md-1 mb-1 p-1 text-center">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.Secrets)
-                </div>
-                <div class="col-md-3  mb-1 pb-1">
+                <div class="col-md-4  mb-1 pb-1">
                     <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Potential Hazards (such as Breakable Windows).">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Hazards)
+                        <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.Hazards)</span>
                     </div>
-                </div>
-                <div class="col-md-1 mb-1 p-1 text-center">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.Hazards)
                 </div>
                 @if (Model.TilesetName.Contains("Corpus"))
                 {
-                    <div class="col-md-3  mb-1 pb-1">
+                    <div class="col-md-4  mb-1 pb-1">
                         <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Exits that always lead to a Loot Closet (Corpus Tilesets Only).">
                             @Html.DisplayNameFor(x => x.Tile.TileDetail.LootRooms)
+                            <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.LootRooms)</span>
                         </div>
-                    </div>
-                    <div class="col-md-1  mb-1 p-1 text-center">
-                        @Html.DisplayFor(x => x.Tile.TileDetail.LootRooms)
                     </div>
                 }
             </div>
 
             <div class="row">
-                <div class="col-md-3 mb-1 pb-1">
-                    <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Potential Collectibles that might spawn here.">
-                        Collectibles
+                <div class="col-md-12 mb-1">
+                    <div class="w-100 mb-1 p-1  pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Potential Collectibles that might spawn here.">
+                        <div class="row">
+                            <div class="col-md-3 mt-1">
+                                Collectibles
+                            </div>
+                            <div class="col-md-9 mb-1">
+                                <div class="d-flex justify-content-center flex-wrap">
+
+                                    @if (Model.Tile.TileDetail.CaptureSpawn)
+                                    {
+                                        <span><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"></span>
+                                    }
+                                    @if (Model.Tile.TileDetail.SimarisSpawn)
+                                    {
+                                        <span><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"></span>
+
+                                    }
+                                    @if (Model.Tile.TileDetail.Cache)
+                                    {
+                                        <span><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cache Location"></span>
+
+                                    }
+                                    @if (Model.Tile.TileDetail.Cephalon)
+                                    {
+                                        <span><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"></span>
+
+                                    }
+                                    @if (Model.Tile.TileDetail.Somachord)
+                                    {
+                                        <span><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"></span>
+
+                                    }
+                                    @if (Model.Tile.TileDetail.FrameFighter)
+                                    {
+                                        <span><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"></span>
+
+                                    }
+                                    @if (Model.Tile.TileDetail.Ayatan)
+                                    {
+                                        <span><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"></span>
+
+                                    }
+                                    @if (Model.Tile.TileDetail.Medallion)
+                                    {
+                                        <span><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"></span>
+
+                                    }
+                                    @if (Model.Tile.TileDetail.RareContainer)
+                                    {
+                                        <span><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"></span>
+
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                        
                     </div>
                 </div>
-                <div class="col-md-9 mb-1">
-                    <div class="d-flex justify-content-center flex-wrap">
-
-                        @if (Model.Tile.TileDetail.CaptureSpawn)
-                        {
-                            <span><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"></span>
-                        }
-                        @if (Model.Tile.TileDetail.SimarisSpawn)
-                        {
-                            <span><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"></span>
-
-                        }
-                        @if (Model.Tile.TileDetail.Cache)
-                        {
-                            <span><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Cache Location"></span>
-
-                        }
-                        @if (Model.Tile.TileDetail.Cephalon)
-                        {
-                            <span><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"></span>
-
-                        }
-                        @if (Model.Tile.TileDetail.Somachord)
-                        {
-                            <span><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"></span>
-
-                        }
-                        @if (Model.Tile.TileDetail.FrameFighter)
-                        {
-                            <span><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"></span>
-
-                        }
-                        @if (Model.Tile.TileDetail.Ayatan)
-                        {
-                            <span><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"></span>
-
-                        }
-                        @if (Model.Tile.TileDetail.Medallion)
-                        {
-                            <span><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"></span>
-
-                        }
-                        @if (Model.Tile.TileDetail.RareContainer)
-                        {
-                            <span><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1 mt-2" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"></span>
-
-                        }
-
-                    </div>
-
-                </div>
-
-
-
+                    
             </div>
 
             <div class="row ">
