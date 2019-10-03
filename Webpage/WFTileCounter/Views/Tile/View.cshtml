@@ -143,19 +143,31 @@
         <div class="col-md-8 border border-light">
             <div class="row">
                 <div class="col-md-6 mb-1 pb-1">
-                    <strong>@Html.DisplayNameFor(x => x.Tile.Name)</strong>
-                </div>
-                <div class="col-md-6 mb-1 pb-1">
-                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.PopularName)</strong>
-                </div>
-            </div>
+                    <div class="row">
+                        <div class="col-sm-12 font-weight-bold">
+                            @Html.DisplayNameFor(x => x.Tile.Name)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @Html.DisplayFor(x => x.Tile.Name)
+                        </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-md-6  border-bottom border-light mb-1  pb-1">
-                    @Html.DisplayFor(x => x.Tile.Name)
                 </div>
-                <div class="col-md-6  border-bottom border-light mb-1 pb-1">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.PopularName)
+                
+                <div class="col-md-6 mb-1 pb-1">
+                    <div class="row">
+                        <div class="col-sm-12 font-weight-bold">
+                            @Html.DisplayNameFor(x => x.Tile.TileDetail.PopularName)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @Html.DisplayFor(x => x.Tile.TileDetail.PopularName)
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="row">
@@ -277,41 +289,43 @@
                     <div class="d-flex justify-content-center flex-wrap">
                         @if (Model.Tile.TileDetail.PlayerSpawn)
                         {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-light text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential Spawn point.">
+                            <span class="d-sm-inline-flex m-1 p-1 bg-dark border-success border text-success text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential Spawn point.">
                                 Potential Spawn
                             </span>
                         }
                         @if (Model.Tile.TileDetail.PlayerExtract)
                         {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-success text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is an Extraction point.">
+                            <span class="d-sm-inline-flex m-1 p-1 bg-success border-light border text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is an Extraction point.">
                                 Extraction Point
                             </span>
                         }
-                        @if (Model.Tile.TileDetail.MobileDefense)
-                        {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-warning text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Mobile Defense objective point.">
-                                Mobile Defense
-                            </span>
 
-                        }
                         @if (Model.Tile.TileDetail.DefectionSpawn)
                         {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-primary text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a place where Defectors may spawn.">
+                            <span class="d-sm-inline-flex m-1 p-1 bg-dark border-info border text-info text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a place where Defectors may spawn.">
                                 Defectors Spawn
                             </span>
                         }
                         @if (Model.Tile.TileDetail.DefectionRest)
                         {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-info text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Defection Life Support Pylons.">
+                            <span class="d-sm-inline-flex m-1 p-1 bg-info border-primary border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Defection Life Support Pylons.">
                                 Defection Support
                             </span>
                         }
                         @if (Model.Tile.TileDetail.SurvivalPylon)
                         {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-warning text-muted text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Survival Life Support Pylons.">
+                            <span class="d-sm-inline-flex m-1 p-1 bg-dark border-warning border text-warning text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential place for Survival Life Support Pylons.">
                                 Life Support Pylon
                             </span>
                         }
+                        @if (Model.Tile.TileDetail.MobileDefense)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Mobile Defense objective point.">
+                                Mobile Defense
+                            </span>
+
+                        }
+
                     </div>
 
                 </div>
