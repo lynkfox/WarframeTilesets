@@ -76,7 +76,7 @@
         {
             <div class="col-md-4"> &nbsp;</div>
         }
-        <div class="col-md-4 checkBoxRed @(Model.KeepThis ? "bg-success" : "bg-secondary")  rounded align-self-center text-center">
+        <div class="col-md-4 checkBoxRed @(Model.KeepThis ? "bg-success" : "bg-secondary") border @(Model.KeepThis ? "border-success" : "border-warning") rounded align-self-center text-center">
             <span><label asp-for="KeepThis"></label><input class="ml-2" type="checkbox" asp-for="KeepThis" /></span>
         </div>
         @if (Model.UnknownValue)
@@ -249,22 +249,23 @@
         </div>
     </div>
 
+     0
     @*Objectives*@
     <div class="row">
         <div class="col-md-12 p-1">
             <div class="float-sm-left font-weight-bold border rounded p-2 border-secondary">Objectives</div>
             <div id="collectibles" class="d-flex justify-content-center flex-wrap">
                 <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label for="mobileDefense"><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Capture Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Mobile Defense Objective"></label><input type="radio" asp-for="Objective" value="MobileDefense" id="mobileDefense" /></span>
+                    <span><label><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Capture Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Mobile Defense Objective"><input type="radio" asp-for="Objective" value="MobileDefense" /></label></span>
                 </div>
                 <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label for="defRest"><img src="~/img/markers/defectionrest.png" style="width:25px" alt="DefectionRest" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Rest"></label><input type="radio" asp-for="Objective" value="DefectionRestPoint" id="defRest" /></span>
+                    <span><label><img src="~/img/markers/defectionrest.png" style="width:25px" alt="DefectionRest" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Rest"><input type="radio" asp-for="Objective" value="DefectionRestPoint" /></label></span>
                 </div>
                 <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label for="defSpawn"><img src="~/img/markers/defectionspawn.png" style="width:25px" alt="Defection Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Spawn"></label><input type="radio" asp-for="Objective" value="DefectionSpawn" id="defSpawn" /></span>
+                    <span><label><img src="~/img/markers/defectionspawn.png" style="width:25px" alt="Defection Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Spawn"><input type="radio" asp-for="Objective" value="DefectionSpawn" /></label></span>
                 </div>
                 <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label for="kuvaSiphon"><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Siphon" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"></label><input type="radio" asp-for="Objective" value="KuvaSiphon" id="kuvaSiphon" /></span>
+                    <span><label><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Siphon" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"><input type="radio" asp-for="Objective" value="KuvaSiphon" /></label></span>
                 </div>
                 <div class="editor-field">
                     @Html.HiddenFor(a => a.Objective)

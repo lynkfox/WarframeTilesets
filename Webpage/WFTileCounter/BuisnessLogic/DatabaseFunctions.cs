@@ -166,7 +166,7 @@ namespace WFTileCounter.BuisnessLogic
 
 
 
-                    var alreadyInDBTiles = _db.MapPoints.Where(x => x.RunId == run.Id).Include(x => x.Tile).ToList();
+                    var alreadyInDBMapPoints = _db.MapPoints.Where(x => x.RunId == run.Id).Include(x => x.Tile).ToList();
                     int additionalUniqueTiles = 0;
                     int additionalTilesProcessed = 0;
 
@@ -176,7 +176,8 @@ namespace WFTileCounter.BuisnessLogic
                         var mapPoint = new MapPoint();
 
 
-                        bool inMapPoints = alreadyInDBTiles.Any(x => x.Tile.Name == tile.Name);
+                        bool inMapPoints = alreadyInDBMapPoints.Any(x => x.Tile.Name == tile.Name && x.CoordsTaken == tile.Coords);
+                        // by matching to the Name and the Coords Taken, we can tell if it is a screenshot already uploaded once.
 
                         if (!inMapPoints)
                         {
@@ -212,27 +213,26 @@ namespace WFTileCounter.BuisnessLogic
 
 
                             }
-                            additionalUniqueTiles++;
+
+                            bool newUniqueTile = alreadyInDBMapPoints.Any(x => x.Tile.Name == tile.Name);
+                            if(newUniqueTile)
+                            {
+                                additionalUniqueTiles++;
+                            }
+
+
                             additionalTilesProcessed++;
                             _db.MapPoints.Add(mapPoint);
                         }
-                        else
-                        {
-                            additionalTilesProcessed++;
-                            // so this might seem odd. Why increase this if its IS in MapPoints? because the most likely scenario is a duplicate tile
-                            // and we still want to try and count the total tiles in a run, even if there is a user error chance and it ends up being an image they already
-                            // uploaded before. But thats why, no matter what, we set it to FullRun=False, so it recieves less weight when we go to calculate tile density.
-                        }
+                        //else skip that tile, because we found it already
 
 
 
                     }
 
-                    run.UniqueTiles = _db.MapPoints.Where(x => x.RunId == run.Id).Count();
+                    run.UniqueTiles = _db.MapPoints.Where(x => x.RunId == run.Id).Select(x=>x.Tile.Name).Distinct().Count();
                     run.TotalTiles += additionalTilesProcessed;
 
-
-                    run.FullRun = false;
 
                     data.AlreadyProcessed = true;
 
