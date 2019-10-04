@@ -26,29 +26,42 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary text-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WFTileCounter</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Warframe Tile Project</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <environment include="Development">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Process" asp-action="ProcessFiles">Development Link -> Grab Files</a>
-                            </li>
-                        </environment>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UploadFiles">Upload Files</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuTileInfo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Tile Counter Subproject
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownTileInfo">
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Home" asp-action="Index">Introduction</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Tile" asp-action="Index">Search for Tiles</a>
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Tile" asp-action="Index">Tile Index</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Introduction</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuTileCounter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Tile Counter Subproject
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownTileCounter">
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Home" asp-action="TileCounter">Introduction</a>
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Home" asp-action="Tips" alt="Tips and Tricks for Good Uploads">Tips</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-dark" asp-area="" asp-controller="Home" asp-action="UploadFiles">Upload Files</a>
+
+                            </div>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Tips" alt="Tips and Tricks for Good Uploads">Tips</a>
+
                         </li>
                     </ul>
                 </div>

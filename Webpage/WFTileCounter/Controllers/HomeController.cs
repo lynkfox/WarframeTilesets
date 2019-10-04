@@ -37,6 +37,10 @@ namespace WFTileCounter.Controllers
         {
             return View();
         }
+        public IActionResult TileCounter()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

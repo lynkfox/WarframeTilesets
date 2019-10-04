@@ -46,6 +46,7 @@ namespace WFTileCounter.Controllers
 
             var _tf = new TileFunctions(_db);
 
+            tileset = AccountForTilesetVariations(tileset);
 
             string fullTileName = tileset + tileName;
             var details = _tf.GetFullTileInformation(fullTileName);
@@ -69,8 +70,7 @@ namespace WFTileCounter.Controllers
 
         }
 
-
-
+        
 
         [HttpGet]
         [Route("Tile/{tileset}/{tilename}/Edit")]
@@ -81,7 +81,7 @@ namespace WFTileCounter.Controllers
 
             //if(GetUser()== Approved Admin ID)
 
-
+            tileset = AccountForTilesetVariations(tileset);
             string fullTileName = tileset + tileName;
             var details = _tf.GetFullTileInformation(fullTileName);
 
@@ -311,6 +311,12 @@ namespace WFTileCounter.Controllers
         }
 
 
+
+
+        //Internal private Methods that probably should be cleaned up on a seperate object.
+
+
+
         private static List<SelectListItem> GenerateNumbers()
         {
             var numbers = (from p in Enumerable.Range(0, 26)
@@ -322,8 +328,89 @@ namespace WFTileCounter.Controllers
             return numbers.ToList();
         }
 
-        
 
+        private string AccountForTilesetVariations(string tileset)
+        {
+            tileset = tileset.ToLower();
+            //Invasion Tilesets
+            if(tileset=="grineertocorpus" || tileset =="invasiong2c" || tileset =="g2c")
+            {
+                return "InvasionG2C";
+            }
+            if(tileset=="corpustogrineer" || tileset =="invasionc2g" || tileset =="c2g")
+            {
+                return "InvasionC2G";
+            }
+
+            //Corpus Tilesets
+            if(tileset=="corpusgascity" || tileset =="gascity" || tileset == "corpusgas" || tileset =="gas")
+            {
+                return "CorpusGas";
+            }
+            if(tileset=="corpuscceplanet" || tileset == "corpusice" || tileset == "iceplanet" || tileset =="corpusplanet" || tileset =="ice")
+            {
+                return "CorpusIce";
+            }
+            if (tileset == "corpusship" || tileset == "guild" || tileset == "corpus" || tileset =="ship")
+            {
+                return "CorpusShip";
+            }
+            if (tileset == "corpusarchwing" || tileset == "crparchwing" || tileset == "tr" || tileset == "spacebattles")
+            {
+                return "CorpusArchwing";
+            }
+
+            //Infested Tilesets
+            if (tileset == "infestedcorpusship" || tileset=="infestedcorpus" || tileset=="infestedship" || tileset =="infested" || tileset == "eris")
+            {
+                return "Infested";
+            }
+            if (tileset == "orokintowerderelict" || tileset == "derelict" || tileset == "orokinderelict" || tileset =="towerderelict")
+            {
+                return "OrokinDerelict";
+            }
+
+            //Orokin Tilesets
+            if(tileset == "orokinmoon" || tileset == "moon" || tileset =="orokinlua" || tileset == "lua")
+            {
+                return "OrokinMoon";
+            }
+            if(tileset == "orokintower" || tileset == "tower" || tileset =="void")
+            {
+                return "OrokinTower";
+            }
+            
+
+            //Grineer Tilesets
+            if(tileset == "grineerasteroid" || tileset == "asteroid" || tileset =="grn")
+            {
+                return "GrineerAsteroid";
+            }
+            if (tileset == "cmp" || tileset == "grineersettlement" || tileset == "settlement" || tileset =="mars")
+            {
+                return "GrineerSettlement";
+            }
+            if (tileset == "galleon" || tileset =="grineergalleon" || tileset =="grineership")
+            {
+                return "GrineerGalleon";
+            }
+            if(tileset =="grineerforest" || tileset =="forest" || tileset =="gft" || tileset =="gftremastered" || tileset =="earth")
+            {
+                return "GrineerForest";
+            }
+            if(tileset == "grineerocean" || tileset == "sharkwing" || tileset == "oceanlab" || tileset =="ocean" || tileset =="sealab" || tileset =="uranus")
+            {
+                return "GrineerOcean";
+            }
+            if(tileset =="grineershipyards" || tileset =="shipyards")
+            {
+                return "GrineerShipyards";
+            }
+
+
+
+            return tileset;
+        }
 
 
 
