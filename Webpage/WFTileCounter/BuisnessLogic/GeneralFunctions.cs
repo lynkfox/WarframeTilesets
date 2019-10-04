@@ -36,13 +36,10 @@ namespace WFTileCounter.BuisnessLogic
             _db = context;
         }
 
-        /* Temp function for use between multiple computers, but will need to be made dynamic for a server.
-         * 
-         * If you are Running this on your own before I've reached a release stage, then you need to change path below to where your Warframe Pictures directory is.
-         * 
-         * To Do: Change to GetPath(string tempName) to generate the path of the temp folder that is created when a user uploads pictures
+        /* 
+         * This is a Developer function that just grabs straight from my picture directory on the development environment. Does not work outside of that.
          */
-        public string GetPath()
+        public string DeveloperAutoGrabGetPath()
         {
             //return Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "Uploads");
 
@@ -81,6 +78,11 @@ namespace WFTileCounter.BuisnessLogic
         {
             List<ImgMetaData> metaList = new List<ImgMetaData>();
 
+            if(string.IsNullOrEmpty(path) || !File.Exists(path))
+            {
+                return null;
+            }
+
             var picList = System.IO.Directory.GetFiles(path);
 
             
@@ -93,60 +95,27 @@ namespace WFTileCounter.BuisnessLogic
                 {
                     continue;
 
-                }else if(metaData.MissionType.Contains("???") || metaData.Tileset.Contains("???") | metaData.TileName.Contains("???"))
+                }else
                 {
-                    //if the MissionType or the Tileset hits the final return, it will add ??? to the name. - this is usually a bad image, or something new that hasn't been added to special cases yet
-                    // so we check for that so we can auto exclude files that don't have the proper checks for their MissionType/Tileset
-                    metaData.KeepThis = false;
-                    metaData.UnknownValue = true;
-                }
-                else
-                {
-                    metaData.UnknownValue = false;
+                    metaData.SetUnknownFlag();
                 }
 
                 metaData.FileName = Path.GetFileName(pic);
                 
-
                 /* To Do -- Get LogedIn User from TempData? Cookies? Session?
                  * 
                  */
                  
-                
                 bool duplicateCheck = metaList.Where(x => x.TileName == metaData.TileName && x.MapIdentifier == metaData.MapIdentifier).Any();
                 if(metaList.Count !=0 && duplicateCheck )
                 {
-
                     metaData.SetDuplicateFlags(metaList.Last());
-
-                    /*
-                    if (metaData.TileName.Contains("Capture")) // edge case for Cap vs Capture. Snag it out early, and marke it as a possible duplicate if it shows up tice
-                    {
-                        metaData.KeepThis = false;
-                        metaData.PossibleDupe = true;
-                    }//These tile names can appear many times per mission, no reason to mark them as duplicates automatically. 
-                    else if (metaData.TileName.Contains("DeadEnd") || metaData.TileName.Contains("Cap") || metaData.TileName.Contains("Closet") ||metaData.TileName.Contains("Loot"))
-                    {
-                        metaData.PossibleDupe = false;
-                        metaData.KeepThis = true;
-                    }
-                    else if(metaData.TileName == metaList.Last().TileName) 
-                    {
-                        // the most likely place for duplicates is when the images are right next to each other in succession, so if two are found with the same name in a row, set the
-                        // second as a possible dupe.
-                        metaData.KeepThis = false;
-                        metaData.PossibleDupe = true;
-                    }
-                    // else, if found it but doesn't meet any of the above - then it is likely a completely second tile and is not a duplicate image of the same tile.
-                    */
                 }
                 else
                 {
                     metaData.PossibleDupe = false;
                     metaData.KeepThis = true;
                 }
-
-
 
                 metaList.Add(metaData);
             }
@@ -161,6 +130,7 @@ namespace WFTileCounter.BuisnessLogic
             if(listOfMissionIdentifiers.Count() == 0)
             {
                 return null;
+
             } else 
             {
                 metaList = metaList.OrderBy(x => x.MapIdentifier).ThenBy(x => x.Date).ToList();
@@ -210,13 +180,24 @@ namespace WFTileCounter.BuisnessLogic
                         if (values.Count == 7)
                         {
                             mapInfo = values[0].Split('/').ToList();
-                            mapId = mapInfo.Last().Substring(0,mapInfo.Last().Length - 3);
-                            newMapIdDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwRoot", "Uploads", userId, mapId);
-                            Directory.CreateDirectory(newMapIdDirectoryPath);
-                            validWFImage = true;
+
+                            if(CheckBadTilesInList(values))
+                            {
+                                validWFImage = false;
+                            }
+                            else
+                            {
+                                mapId = mapInfo.Last().Substring(0, mapInfo.Last().Length - 3);
+                                newMapIdDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwRoot", "Uploads", userId, mapId);
+                                Directory.CreateDirectory(newMapIdDirectoryPath);
+                                validWFImage = true;
+                            }
+                            
                         }
                         else
-                        { validWFImage = false;  }
+                        {
+                            validWFImage = false;
+                        }
                     }
                 }
 
@@ -252,6 +233,8 @@ namespace WFTileCounter.BuisnessLogic
             
 
         }
+
+        
 
 
 
@@ -694,7 +677,6 @@ namespace WFTileCounter.BuisnessLogic
         public string GetTileSet(string stringTilesetMission)
         {
             string[] validTilesetNames;
-            string[] notValidTilesetPossibles;
             var _df = new DatabaseFunctions(_db);
 
             var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "wftTilesetNames.csv");
@@ -713,6 +695,12 @@ namespace WFTileCounter.BuisnessLogic
 
             }
 
+
+            if(CheckBadTilesSingle(stringTilesetMission))
+            {
+                return null;
+            }
+            /*
             path = Path.Combine(
                              System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "nonProcedualSets.csv");
 
@@ -740,6 +728,7 @@ namespace WFTileCounter.BuisnessLogic
                     return null;
                 }
             }
+            */
 
 
             int length = stringTilesetMission.Length;
@@ -776,8 +765,52 @@ namespace WFTileCounter.BuisnessLogic
             return stringTilesetMission + " ??? Check Me!";
         }
 
+        private bool CheckBadTilesInList(List<string> values)
+        {
+            foreach(var metaData in values)
+            {
+                if(CheckBadTilesSingle(metaData))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-       
+        private bool CheckBadTilesSingle(string stringTilesetMission)
+        {
+            string[] notValidTilesetPossibles;
+            var path = Path.Combine(
+                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "nonProcedualSets.csv");
+
+
+            if (!File.Exists(path))//if the file dissapears we're just going to return true and not let a single file go through... need an exception here.
+            {
+                return true;
+
+            }
+            else
+            {
+
+                notValidTilesetPossibles = File.ReadAllLines(path);
+
+            }
+
+            // all the 'Bad Sets' --should-- be caught by the return null in GetMetaData function, as they should have a different count parsed out from the JpegComment.
+            // but just in case, we put this here to catch any we missed.
+            for (int i = 0; i < notValidTilesetPossibles.Length; i++)
+            {
+                string badPic = "*" + notValidTilesetPossibles[i] + "*";
+
+                if (Regex.IsMatch(stringTilesetMission, WildCardToRegular(badPic)))
+                {
+                    return true;
+                }
+                
+            }
+            return false;
+        }
+
 
         public TileImage GetMapImagePath(string tileName)
         {

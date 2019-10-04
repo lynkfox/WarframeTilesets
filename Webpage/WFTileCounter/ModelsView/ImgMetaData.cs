@@ -108,6 +108,21 @@ namespace WFTileCounter.ModelsView
                 PossibleDupe = false;
             }
         }
+
+        public void SetUnknownFlag()
+        {
+            if (MissionType.Contains("???") || Tileset.Contains("???") | TileName.Contains("???"))
+            {
+                //if the MissionType or the Tileset hits the final return, it will add ??? to the name. - this is usually a bad image, or something new that hasn't been added to special cases yet
+                // so we check for that so we can auto exclude files that don't have the proper checks for their MissionType/Tileset
+                KeepThis = false;
+                UnknownValue = true;
+            }
+            else
+            {
+                UnknownValue = false;
+            }
+        }
     }
 
     

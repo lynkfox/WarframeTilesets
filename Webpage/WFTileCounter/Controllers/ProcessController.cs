@@ -46,7 +46,7 @@ namespace WFTileCounter.BuisnessLogic
             var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
 
             List<ImgMetaData> metaList = new List<ImgMetaData>();
-            var path = _gf.GetPath();
+            var path = _gf.DeveloperAutoGrabGetPath();
             metaList = _gf.GetMetaList(path);
 
             List<InsertReadyData> insert = _df.ConvertToDatabase(metaList);
@@ -67,7 +67,7 @@ namespace WFTileCounter.BuisnessLogic
 
             List<string> newPaths =_gf.MoveFilesToMapIdDirectory(path);
 
-            if (newPaths == null)
+            if (newPaths == null|| (newPaths.Count()==1 && string.IsNullOrEmpty(newPaths[0])))
             {
                 return View("NoData");
             }
@@ -90,7 +90,7 @@ namespace WFTileCounter.BuisnessLogic
 
             var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
 
-            var path = _gf.GetPath();
+            var path = _gf.DeveloperAutoGrabGetPath();
             metaList = _gf.GetMetaList(path);
 
 
