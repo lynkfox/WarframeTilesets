@@ -224,7 +224,7 @@ namespace WFTileCounter.BuisnessLogic
                 }
             }
 
-            var anyOtherImages = imageList.Where(x => !x.ViewName.Contains("Closet") && !x.ViewName.Contains("Secret") && !x.ViewName.Contains("Exit") && !x.ViewName.Contains("Overview")).OrderBy(x => x.ViewName);
+            var anyOtherImages = imageList.Where(x => !x.ViewName.Contains("Closet") && !x.ViewName.Contains("Secret") && !x.ViewName.Contains("Exit") && !x.ViewName.Contains("Overview") && !x.ViewName.Contains("Map")).OrderBy(x => x.ViewName);
 
             if (!(anyOtherImages is null))
             {

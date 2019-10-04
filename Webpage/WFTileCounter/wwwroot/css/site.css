@@ -73,11 +73,24 @@ body {
 }
 
 
-.carousel .carousel-indicators li {
-    background-color: #fff;
-    background-color: rgba(70,70,70,.25);
+
+
+.line-breaks {
+    white-space: pre-line;
 }
 
-.carousel .carousel-indicators .active {
-    background-color: #444;
+.nav-tabs > li > a:hover {
+    background-color: #3F729B !important;
+    border: medium none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: #fff;
+}
+
+a.active.nav-link {
+    background-color: #4B515D !important;
+    border: medium none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: #fff;
 }

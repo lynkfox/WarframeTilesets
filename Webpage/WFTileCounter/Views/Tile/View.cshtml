@@ -11,9 +11,13 @@
 <h3><i> "@(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName)" </i></h3>
 
 <div class="container">
+
+    @*Map + Info Columns*@
     <div class="row">
 
-        <div class="col-md-4 mb-1 pb-1 justify-content-start">
+
+        @*Map, Key, and Variant*@
+        <div class="col-md-4 mb-1 pb-1 pt-4 justify-content-start">
 
             @if (Model.MapImages.Count() == 1)
             {
@@ -62,34 +66,37 @@
 
                 </div>
             }
-        <div class="row text-center">
-            <div class="col-md-12 mb-1 pb-1 mt-1 text-center">
-                <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseMapKey" aria-expanded="false" aria-controls="collapseMapKey">
-                    Map Key
-                </button>
-                @if (Model.Variants.Count > 0)
-                {
-                    <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVariants" aria-expanded="false" aria-controls="collapseVariants">
-                        Possible Variants
+            <div class="row text-center">
+                <div class="col-md-12 mb-1 pb-1 mt-3 text-center">
+                    <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#collapseMapKey" aria-expanded="false" aria-controls="collapseMapKey">
+                        Map Key
                     </button>
-                }
+                    @if (Model.Variants.Count > 0)
+                    {
+                        <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseVariants" aria-expanded="false" aria-controls="collapseVariants">
+                            Possible Variants
+                        </button>
+                    }
 
+                </div>
             </div>
-        </div>
+
+
+            @*Map Key*@
             <div class="row">
                 <div class="col-md-12 mb-1 pb-1">
-                    
-                    
+
+
                     <div class="collapse" id="collapseMapKey">
-                        <div class="card card-body bg-dark text-light">
+                        <div class="card card-body bg-dark text-light border-0">
                             <div class="d-flex justify-content-center flex-wrap">
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapSpawn.png" style="width:20px" alt="Map Key: Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Player Spawn"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExit.png" style="width:20px" alt="Map Key: Exit" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Room Exit"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapAlarm.png" style="width:20px" alt="Map Key: Console" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Console"></span>
+                                <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapSpawn.png" style="width:20px" alt="Map Key: Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Player Spawn"></span>
+                                <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapExit.png" style="width:20px" alt="Map Key: Exit" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Room Exit"></span>
+                                <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapAlarm.png" style="width:20px" alt="Map Key: Console" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Console"></span>
                                 @if (Model.TilesetName.Contains("Corpus"))
                                 {
-                                    <span class="bg-light rounded mr-1"><img src="~/img/markers/mapCorpusLocker.png" style="width:20px" alt="Map Key: Corpus Locker" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Sets of Lockers"></span>
-                                    <span class="bg-light rounded mr-1"><img src="~/img/markers/mapLootRoom.png" style="width:20px" alt="Map Key: Loot Closet" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Loot Closet"></span>
+                                    <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapCorpusLocker.png" style="width:20px" alt="Map Key: Corpus Locker" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Sets of Lockers"></span>
+                                    <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapLootRoom.png" style="width:20px" alt="Map Key: Loot Closet" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Loot Closet"></span>
                                 }
                                 else if (Model.TilesetName.Contains("Grineer"))
                                 {
@@ -99,32 +106,34 @@
                                 {
                                     //Add Orokin Locker Symbol
                                 }
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapObjective.png" style="width:20px" alt="Map Key: Potential Objective" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Potential Objective Location"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapSecret.png" style="width:20px" alt="Map Key: Secret Entrance" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Secret Entrance/Location"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapElevator.png" style="width:20px" alt="Map Key: Elevator" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Elevator"></span>
-                                <span class="bg-light rounded mr-1"><img src="~/img/markers/mapExplosive.png" style="width:20px" alt="Map Key: Hazard or Destructible" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Hazard or Destructible Object"></span>
+                                <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapObjective.png" style="width:20px" alt="Map Key: Potential Objective" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Potential Objective Location"></span>
+                                <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapSecret.png" style="width:20px" alt="Map Key: Secret Entrance" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Secret Entrance/Location"></span>
+                                <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapElevator.png" style="width:20px" alt="Map Key: Elevator" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Elevator"></span>
+                                <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapExplosive.png" style="width:20px" alt="Map Key: Hazard or Destructible" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Hazard or Destructible Object"></span>
 
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
+
+            @*Variants*@
             @if (Model.Variants.Count > 0)
             {
 
                 <div class="row">
                     <div class="col-md-12 mb-1 pb-1">
-                        
+
                         <div class="collapse" id="collapseVariants">
-                            <div class="card card-body bg-dark text-light">
+                            <div class="card card-body bg-dark text-light border-0">
                                 <div id="variants" class="list-group align-items-start  text-light">
 
                                     @foreach (var variant in Model.Variants)
                                     {
                                         if (!string.IsNullOrEmpty(variant.VariantTileName))
                                         {
-                                            @Html.ActionLink(variant.VariantTileName, "ViewTile", "Tile", new { tileset = variant.TilesetPath, tilename = variant.TilePath }, new { @class = "list-group-item list-group-item-action list-group-item-dark", @style = "text-color:#007BFF" })
+                                            @Html.ActionLink(variant.VariantTileName, "ViewTile", "Tile", new { tileset = variant.TilesetPath, tilename = variant.TilePath }, new { @class = "list-group-item list-group-item-action list-group-item-dark font-weight-bold", @style = "background-color: #3F729B !important; text-color:#007BFF" })
                                         }
 
                                     }
@@ -140,7 +149,11 @@
 
         </div>
 
-        <div class="col-md-8 border border-light">
+
+        @*Tile Info*@
+        <div class="col-md-8">
+
+            @*Names (DE, Popular)*@
             <div class="row">
                 <div class="col-md-6 mb-1 pb-1">
                     <div class="row">
@@ -155,7 +168,7 @@
                     </div>
 
                 </div>
-                
+
                 <div class="col-md-6 mb-1 pb-1">
                     <div class="row">
                         <div class="col-sm-12 font-weight-bold">
@@ -170,22 +183,24 @@
 
                 </div>
             </div>
+
+            @*Console Exit Lockers*@
             <div class="row">
                 <div class="col-md-4 mb-1 pb-1 ">
                     <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Alarm Consoles.">
-                        
+
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Consoles)
                         <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.Consoles)</span>
                     </div>
                 </div>
-                
+
                 <div class="col-md-4 mb-1 pb-1">
                     <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Exits.">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Exits)
                         <span class="mt-1 mr-3 float-right badge badge-info badge-pill">@Html.DisplayFor(x => x.Tile.TileDetail.Exits)</span>
                     </div>
                 </div>
-                
+
                 <div class="col-md-4 mb-1 pb-1">
                     <div class="mw-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Total number of Lockers (open and closed).">
                         @Html.DisplayNameFor(x => x.Tile.TileDetail.Lockers)
@@ -194,6 +209,8 @@
                 </div>
 
             </div>
+
+            @*Serets Hazards Loot Rooms*@
             <div class="row">
                 <div class="col-md-4  mb-1 pb-1">
                     <div class="w-100 mb-1 p-1 pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Number of Secret locations.">
@@ -218,6 +235,7 @@
                 }
             </div>
 
+            @*Collectibles*@
             <div class="row">
                 <div class="col-md-12 mb-1">
                     <div class="w-100 mb-1 p-1  pl-3 border-info border text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="Potential Collectibles that might spawn here.">
@@ -282,13 +300,15 @@
 
                             </div>
                         </div>
-                        
-                        
+
+
                     </div>
                 </div>
-                    
+
             </div>
 
+
+            @*Mission Objectives*@
             <div class="row ">
                 <div class="col-md-12 mb-1 pb-1 text-center ">
                     <div class="d-flex justify-content-center flex-wrap">
@@ -339,70 +359,67 @@
                         }
 
                     </div>
-
                 </div>
-
-
             </div>
 
+            @*Description Boxes*@
             <div class="row">
-                <div class="col-md-12  mb-1 pb-1">
-                    <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.Description)</strong>
+                <div class="col-md-12">
+                    <div class="card mt-3 tab-card border-0 bg-dark mb-2">
+                        <div class="card-header tab-card-header bg-dark border-0">
+                            <ul class="nav nav-tabs card-header-tabs bg-dark rounded justify-content-center" id="details" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light font-weight-bold" id="description-tab" data-toggle="tab" href="#start" role="tab" aria-controls="One" aria-selected="true">General Description</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light font-weight-bold" id="secrets-tab" data-toggle="tab" href="#one" role="tab" aria-controls="One" aria-selected="false">Secrets</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light font-weight-bold" id="hazards-tab" data-toggle="tab" href="#two" role="tab" aria-controls="Two" aria-selected="false">Hazards</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light font-weight-bold" id="name-tab" data-toggle="tab" href="#three" role="tab" aria-controls="Three" aria-selected="false">Behind Name</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active p-3 bg-dark border border-info rounded" id="start" role="tabpanel" aria-labelledby="description-tab">
+                                <h5 class="card-title">@Html.DisplayNameFor(x => x.Tile.TileDetail.Description)</h5>
+                                <p class="card-text">@Html.Raw(Html.Encode(Model.Tile.TileDetail.Description).Replace("\n", "</p><p class=\"card-text\">"))</p>
+
+                            </div>
+                            <div class="tab-pane fade p-3 bg-dark border border-info rounded" id="one" role="tabpanel" aria-labelledby="secrets-tab">
+                                <h5 class="card-title">@Html.DisplayNameFor(x => x.Tile.TileDetail.SecretDescription)</h5>
+                                <span class="card-text">@Html.Raw(Html.Encode(Model.Tile.TileDetail.SecretDescription).Replace("\n", "<br />"))</span>
+
+                            </div>
+                            <div class="tab-pane fade p-3 bg-dark border border-info rounded" id="two" role="tabpanel" aria-labelledby="hazards-tab">
+                                <h5 class="card-title">@Html.DisplayNameFor(x => x.Tile.TileDetail.HazardDescription)</h5>
+                                <span class="card-text">@Html.Raw(Html.Encode(Model.Tile.TileDetail.HazardDescription).Replace("\n", "<br />"))</span>
+
+                            </div>
+                            <div class="tab-pane fade p-3 bg-dark border border-info rounded" id="three" role="tabpanel" aria-labelledby="name-tab">
+                                <h5 class="card-title">@Html.DisplayNameFor(x => x.Tile.TileDetail.BehindName)</h5>
+                                <span class="card-text">@Html.Raw(Html.Encode(Model.Tile.TileDetail.BehindName).Replace("\n", "<br />"))</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
+
+
+
+
             </div>
-            <div class="row">
-                <div class="col-md-12  mb-1 pb-1">
-                    @Html.DisplayFor(x => x.Tile.TileDetail.Description)
-                </div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-md-4 mb-1 pb-1">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.SecretDescription)</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.DisplayFor(x => x.Tile.TileDetail.SecretDescription)
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-1 pb-1">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.HazardDescription)</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.DisplayFor(x => x.Tile.TileDetail.HazardDescription)
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-1 pb-1">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong>@Html.DisplayNameFor(x => x.Tile.TileDetail.BehindName)</strong>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.DisplayFor(x => x.Tile.TileDetail.BehindName)
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
         </div>
-    </div>
-   
 
+    </div>
+
+
+    @*Image Carosel*@
     <div class="row">
 
         <div class="col-md-12">
@@ -426,7 +443,7 @@
                                         <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                         <div class="carousel-caption d-none d-md-block">
                                             <h2>@Html.DisplayFor(x => picture.ViewName)</h2>
-                                            
+
                                         </div>
                                     </div>
                                 }
@@ -436,7 +453,7 @@
                                         <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                         <div class="carousel-caption d-none d-md-block">
                                             <h2>@Html.DisplayFor(x => picture.ViewName)</h2>
-                                            
+
                                         </div>
                                     </div>
 

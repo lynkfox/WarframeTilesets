@@ -6,3 +6,27 @@
 <h1>Warframe Tile Project</h1>
 
 <h2>Welcome to the Warframe Tile Project</h2>
+
+
+
+<environment include="Development">
+    <strong>Development Environment Only Command - Process all Pictures/Warframe files in pictures directory --></strong> @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
+
+</environment>
+
+
+<environment include="Development">
+    <strong>Development Environment</strong>
+
+
+    <form asp-controller="Home" asp-action="UploadFile" method="post"
+          enctype="multipart/form-data">
+
+        <input type="file" name="fileList" multiple id="filesToUpload" onChange="makeFileList();" />
+        <button type="submit">Upload Files</button>
+    </form>
+
+    <div class="fileNames">File Names Selected Are:</div>
+    <ul id="fileList" class="list-group list-group-horizontal"></ul>
+    <hr />
+</environment>
