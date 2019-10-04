@@ -53,14 +53,14 @@ $(document).ready(function () {
             changeBorderBlue(this, parent)
         } else if ($(parentSecond).hasClass("blueCheckbox")) {
             changeBorderBlue(this, parentSecond)
-        }else if ($(this).hasClass("checkBoxRed")) {
+        } else if ($(this).hasClass("checkBoxRed")) {
             changeBorderBlue(this, this);
         } else if ($(parent).hasClass("checkBoxRed")) {
             changeBorderBlue(this, parent)
         } else if ($(parentSecond).hasClass("checkBoxRed")) {
             changeBorderBlue(this, parentSecond)
         }
-        
+
     });
 });
 
