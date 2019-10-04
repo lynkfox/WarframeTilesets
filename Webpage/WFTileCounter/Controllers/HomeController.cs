@@ -28,7 +28,11 @@ namespace WFTileCounter.Controllers
             _env = env;
         }
 
-
+        //testing page.
+        public IActionResult Test()
+        {
+            return View("Test");
+        }
         public IActionResult Index()
         {
             return View();

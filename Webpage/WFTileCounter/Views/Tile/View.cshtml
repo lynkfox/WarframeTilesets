@@ -272,6 +272,11 @@
                                         <span><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"></span>
 
                                     }
+                                    @if (Model.Tile.TileDetail.Kuria)
+                                    {
+                                        <span><img src="~/img/markers/kuriamarker.png" style="width:25px" alt="Kuria" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Kuria"></span>
+
+                                    }
 
                                 </div>
 
@@ -322,6 +327,13 @@
                         {
                             <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Mobile Defense objective point.">
                                 Mobile Defense
+                            </span>
+
+                        }
+                        @if (Model.Tile.TileDetail.KuvaSiphon)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-dark border-danger border text-danger text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Kuva Siphon.">
+                                Kuva Siphon
                             </span>
 
                         }

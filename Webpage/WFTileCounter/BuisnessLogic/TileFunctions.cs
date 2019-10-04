@@ -121,6 +121,31 @@ namespace WFTileCounter.BuisnessLogic
                 fullDetailsOfTile.Details.Cache = true;
             }
 
+            bool kuvaInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "KuvaSiphon").Any();
+            bool mobileDefInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "MobileDefense").Any();
+            bool defectionSpawnInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "DefectionSpawn").Any();
+            bool defectionRestInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "DefectionRestPoint").Any();
+
+
+            if (kuvaInMapPoints || tile.TileDetail.KuvaSiphon)
+            {
+                fullDetailsOfTile.Details.KuvaSiphon = true;
+            }
+            if (mobileDefInMapPoints || tile.TileDetail.MobileDefense)
+            {
+                fullDetailsOfTile.Details.MobileDefense = true;
+            }
+            if (defectionSpawnInMapPoints || tile.TileDetail.DefectionSpawn)
+            {
+                fullDetailsOfTile.Details.DefectionSpawn = true;
+            }
+            if (defectionRestInMapPoints || tile.TileDetail.DefectionRest)
+            {
+                fullDetailsOfTile.Details.DefectionRest = true;
+            }
+
+
+
             foreach (var img in fullDetailsOfTile.Images)
             {
                 img.ImagePath = GetImagePath(img.ImageName, tile.Name);

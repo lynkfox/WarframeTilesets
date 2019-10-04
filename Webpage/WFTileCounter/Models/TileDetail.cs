@@ -63,10 +63,13 @@ namespace WFTileCounter.Models
         public bool DefectionRest { get; set; }
         [Display(Name = "Survival Pylon:")]
         public bool SurvivalPylon { get; set; }
+        [Display(Name="Kuva Siphon")]
+        public bool KuvaSiphon { get; set; }
+        
 
 
         //Treasure Hunts
-        
+
         public bool Ayatan { get; set; }
         public bool Medallion { get; set; }
         public bool Cephalon { get; set; }
@@ -76,6 +79,7 @@ namespace WFTileCounter.Models
         public bool CaptureSpawn { get; set; }
         public bool SimarisSpawn { get; set; }
         public bool RareContainer { get; set; }
+        public bool Kuria { get; set; }
 
 
         public IEnumerable<VariantTile> VariantTiles { get; set; }

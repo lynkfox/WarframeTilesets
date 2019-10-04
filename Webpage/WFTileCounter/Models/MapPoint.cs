@@ -20,6 +20,7 @@ namespace WFTileCounter.Models
         {
             Nothing,
             MobileDefense,
+            DefectionSpawn,
             DefectionRestPoint,
             KuvaSiphon
         }

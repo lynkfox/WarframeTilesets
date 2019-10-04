@@ -37,16 +37,64 @@ function makeFileList() {
 };
 
 
-//Attempt at Highlight Border of Flexbox when Checkbox checked.
+
+
+//Checkboxes update flexbox above them -- Kinda messy here. Atm all checkboxes are within a span then the flexbox... so yeah. not ideal.
+
 $(document).ready(function () {
-    $('#objectives input').change(function () {
-        if (this.checked == true) {
-            this.style.borderColor = "#17A2B8"
-        } else {
-            this.style.borderColor = "#F8F9FA"
+    $('input[type="checkbox"]').click(function () {
+
+        var parent = $(this).parent();
+        var parentSecond = $(parent).parent();
+
+        if ($(this).hasClass("blueCheckbox")) {
+            changeBorderBlue(this, this);
+        } else if ($(parent).hasClass("blueCheckbox")) {
+            changeBorderBlue(this, parent)
+        } else if ($(parentSecond).hasClass("blueCheckbox")) {
+            changeBorderBlue(this, parentSecond)
+        }else if ($(this).hasClass("checkBoxRed")) {
+            changeBorderBlue(this, this);
+        } else if ($(parent).hasClass("checkBoxRed")) {
+            changeBorderBlue(this, parent)
+        } else if ($(parentSecond).hasClass("checkBoxRed")) {
+            changeBorderBlue(this, parentSecond)
         }
+        
     });
 });
+
+
+
+function changeBackgroundRed(checkbox, borderBox) {
+
+    if ($(checkbox).is(":checked")) {
+
+        $(borderBox).removeClass("bg-dark");
+        $(borderBox).addClass("bg-success");
+
+    }
+    else {
+        $(borderBox).removeClass("bg-success");
+        $(borderBox).addClass("bg-dark");
+    }
+
+};
+
+function changeBorderBlue(checkbox, borderBox) {
+
+    if ($(checkbox).is(":checked")) {
+
+        $(borderBox).removeClass("border-light");
+        $(borderBox).addClass("border-info");
+
+    }
+    else {
+        $(borderBox).removeClass("border-info");
+        $(borderBox).addClass("border-light");
+    }
+
+};
 
 
 

@@ -29,7 +29,7 @@ namespace WFTileCounter.ModelsView
         public string Tileset { get; set; }
         [Display(Name = "Faction: ")]
         public string FactionName { get; set; }
-        [Display(Name = "Date Taken: ")]
+        [Display(Name = "Date Uploaded: ")]
         public string Date { get; set; }
         [Display(Name = "Map ID: ")]
         public string MapIdentifier { get; set; }
@@ -37,8 +37,6 @@ namespace WFTileCounter.ModelsView
         public string Coords { get; set; }
         [Display(Name = "Log value: ")]
         public string LogNum { get; set; }
-        [Display(Name ="Alternate Tileset:" )]
-        public string AlternateTileset { get; set; }
         public TileImage TileImageInfo { get; set; }
         public string UploadedScreenshotImagePath { get; set; }
 
@@ -79,8 +77,10 @@ namespace WFTileCounter.ModelsView
         //Flag for the First tile processed for a given map string - and for being able to display full Run checkbox and get it back
         public bool First { get; set; }
         //Full run qualifier - true = yes, to best of user knoweldge. False = no.
+        [Display(Name="Was this a complete run?")]
         public bool FullRun { get; set; }
         //Are they bothering to record map points here?
+        [Display(Name="Are you recording collectibles and objectives?")]
         public bool MapPointsRecorded { get; set; }
 
 

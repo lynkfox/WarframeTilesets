@@ -12,23 +12,23 @@
     <div class="col-md-6 mb-1 border-info border rounded">
         <div class="row">
             <div class="col-sm-12 mb-1 font-weight-bold justify-content-center">
-                @Html.DisplayFor(x => x.ImageName)
+                <label asp-for="ImageName"></label>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-3 mb-1 justify-content-start">
-                @Html.DisplayNameFor(x => x.ViewName) 
+                <label asp-for="ViewName"></label>
             </div>
             <div class="col-sm-9 mb-1 justify-content-center">
-                @Html.TextBoxFor(x => x.ViewName)
+                <input type="text" asp-for="ViewName" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-3 mb-1 justify-content-start">
-                @Html.DisplayNameFor(x => x.AltText)
+                <label asp-for="AltText"></label>
             </div>
             <div class="col-sm-9 mb-1 justify-content-center">
-                @Html.TextBoxFor(x => x.AltText)
+                <input type="text" asp-for="AltText" />
             </div>
         </div>
 
