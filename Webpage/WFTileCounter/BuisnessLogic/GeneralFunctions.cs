@@ -89,7 +89,7 @@ namespace WFTileCounter.BuisnessLogic
             {
                 var metaData = GetMetaData(pic);
 
-                if(metaData is null)
+                if(metaData is null) // this will happen if it is not a proper warframe screnshot.
                 {
                     continue;
 
@@ -111,26 +111,34 @@ namespace WFTileCounter.BuisnessLogic
                 /* To Do -- Get LogedIn User from TempData? Cookies? Session?
                  * 
                  */
+                 
                 
-                string duplicateCheck = metaList.Where(x => x.TileName == metaData.TileName && x.MapIdentifier == metaData.MapIdentifier).Select(x => x.TileName).FirstOrDefault();
-                if(metaList.Count !=0 && !string.IsNullOrEmpty(duplicateCheck) )
+                bool duplicateCheck = metaList.Where(x => x.TileName == metaData.TileName && x.MapIdentifier == metaData.MapIdentifier).Any();
+                if(metaList.Count !=0 && duplicateCheck )
                 {
 
-                    if (metaData.TileName.Contains("Capture"))
+                    metaData.SetDuplicateFlags(metaList.Last());
+
+                    /*
+                    if (metaData.TileName.Contains("Capture")) // edge case for Cap vs Capture. Snag it out early, and marke it as a possible duplicate if it shows up tice
                     {
                         metaData.KeepThis = false;
                         metaData.PossibleDupe = true;
-                    }
+                    }//These tile names can appear many times per mission, no reason to mark them as duplicates automatically. 
                     else if (metaData.TileName.Contains("DeadEnd") || metaData.TileName.Contains("Cap") || metaData.TileName.Contains("Closet") ||metaData.TileName.Contains("Loot"))
                     {
                         metaData.PossibleDupe = false;
                         metaData.KeepThis = true;
                     }
-                    else
+                    else if(metaData.TileName == metaList.Last().TileName) 
                     {
+                        // the most likely place for duplicates is when the images are right next to each other in succession, so if two are found with the same name in a row, set the
+                        // second as a possible dupe.
                         metaData.KeepThis = false;
                         metaData.PossibleDupe = true;
                     }
+                    // else, if found it but doesn't meet any of the above - then it is likely a completely second tile and is not a duplicate image of the same tile.
+                    */
                 }
                 else
                 {

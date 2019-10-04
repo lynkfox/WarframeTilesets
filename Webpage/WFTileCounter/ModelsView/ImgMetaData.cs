@@ -83,6 +83,32 @@ namespace WFTileCounter.ModelsView
         [Display(Name="Are you recording collectibles and objectives?")]
         public bool MapPointsRecorded { get; set; }
 
-
+        public void SetDuplicateFlags(ImgMetaData last)
+        {
+            if (TileName.Contains("Capture")) // edge case for Cap vs Capture. Snag it out early, and marke it as a possible duplicate if it shows up tice
+            {
+                KeepThis = false;
+                PossibleDupe = true;
+            }//These tile names can appear many times per mission, no reason to mark them as duplicates automatically. 
+            else if (TileName.Contains("DeadEnd") || TileName.Contains("Cap") || TileName.Contains("Closet") || TileName.Contains("Loot"))
+            {
+                PossibleDupe = false;
+                KeepThis = true;
+            }
+            else if (TileName == last.TileName)
+            {
+                // the most likely place for duplicates is when the images are right next to each other in succession, so if two are found with the same name in a row, set the
+                // second as a possible dupe.
+                KeepThis = false;
+                PossibleDupe = true;
+            }
+            else // if none of the above conditions are met, its probably a safe tile to process.
+            {
+                KeepThis = true;
+                PossibleDupe = false;
+            }
+        }
     }
+
+    
 }
