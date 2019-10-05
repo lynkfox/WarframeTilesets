@@ -11,94 +11,103 @@
 @foreach (var map in Model)
 {
     <hr />
-    <div class="row">
+    <div class="container">
+        <div class="row">
 
-        <div class="col-md-3 border border-success">
-            <div class="row">
-                <div class="col-sm-6 font-weight-bold">
-                    @Html.DisplayNameFor(x => map.User.Username)
-                </div>
-                <div class="col-sm-6 font-italic text-md-right">
-                    @Html.DisplayFor(x => map.User.Username) (# @Html.DisplayFor(x => map.User.Id))
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 font-weight-bold">
-                    @Html.DisplayNameFor(x => map.Run.RunDate)
-                </div>
-                <div class="col-sm-6 font-italic text-md-right">
-                    @Html.DisplayFor(x => map.Run.RunDate)
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 font-weight-bold">
-                    @Html.DisplayNameFor(x => map.Mission.Type)
-                </div>
-                <div class="col-sm-6 font-italic text-md-right">
-                    @Html.DisplayFor(x => map.Mission.Type)
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 font-weight-bold">
-                    @Html.DisplayNameFor(x => map.Tileset.Name)
-                </div>
-                <div class="col-sm-6 font-italic text-md-right">
-                    @Html.DisplayFor(x => map.Tileset.Name)
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 font-weight-bold text-nowrap">
-                    @Html.DisplayNameFor(x => map.Run.TotalTiles)
-                </div>
-                <div class="col-sm-6 font-italic text-md-right">
-                    @Html.DisplayFor(x => map.Run.TotalTiles)
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 font-weight-bold">
-                    @Html.DisplayNameFor(x => map.Run.UniqueTiles)
-                </div>
-                <div class="col-sm-6 font-italic text-md-right">
-                    @Html.DisplayFor(x => map.Run.UniqueTiles)
-                </div>
-            </div>
+            <div class="col-md-12 border border-success">
+                <div class="row">
+                    <div class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(x => map.User.Username)
+                    </div>
+                    <div class="col-sm-3 font-italic text-md-right">
+                        @Html.DisplayFor(x => map.User.Username) (# @Html.DisplayFor(x => map.User.Id))
+                    </div>
 
-        </div>
-        <div class="col-md-9 border border-light">
-            <div class="row">
-                <div class="col-sm-12"><b>@Html.DisplayNameFor(a => map.Run.IdentityString)</b></div><div class="col-sm-8">@Html.DisplayFor(a => map.Run.IdentityString)</div>
-                <hr />
-            </div>
-            <div class="row">
-                <div class="col-sm-12"><p><b>Unique Tiles Processed:</b> - <i> (@ViewBag.newTiles[count] were new and added to the database.)</i></p>
-                @if(map.Run.FullRun && !map.AlreadyProcessed)
-                {
-                    <p>This has been marked as a Full Run. It will have extra weight when processing for tile frequency.</p>
-                }else if(!map.Run.FullRun && !map.AlreadyProcessed)
-                {
-                    <p>This has been marked as a Partial Run. It will have reduced weight when processing for tile frequency.</p>
-                }else if(map.AlreadyProcessed)
-                {
-                    <p>This run was already found in the database. Any tiles that were not part of the Map from the first run were added. It will have reduced weight when processing for tile frequency.</p>
-                }
-
+                    <div class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(x => map.Run.RunDate)
+                    </div>
+                    <div class="col-sm-3 font-italic text-md-right">
+                        @Html.DisplayFor(x => map.Run.RunDate)
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(x => map.Mission.Type)
+                    </div>
+                    <div class="col-sm-3 font-italic text-md-right">
+                        @Html.DisplayFor(x => map.Mission.Type)
+                    </div>
+
+                    <div class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(x => map.Tileset.Name)
+                    </div>
+                    <div class="col-sm-3 font-italic text-md-right">
+                        @Html.DisplayFor(x => map.Tileset.Name)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 font-weight-bold text-nowrap">
+                        @Html.DisplayNameFor(x => map.Run.TotalTiles)
+                    </div>
+                    <div class="col-sm-3 font-italic text-md-right">
+                        @Html.DisplayFor(x => map.Run.TotalTiles)
+                    </div>
+                    
+                    <div class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(x => map.Run.UniqueTiles)
+                    </div>
+                    <div class="col-sm-3 font-italic text-md-right">
+                        @Html.DisplayFor(x => map.Run.UniqueTiles)
+                    </div>
+                </div>
+
             </div>
-            <div class="row">
-                @foreach (var tile in map.Tiles)
-                {
-                    if (tile.NewTile)
+            </div>
+        <div class="row">
+            <div class="col-md-12 border border-light">
+                <div class="row">
+                    <div class="col-sm-12 font-weight-bold">@Html.DisplayNameFor(a => map.Run.IdentityString)</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 font-italic border-light border-bottom">@Html.DisplayFor(a => map.Run.IdentityString)</div>
+                
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p><b>Unique Tiles Processed:</b> - <i> (@ViewBag.newTiles[count] were new and added to the database.)</i></p>
+                        @if (map.Run.FullRun && !map.AlreadyProcessed)
+                        {
+                            <p>This has been marked as a Full Run. It will have extra weight when processing for tile frequency.</p>
+                        }
+                        else if (!map.Run.FullRun && !map.AlreadyProcessed)
+                        {
+                            <p>This has been marked as a Partial Run. It will have reduced weight when processing for tile frequency.</p>
+                        }
+                        else if (map.AlreadyProcessed)
+                        {
+                            <p>This run was already found in the database. Any tiles that were not part of the Map from the first run were added. It will have reduced weight when processing for tile frequency.</p>
+                        }
+
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (var tile in map.Tiles)
                     {
-                        <div class="col-sm-3 text-truncate font-weight-bold">@Html.DisplayFor(a => tile.Name)</div>
-                    }
-                    else
-                    {
-                        <div class="col-sm-3 text-truncate text-muted">@Html.DisplayFor(a => tile.Name)</div>
-                    }
+                        if (tile.NewTile)
+                        {
 
-                }
+                            <div class="col-sm-3 text-truncate font-weight-bold" CssClass="tooltips" data-toggle="tooltip" data-placement="Top" title="@Html.DisplayFor(a => tile.Name)">@Html.DisplayFor(a => tile.Name)</div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-3 text-truncate" CssClass="tooltips" data-toggle="tooltip" data-placement="Top" title="@Html.DisplayFor(a => tile.Name)">@Html.DisplayFor(a => tile.Name)</div>
+                        }
+
+                    }
+                </div>
             </div>
         </div>
     </div>
+    
     count++;
 }

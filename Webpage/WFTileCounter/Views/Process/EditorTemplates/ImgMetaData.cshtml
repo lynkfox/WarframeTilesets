@@ -57,287 +57,297 @@
         </div>
     }
 
-    @*Duplicate Tag, Keep This Checkbox, Unknown Tag*@
 
-    <div class="row mb-2">
-
-        @if (Model.PossibleDupe)
-        {
-            <div class="col-md-3 border border-danger bg-danger text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
-                <label asp-for="PossibleDupe"></label>
-                <div class="editor-field">
-                    @Html.HiddenFor(a => a.PossibleDupe)
-                    @Html.ValidationMessageFor(a => a.PossibleDupe)
-                </div>
-            </div>
-            <div class="col-md-1">&nbsp;</div>
-        }
-        else
-        {
-            <div class="col-md-4"> &nbsp;</div>
-        }
-        <div class="col-md-4 checkBoxRed @(Model.KeepThis ? "bg-success" : "bg-secondary") border @(Model.KeepThis ? "border-success" : "border-warning") rounded align-self-center text-center">
-            <span><label asp-for="KeepThis"></label><input class="ml-2" type="checkbox" asp-for="KeepThis" /></span>
-        </div>
-        @if (Model.UnknownValue)
-        {
-            <div class="col-md-1">&nbsp;</div>
-            <div class="col-md-3 border border-warning bg-warning text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
-                <label asp-for="UnknownValue"></label>
-                <div class="editor-field">
-                    @Html.HiddenFor(a => a.UnknownValue)
-                    @Html.ValidationMessageFor(a => a.UnknownValue)
-                </div>
-            </div>
-
-        }
-        else
-        {
-            <div class="col-md-4"> &nbsp; </div>
-        }
-
-    </div>
-
-    @*File Name, Date*@
     <div class="row">
+        <div class="col-12 border-light border rounded">
 
-
-        <div class="col-12 align-self-start border border-muted rounded bg-dark text-light">
+            @*File Name, Date*@
             <div class="row">
-                <div class="col-sm-2 font-weight-bold">
-                    <label asp-for="FileName"></label>
-                </div>
-                <div class="col-sm-4 font-italic">
-                    <div class="display-field">
-                        @Html.DisplayFor(a => a.FileName)
+
+
+                <div class="col-12 align-self-start bg-dark text-light">
+                    <div class="row">
+                        <div class="col-sm-2 font-weight-bold">
+                            <label asp-for="FileName"></label>
+                        </div>
+                        <div class="col-sm-4 font-italic">
+                            <div class="display-field">
+                                @Html.DisplayFor(a => a.FileName)
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.FileName)
+                                @Html.ValidationMessageFor(a => a.FileName)
+                            </div>
+                        </div>
+                        <div class="col-sm-2 font-weight-bold">
+                            <label asp-for="Date"></label>
+                        </div>
+                        <div class="col-sm-4 font-italic">
+                            <div class="display-field">
+                                @Html.DisplayFor(a => a.Date)
+                            </div>
+                            <div class="editor-field">
+                                @Html.HiddenFor(a => a.Date)
+                                @Html.ValidationMessageFor(a => a.Date)
+                            </div>
+                        </div>
                     </div>
-                    <div class="editor-field">
-                        @Html.HiddenFor(a => a.FileName)
-                        @Html.ValidationMessageFor(a => a.FileName)
-                    </div>
+
                 </div>
-                <div class="col-sm-2 font-weight-bold">
-                    <label asp-for="Date"></label>
-                </div>
-                <div class="col-sm-4 font-italic">
-                    <div class="display-field">
-                        @Html.DisplayFor(a => a.Date)
+            </div>
+
+            @*InfoBox: Mission Type, Faction, Tilename, Tileset, Coords, Logs,  *@
+            <div class="row mt-2">
+                <div class="col-12 align-self-start border @(Model.KeepThis ? "border-success" : "border-warning") border-left-0 border-right-0 rounded bg-dark text-light">
+
+                    <div class="row">
+                        <div class="col-sm-4  border-bottom border-light">
+                            <div class="row">
+                                <div class="col font-weight-bold">
+                                    <label asp-for="MissionType"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="display-field">
+                                    <div class="col font-italic">@Html.DisplayFor(a => a.MissionType)</div>
+                                </div>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.MissionType)
+                                    @Html.ValidationMessageFor(a => a.MissionType)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 border-bottom border-light">
+                            <div class="row">
+                                <div class="col font-weight-bold">
+                                    <label asp-for="FactionName"></label>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="display-field">
+                                    <div class="col font-italic">@Html.DisplayFor(a => a.FactionName)</div>
+                                </div>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.FactionName)
+                                    @Html.ValidationMessageFor(a => a.FactionName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 border-bottom border-light">
+                            <div class="row">
+                                <div class="col font-weight-bold">
+                                    <label asp-for="LogNum"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="display-field">
+                                    <div class="col font-italic">@Html.DisplayFor(a => a.LogNum)</div>
+                                </div>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.LogNum)
+                                    @Html.ValidationMessageFor(a => a.LogNum)
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="editor-field">
-                        @Html.HiddenFor(a => a.Date)
-                        @Html.ValidationMessageFor(a => a.Date)
+
+                    <div class="row">
+                        <div class="col-sm-4 ">
+                            <div class="row">
+                                <div class="col font-weight-bold">
+                                    <label asp-for="TileName"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="display-field">
+                                    <div class="col  font-italic text-truncate">@Html.DisplayFor(a => a.TileName)</div>
+                                </div>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.TileName)
+                                    @Html.ValidationMessageFor(a => a.TileName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 ">
+                            <div class="row">
+                                <div class="col font-weight-bold">
+                                    <label asp-for="Tileset"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="display-field">
+
+                                    <div class="col font-italic text-truncate">@Html.DisplayFor(a => a.Tileset)</div>
+
+                                </div>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.Tileset)
+                                    @Html.ValidationMessageFor(a => a.Tileset)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 ">
+                            <div class="row">
+                                <div class="col font-weight-bold">
+                                    <label asp-for="Coords"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="display-field">
+                                    <div class="col font-italic">@Html.DisplayFor(a => a.Coords)</div>
+                                </div>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.Coords)
+                                    @Html.ValidationMessageFor(a => a.Coords)
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
-    </div>
 
-    @*InfoBox: Mission Type, Faction, Tilename, Tileset, Coords, Logs,  *@
-    <div class="row mt-2">
-        <div class="col-12 align-self-start border @(Model.KeepThis ? "border-success" : "border-warning")  rounded bg-dark text-light">
-
+            @*Objectives*@
             <div class="row">
-                <div class="col-sm-4  border-bottom border-light">
-                    <div class="row">
-                        <div class="col font-weight-bold">
-                            <label asp-for="MissionType"></label>
+                <div class="col-md-12 p-1">
+                    <div class="float-sm-left font-weight-bold border rounded p-2 border-secondary">Objectives</div>
+                    <div id="collectibles" class="d-flex justify-content-center flex-wrap">
+                        <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
+                            <span><label><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Capture Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Mobile Defense Objective"><input type="radio" asp-for="Objective" value="MobileDefense" /></label></span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="display-field">
-                            <div class="col font-italic">@Html.DisplayFor(a => a.MissionType)</div>
+                        <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
+                            <span><label><img src="~/img/markers/defectionrest.png" style="width:25px" alt="DefectionRest" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Rest"><input type="radio" asp-for="Objective" value="DefectionRestPoint" /></label></span>
+                        </div>
+                        <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
+                            <span><label><img src="~/img/markers/defectionspawn.png" style="width:25px" alt="Defection Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Spawn"><input type="radio" asp-for="Objective" value="DefectionSpawn" /></label></span>
+                        </div>
+                        <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
+                            <span><label><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Siphon" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"><input type="radio" asp-for="Objective" value="KuvaSiphon" /></label></span>
                         </div>
                         <div class="editor-field">
-                            @Html.HiddenFor(a => a.MissionType)
-                            @Html.ValidationMessageFor(a => a.MissionType)
+                            @Html.HiddenFor(a => a.Objective)
+                            @Html.ValidationMessageFor(a => a.Objective)
                         </div>
                     </div>
                 </div>
-
-                <div class="col-sm-4 border-bottom border-light">
-                    <div class="row">
-                        <div class="col font-weight-bold">
-                            <label asp-for="FactionName"></label>
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="display-field">
-                            <div class="col font-italic">@Html.DisplayFor(a => a.FactionName)</div>
-                        </div>
-                        <div class="editor-field">
-                            @Html.HiddenFor(a => a.FactionName)
-                            @Html.ValidationMessageFor(a => a.FactionName)
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4 border-bottom border-light">
-                    <div class="row">
-                        <div class="col font-weight-bold">
-                            <label asp-for="LogNum"></label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="display-field">
-                            <div class="col font-italic">@Html.DisplayFor(a => a.LogNum)</div>
-                        </div>
-                        <div class="editor-field">
-                            @Html.HiddenFor(a => a.LogNum)
-                            @Html.ValidationMessageFor(a => a.LogNum)
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
+            @*Collectibles*@
             <div class="row">
-                <div class="col-sm-4 ">
-                    <div class="row">
-                        <div class="col font-weight-bold">
-                            <label asp-for="TileName"></label>
+                <div class="col-md-12 p-1">
+                    <div class="float-sm-left font-weight-bold border rounded p-2 border-secondary">Collectibles</div>
+                    <div id="collectibles" class="hidden-md-down d-flex justify-content-center flex-wrap">
+
+                        <div class="blueCheckbox d-inline-flex m-1 p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="CaptureSpawn"><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"></label><input type="checkbox" asp-for="CaptureSpawn" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="SimarisSpawn"><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"> </label><input type="checkbox" asp-for="SimarisSpawn" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="Cache"><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location"> </label><input type="checkbox" asp-for="Cache" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="Ordis"><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"> </label><input type="checkbox" asp-for="Ordis" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="Somachord"><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"> </label><input type="checkbox" asp-for="Somachord" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="Framefighter"><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"> </label><input type="checkbox" asp-for="Framefighter" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="AyatanStatue"><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"> </label><input type="checkbox" asp-for="AyatanStatue" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="SyndicateMedallion"><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"> </label><input type="checkbox" asp-for="SyndicateMedallion" /></span>
+                        </div>
+                        <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
+                            <span><label asp-for="RareLootChest"><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"> </label><input type="checkbox" asp-for="RareLootChest" /></span>
                         </div>
                     </div>
+                </div>
+
+            </div>
+
+
+
+            @*Images*@
+            <div class="row">
+                <div class="col-lg-3 mt-2">
+
                     <div class="row">
-                        <div class="display-field">
-                            <div class="col  font-italic text-truncate">@Html.DisplayFor(a => a.TileName)</div>
+                        <div class="col-md-12">
+                            <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" style="max-height:150px;" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.TileName)"></center>
                         </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+                <div class="col-lg-9 hidden-md-down align-content-center">
+
+                    <img src="@Url.Content(String.Format("~/{0}", Model.UploadedScreenshotImagePath))" alt="@Model.FileName" class="rounded img-fluid"></center>
+
+                </div>
+            </div>
+            @*Duplicate Tag, Keep This Checkbox, Unknown Tag*@
+
+            <div class="row mb-2">
+
+                @if (Model.PossibleDupe)
+                {
+                    <div class="col-md-3 mt-1 border border-danger bg-danger text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
+                        <label asp-for="PossibleDupe"></label>
                         <div class="editor-field">
-                            @Html.HiddenFor(a => a.TileName)
-                            @Html.ValidationMessageFor(a => a.TileName)
+                            @Html.HiddenFor(a => a.PossibleDupe)
+                            @Html.ValidationMessageFor(a => a.PossibleDupe)
                         </div>
                     </div>
+                    <div class="col-md-1">&nbsp;</div>
+                }
+                else
+                {
+                    <div class="col-md-4"> &nbsp;</div>
+                }
+                <div class="col-md-4 mt-1 checkBoxRed @(Model.KeepThis ? "bg-success" : "bg-secondary") border @(Model.KeepThis ? "border-success" : "border-danger") rounded align-self-center text-center">
+                    <span><label asp-for="KeepThis"></label><input class="ml-2" type="checkbox" asp-for="KeepThis" /></span>
                 </div>
-
-                <div class="col-sm-4 ">
-                    <div class="row">
-                        <div class="col font-weight-bold">
-                            <label asp-for="Tileset"></label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="display-field">
-
-                            <div class="col font-italic text-truncate">@Html.DisplayFor(a => a.Tileset)</div>
-
-                        </div>
+                @if (Model.UnknownValue)
+                {
+                    <div class="col-md-1">&nbsp;</div>
+                    <div class="col-md-3 mt-1 border border-warning bg-warning text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
+                        <label asp-for="UnknownValue"></label>
                         <div class="editor-field">
-                            @Html.HiddenFor(a => a.Tileset)
-                            @Html.ValidationMessageFor(a => a.Tileset)
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="col-sm-4 ">
-                    <div class="row">
-                        <div class="col font-weight-bold">
-                            <label asp-for="Coords"></label>
+                            @Html.HiddenFor(a => a.UnknownValue)
+                            @Html.ValidationMessageFor(a => a.UnknownValue)
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="display-field">
-                            <div class="col font-italic">@Html.DisplayFor(a => a.Coords)</div>
-                        </div>
-                        <div class="editor-field">
-                            @Html.HiddenFor(a => a.Coords)
-                            @Html.ValidationMessageFor(a => a.Coords)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-     0
-    @*Objectives*@
-    <div class="row">
-        <div class="col-md-12 p-1">
-            <div class="float-sm-left font-weight-bold border rounded p-2 border-secondary">Objectives</div>
-            <div id="collectibles" class="d-flex justify-content-center flex-wrap">
-                <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label><img src="~/img/markers/mobiledefense.png" style="width:25px" alt="Capture Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Mobile Defense Objective"><input type="radio" asp-for="Objective" value="MobileDefense" /></label></span>
-                </div>
-                <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label><img src="~/img/markers/defectionrest.png" style="width:25px" alt="DefectionRest" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Rest"><input type="radio" asp-for="Objective" value="DefectionRestPoint" /></label></span>
-                </div>
-                <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label><img src="~/img/markers/defectionspawn.png" style="width:25px" alt="Defection Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Defection Spawn"><input type="radio" asp-for="Objective" value="DefectionSpawn" /></label></span>
-                </div>
-                <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
-                    <span><label><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Siphon" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"><input type="radio" asp-for="Objective" value="KuvaSiphon" /></label></span>
-                </div>
-                <div class="editor-field">
-                    @Html.HiddenFor(a => a.Objective)
-                    @Html.ValidationMessageFor(a => a.Objective)
-                </div>
-            </div>
-        </div>
-    </div>
+                }
+                else
+                {
+                    <div class="col-md-4"> &nbsp; </div>
+                }
 
-@*Collectibles*@
-<div class="row">
-    <div class="col-md-12 p-1">
-        <div class="float-sm-left font-weight-bold border rounded p-2 border-secondary">Collectibles</div>
-        <div id="collectibles" class="hidden-md-down d-flex justify-content-center flex-wrap">
+            </div>
 
-            <div class="blueCheckbox d-inline-flex m-1 p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="CaptureSpawn"><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"></label><input type="checkbox" asp-for="CaptureSpawn" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="SimarisSpawn"><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"> </label><input type="checkbox" asp-for="SimarisSpawn" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="Cache"><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cache Location"> </label><input type="checkbox" asp-for="Cache" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="Ordis"><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"> </label><input type="checkbox" asp-for="Ordis" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="Somachord"><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"> </label><input type="checkbox" asp-for="Somachord" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="Framefighter"><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"> </label><input type="checkbox" asp-for="Framefighter" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="AyatanStatue"><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"> </label><input type="checkbox" asp-for="AyatanStatue" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="SyndicateMedallion"><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"> </label><input type="checkbox" asp-for="SyndicateMedallion" /></span>
-            </div>
-            <div class="blueCheckbox d-inline-flex m-1  p-1 rounded border-secondary border bg-dark">
-                <span><label asp-for="RareLootChest"><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"> </label><input type="checkbox" asp-for="RareLootChest" /></span>
+            @*Border*@
+            <div class="row">
+                <div class="col-sm-12 bg-secondary p1">&nbsp;</div>
             </div>
         </div>
     </div>
     
-</div>
-
-
-
-    @*Images*@
-    <div class="row">
-        <div class="col-lg-3 mt-2">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <center><img src="@Url.Content(String.Format("~/img/tilesets/{0}", Model.TileImageInfo.ImagePath))" alt="@Model.TileImageInfo.AltText" CssClass="tooltips" class="rounded img-fluid tooltips" style="max-height:150px;" data-toggle="tooltip" data-placement="top" title="Map Image of @Html.DisplayFor(x=>x.TileName)"></center>
-                </div>
-            </div>
-
-
-
-
-
-
-        </div>
-        <div class="col-lg-9 hidden-md-down align-content-center">
-
-            <img src="@Url.Content(String.Format("~/{0}", Model.UploadedScreenshotImagePath))" alt="@Model.FileName" class="rounded img-fluid"></center>
-
-        </div>
-    </div>
-    <hr />
 </div>
 
 

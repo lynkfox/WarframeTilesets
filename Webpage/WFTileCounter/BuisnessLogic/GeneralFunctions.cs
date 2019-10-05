@@ -78,7 +78,7 @@ namespace WFTileCounter.BuisnessLogic
         {
             List<ImgMetaData> metaList = new List<ImgMetaData>();
 
-            if(string.IsNullOrEmpty(path) || !File.Exists(path))
+            if(string.IsNullOrEmpty(path) || !Directory.Exists(path))
             {
                 return null;
             }

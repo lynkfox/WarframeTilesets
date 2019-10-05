@@ -39,13 +39,15 @@
                                     <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x => picture.AltText)">
 
                                 </div>
+                                
                             }
                             else
                             {
                                 <div class="carousel-item">
-                                    <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x => picture.AltText) of @Model.Tile.Name">
+                                    <img src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText" CssClass="tooltips" class="rounded d-block w-100 tooltips" data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(x => picture.AltText)">
 
                                 </div>
+                                
 
                             }
 
@@ -442,8 +444,8 @@
                                     <div class="carousel-item active">
                                         <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                         <div class="carousel-caption d-none d-md-block">
-                                            <h2>@Html.DisplayFor(x => picture.ViewName)</h2>
-
+                                            
+                                            <p class="text-danger font-weight-bold font-italic outline" style="font-size:1.2em" >@Html.DisplayFor(x=> picture.AltText)</p>
                                         </div>
                                     </div>
                                 }
@@ -452,8 +454,8 @@
                                     <div class="carousel-item">
                                         <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                         <div class="carousel-caption d-none d-md-block">
-                                            <h2>@Html.DisplayFor(x => picture.ViewName)</h2>
-
+                                            
+                                            <p class="text-danger font-weight-bold font-italic outline" style="font-size:1.2em">@Html.DisplayFor(x => picture.AltText)</p>
                                         </div>
                                     </div>
 
