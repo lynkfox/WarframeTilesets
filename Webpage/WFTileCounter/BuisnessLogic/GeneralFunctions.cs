@@ -539,6 +539,7 @@ namespace WFTileCounter.BuisnessLogic
                 tilename = tilename.Replace("Orokin", "");
                 tilename = tilename.Replace("Lua", "");
                 tilename = tilename.Replace("Moon", "");
+                tilename = tilename.Replace("Oro", "");
                 return "OrokinMoon"+tilename;
             }
             else if (tileset == "OrokinTower")
@@ -546,6 +547,7 @@ namespace WFTileCounter.BuisnessLogic
                 tilename = tilename.Replace("OrokinTower", "");
                 tilename = tilename.Replace("Orokin", "");
                 tilename = tilename.Replace("Tower", "");
+                tilename = tilename.Replace("Oro", "");
                 return "OrokinTower" + tilename;
             }
             else if (tileset == "OrokinTowerDerelict")
@@ -557,6 +559,7 @@ namespace WFTileCounter.BuisnessLogic
                 tilename = tilename.Replace("Orokin", "");
                 tilename = tilename.Replace("Tower", "");
                 tilename = tilename.Replace("Derelict", "");
+                tilename = tilename.Replace("Oro", "");
                 return "OrokinDerelict" + tilename;
                 
                 
