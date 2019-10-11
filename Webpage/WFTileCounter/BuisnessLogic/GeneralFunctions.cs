@@ -414,6 +414,7 @@ namespace WFTileCounter.BuisnessLogic
                 tilename = tilename.Replace("IcePlanet", "");
                 tilename = tilename.Replace("CrpIce", "");
                 tilename = tilename.Replace("Ice", "");
+                tilename = tilename.Replace("Crp", "");
                 return "CorpusIce" + tilename;
             }
             else if (tileset == "CorpusOutpost")
@@ -421,15 +422,18 @@ namespace WFTileCounter.BuisnessLogic
                 tilename = tilename.Replace("CorpusOutpost", "");
                 tilename = tilename.Replace("CrpOutpost", "");
                 tilename = tilename.Replace("Outpost", "");
+                tilename = tilename.Replace("Crp", "");
                 return "CorpusOutpost" + tilename;
             }
             else if (tileset == "CorpusShip")
             {
                 tilename = tilename.Replace("GuildShip", "");
+                tilename = tilename.Replace("CorpusShip", "");
                 tilename = tilename.Replace("CrpShip", "");
+                tilename = tilename.Replace("Corpus", "");
                 tilename = tilename.Replace("Crp", "");
                 tilename = tilename.Replace("Ship", "");
-                tilename = tilename.Replace("Guid", "");
+                tilename = tilename.Replace("Guild", "");
                 return "CorpusShip" + tilename;
             }
             else if (tileset == "CorpusToGrineer" && tilename.Contains("InvasionC2G"))
