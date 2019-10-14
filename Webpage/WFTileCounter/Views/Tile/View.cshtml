@@ -114,6 +114,15 @@
                                 <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapExplosive.png" style="width:20px" alt="Map Key: Hazard or Destructible" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Hazard or Destructible Object"></span>
 
                             </div>
+                            @if (Model.Tile.Name.Contains("Spy"))
+                            {
+                        <div class="d-flex justify-content-center flex-wrap">
+                            <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/laserconsole.png" style="width:20px" alt="Map Key: Laser Console" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Laser Grid Control Console"></span>
+                            <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/lasergrid.png" style="width:20px" alt="Map Key: Laser Grid" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Laser Grid Area"></span>
+                            <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/ventshaft.png" style="width:20px" alt="Map Key: Ventilation Shaft" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Ventilation Shaft"></span>
+                        </div>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -248,53 +257,50 @@
                             <div class="col-md-9 mb-1">
                                 <div class="d-flex justify-content-center flex-wrap">
 
-                                    @if (Model.Tile.TileDetail.CaptureSpawn)
-                                    {
-                                        <span><img src="~/img/markers/capturespawn.png" style="width:25px" alt="Capture Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Capture Target Spawn Tile"></span>
-                                    }
+                                    
                                     @if (Model.Tile.TileDetail.SimarisSpawn)
                                     {
-                                        <span><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Simaris Scan Spawn Tile"></span>
+                                        <span><img src="~/img/markers/simarisspawn.png" style="width:25px" alt="Simaris Spawn" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Simaris Scan Spawn Tile"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.Cache)
                                     {
-                                        <span><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cache Location"></span>
+                                        <span><img src="~/img/markers/cachemarker.png" style="width:25px" alt="Cache Location" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Cache Location"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.Cephalon)
                                     {
-                                        <span><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Cephalon Fragment"></span>
+                                        <span><img src="~/img/markers/cephalon.png" style="width:25px" alt="Cephalon Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Cephalon Fragment"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.Somachord)
                                     {
-                                        <span><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Somachord Fragment"></span>
+                                        <span><img src="~/img/markers/somachord.png" style="width:25px" alt="Somachord Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Somachord Fragment"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.FrameFighter)
                                     {
-                                        <span><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Frame Fighter Fragment"></span>
+                                        <span><img src="~/img/markers/framefighter.png" style="width:25px" alt="Frame Fighter Fragment" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Frame Fighter Fragment"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.Ayatan)
                                     {
-                                        <span><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Ayatan Statue"></span>
+                                        <span><img src="~/img/markers/ayatanstatue.png" style="width:25px" alt="Ayatan Statue" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Ayatan Statue"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.Medallion)
                                     {
-                                        <span><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Syndicate Medallion"></span>
+                                        <span><img src="~/img/markers/syndicatemedallion.png" style="width:25px" alt="Syndicate Medallion" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Syndicate Medallion"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.RareContainer)
                                     {
-                                        <span><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Rare Loot Chest"></span>
+                                        <span><img src="~/img/markers/lootmarker.png" style="width:25px" alt="Rare Loot Chest" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Rare Loot Chest"></span>
 
                                     }
                                     @if (Model.Tile.TileDetail.Kuria)
                                     {
-                                        <span><img src="~/img/markers/kuriamarker.png" style="width:25px" alt="Kuria" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="top" title="Kuria"></span>
+                                        <span><img src="~/img/markers/kuriamarker.png" style="width:25px" alt="Kuria" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="bottom" title="Kuria"></span>
 
                                     }
 
@@ -352,12 +358,36 @@
                             </span>
 
                         }
+                        @if (Model.Tile.TileDetail.CaptureSpawn)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-danger text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential spawn point for Capture Targets.">
+                                Capture Spawn
+                            </span>
+                        }
                         @if (Model.Tile.TileDetail.KuvaSiphon)
                         {
                             <span class="d-sm-inline-flex m-1 p-1 bg-dark border-danger border text-danger text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Kuva Siphon.">
                                 Kuva Siphon
                             </span>
 
+                        }
+                        @if (Model.Tile.Name.Contains("Spy"))
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Spy Vault">
+                                Spy Vault
+                            </span>
+                        }
+                        @if (Model.Tile.Name.Contains("Rescue"))
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Rescue Objective">
+                                Rescue Objective
+                            </span>
+                        }
+                        @if (Model.Tile.Name.Contains("Sabotage"))
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Sabotage Objective">
+                                Sabotage Objective
+                            </span>
                         }
 
                     </div>
