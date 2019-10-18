@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MetadataExtractor;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using WFTileCounter.Models;
 using WFTileCounter.ModelsLogic;
 using WFTileCounter.ModelsView;
+using Directory = System.IO.Directory;
 
 namespace WFTileCounter.BuisnessLogic
 {
@@ -168,12 +170,12 @@ namespace WFTileCounter.BuisnessLogic
 
 
 
-                foreach (var directory in directories)
+                foreach (var metaInfoDirectory in directories)
                 {
                     string mapId = "";
-                    if (directory.Name == "JpegComment")
+                    if (metaInfoDirectory.Name == "JpegComment")
                     {
-                        values = directory.Tags[0].Description.Split(new char[] { ' ' }).ToList();
+                        values = metaInfoDirectory.Tags[0].Description.Split(new char[] { ' ' }).ToList();
 
                         //remove all the extra info we don't need
                         values.RemoveAll(x => x == "" || x == "Zone:" || x == "Log:" || x == "P:");
@@ -251,29 +253,21 @@ namespace WFTileCounter.BuisnessLogic
             List<string> mapInfo = new List<string>();
             bool validFile = false;
 
-            foreach (var directory in directories)
+            foreach (var metaInfoDirectory in directories)
             {
-                if (directory.Name == "JpegComment")
+                if (metaInfoDirectory.Name == "JpegComment")
                 {
-                    values = directory.Tags[0].Description.Split(new char[] { ' ' }).ToList();
-
-                    //remove all the extra info we don't need
-                    values.RemoveAll(x => x == "" || x == "Zone:" || x == "Log:" || x == "P:");
-
-
-
+                    values = GetMetaDataOutOfImageForProcessing(metaInfoDirectory);
+                    
 
                     if (values.Count == 7) // This should be the standard case.
                     {
-                        //get the mapInfo out - which is of a varrying size depending on the map. We want the last 3  parts.
-                        mapInfo = values[0].Split('/').ToList(); 
-                        int validIndex = mapInfo.Count() - 3;
-                        if(mapInfo[validIndex]=="SpecialMissions")
-                        { // Maroo Treasure Hunt has an extra spot in the string, making the map info 8 long instead of 7. Find it and remove it.
-                            mapInfo.Remove("SpecialMissions");
-                            validIndex -= 1;
-                        }
-                        mapInfo.RemoveRange(0, validIndex);
+                        //get the mapInfo out - which is of a varrying size depending on the map. We want the last 3/4  parts.
+                        mapInfo = values[0].Split('/').ToList();
+
+                        int endOfValidPartsofMapInfo = FindIndexOfStartOfUnnededPartsOfMapInfo(mapInfo);
+                        
+                        mapInfo.RemoveRange(0, endOfValidPartsofMapInfo);
 
                         //get the tile info out. 
                         string tileNameHolder = values[1].Split('/').ToList().Last();
@@ -308,10 +302,7 @@ namespace WFTileCounter.BuisnessLogic
                         metaData.MissionType = GetMissionType(mapInfo[1]);
                         metaData.Tileset = GetTileSet(mapInfo[1]);
 
-                        if(string.IsNullOrEmpty(metaData.Tileset))
-                        { // the only way that tileset will be null is if the tileset is one listed in the Non ProcedualSets list. if its null, then this is not a good tile, and we're tossing it.
-                            return null;
-                        }
+                       
                         int mapIdLength = mapInfo[2].Length;
                         metaData.MapIdentifier = mapInfo[2].Substring(0, mapIdLength - 3); // last 3 are .lp which we don't need for any purpose that I can see yet.
                         metaData.TileName = GetTileName(tileNameHolder, metaData.Tileset);
@@ -336,36 +327,65 @@ namespace WFTileCounter.BuisnessLogic
                         string screenShotImagePath = Path.Combine("Uploads", userId, metaData.MapIdentifier, metaData.FileName);
                         metaData.UploadedScreenshotImagePath = screenShotImagePath;
 
-
-                        validFile = true;
+                        if (string.IsNullOrEmpty(metaData.Tileset))
+                        { 
+                            validFile = false;
+                        }
+                        else
+                        {
+                            validFile = true;
+                        }
+                        
 
                     }
                     else  //Covers arena maps and other non Proceduals. Also covers if the file has a JpegComment but not formated like warframes. Not a warframe image then!
                     {
-                        return null;
+                        validFile = false;
                         
                     }
                     
                 }
 
                 //find the date of the file and add it.
-                if (directory.Name == "File")
+                if (metaInfoDirectory.Name == "File")
                 {
-                    metaData.Date = directory.Tags[2].Description;
+                    metaData.Date = metaInfoDirectory.Tags[2].Description;
                 }
 
 
             }
+
+
             if(validFile)
             {
                 return metaData;
-            } else // This should catch all instances of not Warframe files
+            } else 
             {
+                //Need to Change this to Exception Handling
                 return null;
             }
             
         }
-        
+
+        private List<string> GetMetaDataOutOfImageForProcessing(MetadataExtractor.Directory directory)
+        {
+            List<string> splitList = directory.Tags[0].Description.Split(new char[] { ' ' }).ToList();
+
+            //remove all the extra info we don't need
+            splitList.RemoveAll(x => x == "" || x == "Zone:" || x == "Log:" || x == "P:");
+
+            return splitList;
+        }
+
+        private int FindIndexOfStartOfUnnededPartsOfMapInfo(List<string> mapInfo)
+        {
+            int validIndex = mapInfo.Count() - 3;
+            if (mapInfo[validIndex] == "SpecialMissions")
+            { 
+                validIndex -= 1;
+            }
+            return validIndex;
+        }
 
         private string GetFactionName(string possFaction)
         {
@@ -569,44 +589,11 @@ namespace WFTileCounter.BuisnessLogic
                 
             }
             
-
-
             return "??? tset: " +tileset + "tile: " + tilename;
             
         }
 
-        public List<MissionType> GenMissionList()
-        {
-            List<MissionType> list = new List<MissionType>();
-
-
-            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "wftMissionNames.csv");
-
-
-            if (!File.Exists(path))
-            {
-                //To Do - Throw proper Exception
-                return null;
-
-            }
-            else
-            {
-
-                string[] namePairs = File.ReadAllLines(path);
-                foreach (var line in namePairs)
-                {
-                    var mission = new MissionType();
-                    string[] splitPairs = line.Split(',');
-                    mission.CommonName = splitPairs[1];
-                    mission.InGameName = splitPairs[0];
-                    list.Add(mission);
-                }
-            }
-
-
-
-            return list;
-        }
+        
 
 
         public string GetMissionType(string value)
@@ -615,12 +602,7 @@ namespace WFTileCounter.BuisnessLogic
             string name;
 
             var types = GenMissionList();
-            if (types is null)
-            {
-                // this... is very wrong. gotta fix this.
-                throw new Exception();
-            }
-
+       
             //These two have a bad habit of NOT having the mission type on the TilesetName like the rest do. SO.. special case.
             if (value == "CorpusShip")
             {
@@ -637,106 +619,58 @@ namespace WFTileCounter.BuisnessLogic
                 {
                     name = type.CommonName;
 
-
                     return name;
                 }
 
             }
-
-
             return value + "??? - Check Me: " +value;
 
         }
 
+        public List<MissionType> GenMissionList()
+        {
+            List<MissionType> list = new List<MissionType>();
 
 
-        /* This function checks against a list of values that might appear (from nonProcedualSets) that correspond with Hubs or Open Worlds. if it finds the value passed too it
-         * equals that it returns an exception.
-         * 
-         * It then checks the value against a list of words that will be cut off to leave it with just the Tileset (because this value will be some string of TilesetMissionType,
-         * like GrineerForestRescue
-         * 
-         * it cuts that amount off and returns the truncated string
-         */
+            string[] namePairs = ReadInListFromCSVFile("wftMissionNames.csv");
+
+
+            foreach (var line in namePairs)
+            {
+                var mission = new MissionType();
+                string[] splitPairs = line.Split(',');
+                mission.CommonName = splitPairs[1];
+                mission.InGameName = splitPairs[0];
+                list.Add(mission);
+            }
+
+            return list;
+        }
+
+
+
         public string GetTileSet(string stringTilesetMission)
         {
             string[] validTilesetNames;
             var _df = new DatabaseFunctions(_db);
 
-            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "wftTilesetNames.csv");
 
+            validTilesetNames = ReadInListFromCSVFile("wftTilesetNames.csv");
 
-
-            if (!File.Exists(path))
-            {
-                return null; //needs proper exception handling
-
-            }
-            else
-            {
-
-                validTilesetNames = File.ReadAllLines(path);
-
-            }
-
-
-            if(CheckBadTilesSingle(stringTilesetMission))
+            if (CheckBadTilesSingle(stringTilesetMission))
             {
                 return null;
             }
-            /*
-            path = Path.Combine(
-                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "nonProcedualSets.csv");
 
 
-            if (!File.Exists(path))
-            {
-                return null;
-
-            }
-            else
-            {
-
-                notValidTilesetPossibles = File.ReadAllLines(path);
-
-            }
-
-            // all the 'Bad Sets' --should-- be caught by the return null in GetMetaData function, as they should have a different count parsed out from the JpegComment.
-            // but just in case, we put this here to catch any we missed.
-            for (int i = 0; i < notValidTilesetPossibles.Length; i++)
-            {
-                string badPic = "*" + notValidTilesetPossibles[i] + "*";
-
-                if (Regex.IsMatch(stringTilesetMission, WildCardToRegular(badPic)))
-                {
-                    return null;
-                }
-            }
-            */
-
-
-            int length = stringTilesetMission.Length;
-
-            if (_df.CheckTilesetExists(stringTilesetMission)) // checks the database to see if the Tileset already exists. Mostly for the two edge cases from Missions that don't have a Mission Type
+            if (_df.CheckIfTilesetExistsInDBAlready(stringTilesetMission))
             {
                 return stringTilesetMission;
             }
 
 
-            if (stringTilesetMission.Contains("TR")) // special case, just get it over with.
-            {
-                return "CorpusArchwing";
-            }
-            if (stringTilesetMission.Contains("Space"))
-            {
-                return "GrineerArchwing";
-            }
-            if (stringTilesetMission == "CorpusGasBoss")
-            {
-                return "CorpusGasCity";
-            }
+            stringTilesetMission = DealWithSpecialCaseTilesetNames(stringTilesetMission);
             
-
             foreach(var tileset in validTilesetNames)
             {
                 if(stringTilesetMission.Contains(tileset))
@@ -748,6 +682,42 @@ namespace WFTileCounter.BuisnessLogic
             //else return the whole thing so we can see what it is for future iterations
             return stringTilesetMission + " ??? Check Me!";
         }
+
+        private string DealWithSpecialCaseTilesetNames(string stringTilesetMission)
+        {
+            if (stringTilesetMission.Contains("TR")) // special case, just get it over with.
+            {
+                return "CorpusArchwing";
+            }
+            else if (stringTilesetMission.Contains("Space"))
+            {
+                return "GrineerArchwing";
+            }
+            else if (stringTilesetMission == "CorpusGasBoss")
+            {
+                return "CorpusGasCity";
+            }
+            else
+            {
+                return stringTilesetMission;
+            }
+        }
+
+        private string[] ReadInListFromCSVFile(string filename)
+        {
+            var path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", filename);
+            if (!File.Exists(path))
+            {
+                throw new Exception(filename + " not found.");
+
+            }
+            else
+            {
+                return File.ReadAllLines(path);
+            }
+        }
+
+
 
         private bool CheckBadTilesInList(List<string> values)
         {
@@ -764,24 +734,10 @@ namespace WFTileCounter.BuisnessLogic
         private bool CheckBadTilesSingle(string stringTilesetMission)
         {
             string[] notValidTilesetPossibles;
-            var path = Path.Combine(
-                             System.IO.Directory.GetCurrentDirectory(), "wwwroot", "lib", "lists", "nonProcedualSets.csv");
+          
 
+            notValidTilesetPossibles = ReadInListFromCSVFile("nonProcedualSets.csv");
 
-            if (!File.Exists(path))//if the file dissapears we're just going to return true and not let a single file go through... need an exception here.
-            {
-                return true;
-
-            }
-            else
-            {
-
-                notValidTilesetPossibles = File.ReadAllLines(path);
-
-            }
-
-            // all the 'Bad Sets' --should-- be caught by the return null in GetMetaData function, as they should have a different count parsed out from the JpegComment.
-            // but just in case, we put this here to catch any we missed.
             for (int i = 0; i < notValidTilesetPossibles.Length; i++)
             {
                 string badPic = "*" + notValidTilesetPossibles[i] + "*";
@@ -795,6 +751,13 @@ namespace WFTileCounter.BuisnessLogic
             return false;
         }
 
+        private static String WildCardToRegular(String value)
+        {
+            return "^" + Regex.Escape(value).Replace("\\*", ".*") + "$";
+        }
+
+
+
 
         public TileImage GetMapImagePath(string tileName)
         {
@@ -805,22 +768,22 @@ namespace WFTileCounter.BuisnessLogic
 
 
             if (isTileInDB is null)
+            {
                 return defaultTileImageData;
+            }
             else
             {
-                var doesTileHaveImg = _db.TileImages.Where(x => x.Tile == isTileInDB);
+                var doesTileHaveImages = _db.TileImages.Where(x => x.Tile == isTileInDB);
 
-                if (doesTileHaveImg.Count() > 0)
+                if (doesTileHaveImages.Count() > 0)
                 {
                     var tileMapImg = isTileInDB.TileImages.Where(x => x.ViewName == "Map").FirstOrDefault();
                     if (tileMapImg is null)
                     {
-
                         return defaultTileImageData;
                     }
                     else
                     {
-
                         tileMapImg.ImagePath = isTileInDB.Tileset.Name + "/" + isTileInDB.Name + "/" + tileMapImg.ImageName;
                         return tileMapImg;
                     }
@@ -843,11 +806,8 @@ namespace WFTileCounter.BuisnessLogic
 
 
 
-        //quick function for * wildcard search.
-        private static String WildCardToRegular(String value)
-        {
-            return "^" + Regex.Escape(value).Replace("\\*", ".*") + "$";
-        }
+      
+        
     }
 
 }

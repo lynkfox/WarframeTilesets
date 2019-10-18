@@ -414,7 +414,7 @@ namespace WFTileCounter.BuisnessLogic
 
         //Refactoring Functions
 
-        public bool CheckTilesetExists(string tilesetName)
+        public bool CheckIfTilesetExistsInDBAlready(string tilesetName)
         {
             var tSet = _db.Tilesets.Where(x => x.Name == tilesetName).FirstOrDefault();
             if (tSet is null)

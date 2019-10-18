@@ -99,38 +99,13 @@ namespace WFTileCounter.BuisnessLogic
 
         
         [HttpPost]
-        public async Task<IActionResult> Keep(List<ImgMetaData> datas)
+        public async Task<IActionResult> Keep(List<ImgMetaData> imagesThatHaveBeenReviewed)
         {
-            var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
-            var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
-            List<ImgMetaData> keepTheseTiles = new List<ImgMetaData>();
-
             
+            var _df = new DatabaseFunctions(_db); // class that holds various database methods for clean use
 
-            foreach (var piece in datas)
-            {
-                if (piece.UnknownValue) //If we get the UnknownValue flag set to true, then there is bad data in the process. Make sure this tile is NOT processed
-                    piece.KeepThis = false;
-
-                if(piece.KeepThis)
-                {
-                    keepTheseTiles.Add(piece);
-                }
-                else
-                {
-                    //find the file in the upload section and delete it.
-
-
-                    var pathToDeleteFile = _gf.GetPath(piece);
-                    if(System.IO.File.Exists(pathToDeleteFile))
-                    {
-                        System.IO.File.Delete(pathToDeleteFile);
-                    }
-                    
-                }
-                //Debug.WriteLine("Tile Name: " + piece.FileName + " Keep? : " + piece.KeepThis);
-            }
-
+            List<ImgMetaData> keepTheseTiles = ProcessImagesToKeepOrDelete(imagesThatHaveBeenReviewed);
+            
             if (keepTheseTiles.Count() == 0 || keepTheseTiles is null)
             {
                 return View("NoData");
@@ -142,6 +117,43 @@ namespace WFTileCounter.BuisnessLogic
                 ViewBag.newTiles = await _df.InsertIntoDatabase(insert);
 
                 return View("Success", insert);
+            }
+        }
+
+        private List<ImgMetaData> ProcessImagesToKeepOrDelete(List<ImgMetaData> datas)
+        {
+            List<ImgMetaData> keepTheseTiles = new List<ImgMetaData>();
+
+            foreach (var piece in datas)
+            {
+
+                if (piece.UnknownValue)
+                {
+                    piece.KeepThis = false;
+                }
+                    
+
+                if (piece.KeepThis)
+                {
+                    keepTheseTiles.Add(piece);
+                }
+                else
+                {
+                    DeleteUnwantedTilePictureFromUserDirectory(piece);
+                }
+
+            }
+
+            return keepTheseTiles;
+        }
+
+        private void DeleteUnwantedTilePictureFromUserDirectory(ImgMetaData piece)
+        {
+            var _gf = new GeneralFunctions(_db);
+            var pathToDeleteFile = _gf.GetPath(piece);
+            if (System.IO.File.Exists(pathToDeleteFile))
+            {
+                System.IO.File.Delete(pathToDeleteFile);
             }
         }
     }
