@@ -15,9 +15,11 @@ namespace WFTileCounter.Models.FrequencyModels
 
     public class MissionAppearance
     {
-        public int Appearances { get; set; }
+        public int TotalAppearances { get; set; }
 
         public string MissionName { get; set; }
+
+        public double PercentLikelyhoodOfAppearance { get; set; }
     }
 
     public class TilesPerMission
@@ -30,6 +32,13 @@ namespace WFTileCounter.Models.FrequencyModels
     {
         public string MissionName { get; set; }
         public int TotalRunsForMiss { get; set; }
+    }
+
+    public class CleanedUpDatabaseData
+    {
+        public string TileName { get; set; }
+        public int RunId { get; set; }
+        public string MissionName { get; set; }
     }
 
 }

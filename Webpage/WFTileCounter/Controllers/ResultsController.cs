@@ -21,87 +21,154 @@ namespace WFTileCounter.Controllers
             _db = context;
             _env = env;
         }
-        public IActionResult Index()
+
+        [HttpGet]
+        [Route("Results/{tileset}")]
+        public IActionResult Tileset([FromRoute] string tileset)
         {
-            string tilesetName = "CorpusShip";
-            var allData = _db.MapPoints.Where(x => x.Tile.Tileset.Name == tilesetName).Include(x => x.Tile).ThenInclude(x => x.Tileset).Include(x => x.Run).ThenInclude( x=>x.Mission);
-
-
-            List<string> allMissionNames = allData.Select(x => x.Run.Mission.Type).Distinct().OrderBy(x => x).ToList();
-            List<string> allTileNames = allData.Select(x => x.Tile.Name).Distinct().OrderBy(x => x).ToList();
-            List<string> allTilesetNames = allData.Select(x => x.Tile.Tileset.Name).Distinct().ToList();
-            var distinctRuns = allData.Select(x => x.RunId).Distinct();
-            var totalTilesPerMissionType = allData.GroupBy((x => x.Run.Mission.Type), (key, elements) => new { key = key, count = elements.Distinct().Count() });
-
-            var totalMissionsOfEachType = allData.Select(x => new { x.Run.Mission.Type, x.RunId }).GroupBy((x => x.Type), (key, elements) => new {  key = key, count = elements.Distinct().Count() });
-
-
-            List <TileDataPoint> allTilesDataList = new List<TileDataPoint>();
-
-            foreach(var tileName in allTileNames)
-            {
-                var tile = new TileDataPoint();
-                List<MissionAppearance> tileMisAppList = new List<MissionAppearance>();
-
-                tile.TileName = tileName.Replace(tilesetName,"");
-                foreach(var missionName in allMissionNames)
-                {
-                    var missApp = new MissionAppearance();
-
-                    missApp.MissionName = missionName;
-                    missApp.Appearances = allData.Where(x => x.Tile.Name == tileName && x.Run.Mission.Type == missionName).Count();
-                    tileMisAppList.Add(missApp);
-
-                }
-
-                tile.MissionTileNumbers = tileMisAppList;
-                allTilesDataList.Add(tile);
-            }
-
-
-            List<RunsPerMission> sortedMissionTotalList = new List<RunsPerMission>();
-            foreach(var item in totalMissionsOfEachType)
-            {
-                var singleMissionRunCount = new RunsPerMission();
-                singleMissionRunCount.MissionName = item.key;
-                singleMissionRunCount.TotalRunsForMiss = item.count;
-                sortedMissionTotalList.Add(singleMissionRunCount)
-                    ;
-            }
-
-
-
-
-
-
-
-
-            List<TilesPerMission> sortedMissionTileList = new List<TilesPerMission>();
             
-            foreach(var item in totalTilesPerMissionType)
-            {
-                var singleMissionTileCount = new TilesPerMission();
-                singleMissionTileCount.MissionName = item.key;
-                singleMissionTileCount.TotalTilesForMission = item.count;
+            var allData = GetAllDataForTileset(tileset);
 
+            IQueryable<CleanedUpDatabaseData> cleanedUpData = allData.Select(x => new CleanedUpDatabaseData { TileName = x.Tile.Name, RunId = x.Run.Id, MissionName = x.Run.Mission.Type });
 
-                sortedMissionTileList.Add(singleMissionTileCount);
-            }
+            
+            
+            IQueryable<int> distinctRuns = GetDistinctRuns(cleanedUpData);
 
+            
+            List<TileDataPoint> allTilesDataList = GetTileCountsForEachMissionType(tileset, cleanedUpData);
 
+            List<RunsPerMission> sortedMissionTotalList = SortMissionlList(cleanedUpData);
 
-
+            List<TilesPerMission> sortedMissionTileList = SortedMissionTileNameList(cleanedUpData);
 
 
             var dataPointView = new TileDataPointsViewModel();
 
-            dataPointView.TilesetName = allTilesetNames.First(); //hack. fix
+            dataPointView.TilesetName = tileset;
             dataPointView.TotalTilesPerMission = sortedMissionTileList;
             dataPointView.TotalRunsPerMissionList = sortedMissionTotalList;
             dataPointView.DataPoints = allTilesDataList;
             dataPointView.TotalRuns = distinctRuns.Count();
 
             return View(dataPointView);
+        }
+
+        private IQueryable<MapPoint> GetAllDataForTileset(string tilesetName)
+        {
+            return _db.MapPoints.Where(x => x.Tile.Tileset.Name == tilesetName).Include(x => x.Tile).ThenInclude(x => x.Tileset).Include(x => x.Run).ThenInclude(x => x.Mission);
+            
+        }
+
+
+        private static IQueryable<int> GetDistinctRuns(IQueryable<CleanedUpDatabaseData> allData)
+        {
+            return allData.Select(x => x.RunId).Distinct();
+        }
+
+
+        private List<string> ExtractAllTileNames(IQueryable<CleanedUpDatabaseData> allData)
+        {
+            return allData.Select(x => x.TileName).Distinct().OrderBy(x => x).ToList();
+        }
+
+        private List<string> ExtractAllMissionNames(IQueryable<CleanedUpDatabaseData> allData)
+        {
+            return allData.Select(x => x.MissionName).Distinct().OrderBy(x => x).ToList();
+        }
+
+
+
+
+        private List<TileDataPoint> GetTileCountsForEachMissionType(string tilesetName, IQueryable<CleanedUpDatabaseData> allData)
+        {
+            List<string> allMissionNames = ExtractAllMissionNames(allData);
+            List<string> allTileNames = ExtractAllTileNames(allData);
+
+            List<TileDataPoint> listT = new List<TileDataPoint>();
+
+            foreach (var tileName in allTileNames)
+            {
+                Console.WriteLine("Getting Info for " + tileName);
+                var tile = new TileDataPoint();
+                List<MissionAppearance> tileMissionAppearanceFullCountPerMission = new List<MissionAppearance>();
+
+                tile.TileName = tileName.Replace(tilesetName, "");
+                foreach (var missionName in allMissionNames)
+                {
+                    var missionSpecificData = allData.Where(x=>x.MissionName == missionName);
+                    MissionAppearance individualTileInfoPerMission = CalculateTotalAppearancesCount(missionSpecificData, tileName);
+                    individualTileInfoPerMission.PercentLikelyhoodOfAppearance = CalculateLikelyhoodOfAppearance(allData, tileName, missionName);
+
+
+                    tileMissionAppearanceFullCountPerMission.Add(individualTileInfoPerMission);
+
+                }
+
+                
+
+                tile.MissionTileNumbers = tileMissionAppearanceFullCountPerMission;
+                listT.Add(tile);
+            }
+
+            return listT;
+        }
+
+        private MissionAppearance CalculateTotalAppearancesCount(IQueryable<CleanedUpDatabaseData> missionData, string tileName)
+        {
+            MissionAppearance info = new MissionAppearance
+            {
+                MissionName = missionData.Select(x => x.MissionName).FirstOrDefault().ToString(),
+                TotalAppearances = missionData.Where(x => x.TileName == tileName).Count()
+            };
+
+            return info;
+        }
+
+        private double CalculateLikelyhoodOfAppearance(IQueryable<CleanedUpDatabaseData> allData, string tileName, string mission)
+        {
+            var runsOfThisMissionType = allData.Where(x => x.MissionName == mission);
+            double tileAppearedAtLeastOnceInThisManyRuns = runsOfThisMissionType.Where(x => x.TileName == tileName).Select(x => new { x.TileName, x.RunId }).Distinct().Count();
+            double numberOfRunsOfThisMission = runsOfThisMissionType.Select(x => x.RunId).Distinct().Count();
+           
+
+            double percentage = (tileAppearedAtLeastOnceInThisManyRuns / numberOfRunsOfThisMission) * 100;
+
+            return Math.Truncate(percentage);
+        }
+
+        private List<TilesPerMission> SortedMissionTileNameList(IQueryable<CleanedUpDatabaseData> allData)
+        {
+            var totalTilesPerMissionType = allData.GroupBy((x => x.MissionName), (key, elements) => new { key = key, count = elements.Distinct().Count() });
+            List<TilesPerMission> listT = new List<TilesPerMission>();
+            foreach (var item in totalTilesPerMissionType)
+            {
+                var singleMissionTileCount = new TilesPerMission();
+                singleMissionTileCount.MissionName = item.key;
+                singleMissionTileCount.TotalTilesForMission = item.count;
+
+
+                listT.Add(singleMissionTileCount);
+            }
+
+            return listT;
+        }
+
+        private List<RunsPerMission> SortMissionlList(IQueryable<CleanedUpDatabaseData> allData)
+        {
+            List<RunsPerMission> listT = new List<RunsPerMission>();
+            var totalMissionsOfEachType = allData.Select(x => new { x.MissionName, x.RunId }).GroupBy((x => x.MissionName), (key, elements) => new { key = key, count = elements.Distinct().Count() });
+
+
+            foreach (var item in totalMissionsOfEachType)
+            {
+                var singleMissionRunCount = new RunsPerMission();
+                singleMissionRunCount.MissionName = item.key;
+                singleMissionRunCount.TotalRunsForMiss = item.count;
+                listT.Add(singleMissionRunCount);
+            }
+
+            return listT;
         }
     }
 }
