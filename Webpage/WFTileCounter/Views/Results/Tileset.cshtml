@@ -23,7 +23,7 @@
                             @missName.MissionName<br />
                         </th>
                     }
-
+                    <th></th>
                 </tr>
             </thead>
 
@@ -34,6 +34,8 @@
                     {
                         <td colspan="2" class="text-center font-italic">@missionTotal.TotalRunsForMiss</td>
                     }
+                    <th>
+                    </th>
                 </tr>
             </tbody>
             <thead>
@@ -48,6 +50,7 @@
                             <i style="font-size:.6em">%Chance</i>
                         </th>
                     }
+                    <th><i style="font-size:.6em">%Overall</i></th>
                 </tr>
             </thead>
             <tbody>
@@ -56,7 +59,7 @@
                 {
                 <tr>
                     <th scope="row">
-                        @Html.ActionLink(dataPoint.TileName,  "ViewTile", "Tile", new { tileset = Model.TilesetName, tilename = dataPoint.TileName })
+                        @Html.ActionLink(dataPoint.TileName, "ViewTile", "Tile", new { tileset = Model.TilesetName, tilename = dataPoint.TileName })
                     </th>
 
                     @foreach (var missionNumbers in dataPoint.MissionTileNumbers)
@@ -73,6 +76,9 @@
 
                         }
                     }
+                    <th scope="row">
+                        %@dataPoint.OverallPercentageToAppear
+                    </th>
                 </tr>
                 }
                 <tr>

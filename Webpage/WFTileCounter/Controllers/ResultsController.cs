@@ -89,7 +89,7 @@ namespace WFTileCounter.Controllers
 
             foreach (var tileName in allTileNames)
             {
-                Console.WriteLine("Getting Info for " + tileName);
+                
                 var tile = new TileDataPoint();
                 List<MissionAppearance> tileMissionAppearanceFullCountPerMission = new List<MissionAppearance>();
 
@@ -105,8 +105,11 @@ namespace WFTileCounter.Controllers
 
                 }
 
-                
+                double timesTileAppearsAtLeastOnce = allData.Where(x => x.TileName == tileName).Distinct().Count();
+                double totalRuns = GetDistinctRuns(allData).Count();
+                double percentage = (timesTileAppearsAtLeastOnce / totalRuns) * 100;
 
+                tile.OverallPercentageToAppear = Math.Truncate(percentage);
                 tile.MissionTileNumbers = tileMissionAppearanceFullCountPerMission;
                 listT.Add(tile);
             }

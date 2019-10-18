@@ -10,6 +10,7 @@ namespace WFTileCounter.Models.FrequencyModels
         public string TileName { get; set; }
         public List<MissionAppearance> MissionTileNumbers { get; set; }
 
+        public double OverallPercentageToAppear { get; set; }
 
     }
 
