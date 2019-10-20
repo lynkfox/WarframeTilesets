@@ -4,27 +4,29 @@
     ViewData["Title"] = "Processing Files";
 }
 
+    <div class="container">
+        <h1>Files to be Processed</h1>
 
-<h1>Files to be Processed</h1>
-
-<p>These are each of the files you have selected to upload.</p>
-
-
-<hr />
+        <p>These are each of the files you have selected to upload.</p>
 
 
-<i> Total Images Up for Processing: @Model.Count()</i>
-<form asp-controller="Process" asp-action="Keep" method="post">
+        <hr />
 
 
-    <input type="submit" value="Submit Data" id="btnSubmit" />
-    <hr />
+        <i> Total Images Up for Processing: @Model.Count()</i>
+        <form asp-controller="Process" asp-action="Keep" method="post">
 
-    @Html.EditorForModel()
 
-    <input type="submit" value="Submit Data" id="btnSubmit" />
-    <hr />
-</form>
+            <input type="submit" value="Submit Data" id="btnSubmit" />
+            <hr />
+
+            @Html.EditorForModel()
+
+            <input type="submit" value="Submit Data" id="btnSubmit" />
+            <hr />
+        </form>
+    </div>
+
 
 
 

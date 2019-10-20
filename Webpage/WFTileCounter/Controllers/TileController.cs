@@ -208,8 +208,8 @@ namespace WFTileCounter.Controllers
             string directoryPath = Path.Combine(webRoot,"img","tilesets",tilesetName, tileName);
 
 
-            
-            if(tileDetails.ImageFiles is null)
+
+            if (tileDetails.ImageFiles is null)
             {
 
             }else //(tileDetails.ImageFiles.Count()!=0)
@@ -222,6 +222,8 @@ namespace WFTileCounter.Controllers
                         continue;
                     }
 
+                    
+
                     var imagePath = Path.Combine(directoryPath,
                                  file.FileName);
 
@@ -229,33 +231,22 @@ namespace WFTileCounter.Controllers
 
                     var tileImage = new TileImage();
 
+                    if (tileDetails.ImageFiles.First() == file)
+                    {
+                        tileImage.TilesAlreadyInDatabase = _db.TileImages.Where(x => x.Tile.Name == tileDetails.Tile.Name).ToList();
+                    } 
+
                     tileImage.ImageName = file.FileName;
                     tileImage.ImagePath = Path.Combine(tilesetName, tileName, file.FileName);
                     tileImage.Tile = tile;
                     tileImage.TileName = tile.Name; // for later use when passing this model to the next controller
 
+
+                    tileImage.AlreadyExists = await MoveImageToTileDirectory(imagePath, file);
+                    
                     
 
                     tileImagesList.Add(tileImage);
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        //need overwrite option?
-                        System.IO.File.Delete(imagePath);
-                        using (var stream = new FileStream(imagePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-
-                        }
-                    }
-                    else
-                    {
-                        using (var stream = new FileStream(imagePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-
-                        }
-
-                    }
 
                 }
 
@@ -272,6 +263,30 @@ namespace WFTileCounter.Controllers
             //else return 404
         }
 
+        private async Task<bool> MoveImageToTileDirectory(string imagePath, IFormFile file)
+        {
+            if (System.IO.File.Exists(imagePath))
+            {
+                
+                //need overwrite option?
+                System.IO.File.Delete(imagePath);
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+
+                }
+                return true;
+            }
+            else
+            {
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+
+                }
+                return false;
+            }
+        }
 
         public async Task<IActionResult> ImageEdit(List<TileImage> images)
         {
@@ -295,8 +310,6 @@ namespace WFTileCounter.Controllers
                     _db.TileImages.Update(imgInDb);
 
                 }
-
-                
 
                 if (images.First() == img)
                 {

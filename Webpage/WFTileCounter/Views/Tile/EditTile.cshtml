@@ -11,13 +11,15 @@
 
 
 
+    <div class="container">
+        <h1>Edit Tile Information</h1>
 
-<h1>Edit Tile Information</h1>
+        <div>
+            <h4>Editing Tile Information for @Html.DisplayFor(x => x.Tile.Name)</h4>
+            <hr />
+        </div>
+    </div>
 
-<div>
-    <h4>Editing Tile Information for @Html.DisplayFor(x => x.Tile.Name)</h4>
-    <hr />
-</div>
 
 <form asp-controller="Tile" asp-action="Update" method="post" enctype="multipart/form-data">
 
@@ -330,7 +332,7 @@
                                             <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                             <div class="carousel-caption d-none d-md-block">
                                                 
-                                                <p class="text-danger font-weight-bold font-italic outline" style="font-size:1.1em">@Html.DisplayFor(x => picture.AltText)</p>
+                                                <p class="text-white font-weight-bold font-italic outline" style="font-size:1.1em">@Html.DisplayFor(x => picture.AltText)</p>
                                             </div>
                                         </div>
                                     }
@@ -340,7 +342,7 @@
                                             <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                             <div class="carousel-caption d-none d-md-block">
                                                 
-                                                <p class="text-danger font-weight-bold font-italic outline" style="font-size:1.1em">@Html.DisplayFor(x => picture.AltText)</p>
+                                                <p class="text-white font-weight-bold font-italic outline" style="font-size:1.1em">@Html.DisplayFor(x => picture.AltText)</p>
                                             </div>
                                         </div>
 

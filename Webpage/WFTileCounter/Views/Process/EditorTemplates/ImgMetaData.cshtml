@@ -58,7 +58,7 @@
     }
 
 
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-12 border-light border rounded">
 
             @*File Name, Date*@
@@ -280,6 +280,8 @@
 
             @*Images*@
             <div class="row">
+
+                @*Map, Possible Duplicate Flag, Unknown Tile Flag*@
                 <div class="col-lg-3 mt-2">
 
                     <div class="row">
@@ -288,7 +290,43 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        @if (Model.PossibleDupe)
+                        {
+                            <div class="col-md-1 mt-1">&nbsp;</div>
+                            <div class="col-md-10 mt-1 border border-danger bg-danger text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
+                                <label asp-for="PossibleDupe"></label>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.PossibleDupe)
+                                    @Html.ValidationMessageFor(a => a.PossibleDupe)
+                                </div>
+                            </div>
+                            <div class="col-md-1 mt-1">&nbsp;</div>
+                        }
+                        else
+                        {
+                            <div class="col-md-12 mt-1"> &nbsp;</div>
+                        }
+                    </div>
 
+                    <div class="row">
+                        @if (Model.UnknownValue)
+                        {
+                            <div class="col-md-1 mt-1">&nbsp;</div>
+                            <div class="col-md-10 mt-1 border border-warning bg-warning text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
+                                <label asp-for="UnknownValue"></label>
+                                <div class="editor-field">
+                                    @Html.HiddenFor(a => a.UnknownValue)
+                                    @Html.ValidationMessageFor(a => a.UnknownValue)
+                                </div>
+                            </div>
+                            <div class="col-md-1 mt-1">&nbsp;</div>
+                        }
+                        else
+                        {
+                            <div class="col-md-12 mt-1"> &nbsp; </div>
+                        }
+                    </div>
 
 
 
@@ -300,44 +338,19 @@
 
                 </div>
             </div>
-            @*Duplicate Tag, Keep This Checkbox, Unknown Tag*@
+            @*Process Image Checkbox*@
 
             <div class="row mb-2">
 
-                @if (Model.PossibleDupe)
-                {
-                    <div class="col-md-3 mt-1 border border-danger bg-danger text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
-                        <label asp-for="PossibleDupe"></label>
-                        <div class="editor-field">
-                            @Html.HiddenFor(a => a.PossibleDupe)
-                            @Html.ValidationMessageFor(a => a.PossibleDupe)
-                        </div>
-                    </div>
-                    <div class="col-md-1">&nbsp;</div>
-                }
-                else
-                {
-                    <div class="col-md-4"> &nbsp;</div>
-                }
+                <div class="col-md-4">
+                    &nbsp;
+                </div>
                 <div class="col-md-4 mt-1 checkBoxRed @(Model.KeepThis ? "bg-success" : "bg-secondary") border @(Model.KeepThis ? "border-success" : "border-danger") rounded align-self-center text-center">
                     <span><label asp-for="KeepThis"></label><input class="ml-2" type="checkbox" asp-for="KeepThis" /></span>
                 </div>
-                @if (Model.UnknownValue)
-                {
-                    <div class="col-md-1">&nbsp;</div>
-                    <div class="col-md-3 mt-1 border border-warning bg-warning text-dark rounded align-self-end leftBoxAlerts  text-center align-middle font-weight-bold">
-                        <label asp-for="UnknownValue"></label>
-                        <div class="editor-field">
-                            @Html.HiddenFor(a => a.UnknownValue)
-                            @Html.ValidationMessageFor(a => a.UnknownValue)
-                        </div>
-                    </div>
-
-                }
-                else
-                {
-                    <div class="col-md-4"> &nbsp; </div>
-                }
+                <div class="col-md-4">
+                    &nbsp;
+                </div>
 
             </div>
 

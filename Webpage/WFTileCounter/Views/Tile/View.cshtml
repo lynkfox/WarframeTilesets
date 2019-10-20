@@ -5,11 +5,14 @@
 }
 
 
+    <div class="container">
+        <h1>@Html.DisplayFor(x => x.TilesetName) - @Html.DisplayFor(x => x.ShortTileName) </h1>
+        <h3><i> "@(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName)" </i></h3>
+
+    </div>
 
 
-    <h1>@Html.DisplayFor(x => x.TilesetName) - @Html.DisplayFor(x => x.ShortTileName) </h1>
-<h3><i> "@(string.IsNullOrEmpty(Model.Tile.TileDetail.PopularName) ? "Popular Name to be Added" : Model.Tile.TileDetail.PopularName)" </i></h3>
-
+    
 <div class="container">
 
     @*Map + Info Columns*@
@@ -475,7 +478,7 @@
                                         <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                         <div class="carousel-caption d-none d-md-block">
                                             
-                                            <p class="text-danger font-weight-bold font-italic outline" style="font-size:1.2em" >@Html.DisplayFor(x=> picture.AltText)</p>
+                                            <p class="text-white font-weight-bold font-italic outline" style="font-size:1.2em" >@Html.DisplayFor(x=> picture.AltText)</p>
                                         </div>
                                     </div>
                                 }
@@ -485,7 +488,7 @@
                                         <img class="d-block w-100" src="@Url.Content(String.Format("~/img/tilesets/{0}", picture.ImagePath))" alt="@picture.AltText">
                                         <div class="carousel-caption d-none d-md-block">
                                             
-                                            <p class="text-danger font-weight-bold font-italic outline" style="font-size:1.2em">@Html.DisplayFor(x => picture.AltText)</p>
+                                            <p class="text-white font-weight-bold font-italic outline" style="font-size:1.2em">@Html.DisplayFor(x => picture.AltText)</p>
                                         </div>
                                     </div>
 

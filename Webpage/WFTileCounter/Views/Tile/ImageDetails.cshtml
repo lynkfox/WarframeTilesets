@@ -3,30 +3,80 @@
     ViewData["Title"] = "Edit Image Details for Tile";
 }
 
-<h1>Edit details for Images</h1>
 
-@foreach (var image in Model)
-{
-    if (Model.First() == image)
-    {
-        <h4>@image.TileName</h4>
-    }
-}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Edit details for Images</h1>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>@Model.First().TileName</h4>
+                    </div>
+                </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <form asp-controller="Tile" asp-action="ImageEdit" method="post">
-
-            <hr />
-            <div class="row">
-                @Html.EditorForModel()
             </div>
-            <input type="submit" value="Submit Data" id="btnSubmit" />
-            <hr />
-        </form>
+        </div>
+
+
+        @if (Model.First().TilesAlreadyInDatabase.Count() != 0)
+        {
+            <div class="row">
+                <div class="col-md-10">
+                    <form asp-controller="Tile" asp-action="ImageEdit" method="post">
+
+                        <hr />
+                        <div class="row">
+                            @Html.EditorForModel()
+                        </div>
+                        <input type="submit" value="Submit Data" id="btnSubmit" />
+                        <hr />
+                    </form>
+                </div>
+                <div class="col-md-2">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>Images details already known.</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="d-inline-flex flex-row justify-content-md-center flex-wrap">
+
+                            @foreach (var details in Model.First().TilesAlreadyInDatabase)
+                            {
+                                <div class="bg-dark border-bottom col-sm-12 p-2 text-wrap">
+                                    <span class="font-weight-bold text-info">File Name:</span> <span class="font-italic">@details.ImageName</span><br />
+                                    <span class="font-weight-bold text-info">View Name:</span> <span class="font-italic">@details.ViewName</span><br />
+                                    <span class="font-weight-bold text-info">Alt Text:</span> <span class="font-italic">@details.AltText</span><br />
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        }else
+        {
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-controller="Tile" asp-action="ImageEdit" method="post">
+
+                    <hr />
+                    <div class="row">
+                        @Html.EditorForModel()
+                    </div>
+                    <input type="submit" value="Submit Data" id="btnSubmit" />
+                    <hr />
+                </form>
+            </div>
+        </div>
+        }
     </div>
-</div>
+
 
 
 

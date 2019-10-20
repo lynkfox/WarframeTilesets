@@ -4,13 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>
-    @Model.TilesetName - Over @Model.TotalRuns Runs.
-</h1>
 
-    <div class="container-fluid">
 
-        <table class="table table-hover table-dark ">
+    <div class="container">
+        <div class="row">
+            <h1>
+                @Model.TilesetName - Spanning @Model.TotalRuns Runs.
+            </h1>
+        </div>
+        
+        
+        <table class="table-sm table-hover table-dark mr-3">
             <thead>
                 <tr>
                     <th scope="col">
@@ -44,7 +48,7 @@
                     @foreach (var missName in Model.TotalTilesPerMission)
                     {
                         <th scope="col" class="text-center">
-                            <i style="font-size:.7em">Total#</i>
+                            <i style="font-size:.7em">#Counted</i>
                         </th>
                         <th scope="col" class="text-center">
                             <i style="font-size:.6em">%Chance</i>
@@ -57,29 +61,29 @@
 
                 @foreach (var dataPoint in Model.DataPoints)
                 {
-                <tr>
-                    <th scope="row">
-                        @Html.ActionLink(dataPoint.TileName, "ViewTile", "Tile", new { tileset = Model.TilesetName, tilename = dataPoint.TileName })
-                    </th>
+                    <tr>
+                        <th scope="row">
+                            @Html.ActionLink(dataPoint.TileName, "ViewTile", "Tile", new { tileset = Model.TilesetName, tilename = dataPoint.TileName })
+                        </th>
 
-                    @foreach (var missionNumbers in dataPoint.MissionTileNumbers)
-                    {
-                        if (missionNumbers.TotalAppearances != 0)
+                        @foreach (var missionNumbers in dataPoint.MissionTileNumbers)
                         {
-                            <td class="border-left border-secondary">@missionNumbers.TotalAppearances</td>
-                            <td class="border-right border-secondary">%@missionNumbers.PercentLikelyhoodOfAppearance</td>
-                        }
-                        else
-                        {
-                            <td style="background-color:#1d2124;"></td>
-                            <td style="background-color:#1d2124;"></td>
+                            if (missionNumbers.TotalAppearances != 0)
+                            {
+                                <td class="border-left border-secondary">@missionNumbers.TotalAppearances</td>
+                                <td class="border-right border-secondary">@missionNumbers.PercentLikelyhoodOfAppearance%</td>
+                            }
+                            else
+                            {
+                                <td style="background-color:#1d2124;"></td>
+                                <td style="background-color:#1d2124;"></td>
 
+                            }
                         }
-                    }
-                    <th scope="row">
-                        %@dataPoint.OverallPercentageToAppear
-                    </th>
-                </tr>
+                        <th scope="row">
+                            %@dataPoint.OverallPercentageToAppear
+                        </th>
+                    </tr>
                 }
                 <tr>
                     <th scope="row">
@@ -93,6 +97,8 @@
                 </tr>
             </tbody>
         </table>
+        
+        
     </div>
 
 

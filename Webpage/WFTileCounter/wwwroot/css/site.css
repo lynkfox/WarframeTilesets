@@ -68,12 +68,15 @@ body {
 
 /*Custom Css*/
 
+
+/* Border of Checked Boxes on View Tile*/
 .collectibleBorderChecked {
     border-color: #17A2B8 !important;
 }
 
 
 
+/*Navigation Tabs for View Tile Page*/
 
 .line-breaks {
     white-space: pre-line;
@@ -102,3 +105,4 @@ a.active.nav-link {
         -1px 1px 0 #000, 
         1px 1px 0 #000;
 }
+

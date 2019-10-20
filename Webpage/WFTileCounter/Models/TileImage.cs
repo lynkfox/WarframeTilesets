@@ -39,5 +39,10 @@ namespace WFTileCounter.Models
         // tilesetName and TileName will be grabbed dynamically elsewhere and added into this NotMapped Property.
         [NotMapped]
         public string TileName { get; set; }
+
+        [NotMapped]
+        public bool AlreadyExists { get; set; }
+        [NotMapped]
+        public List<TileImage> TilesAlreadyInDatabase { get; set; }
     }
 }

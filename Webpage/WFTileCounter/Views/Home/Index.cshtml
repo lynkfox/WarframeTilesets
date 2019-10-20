@@ -3,65 +3,70 @@
     ViewData["Title"] = "Warframe Tile Project";
 }
 
-<h1>Warframe Tile Project</h1>
 
-<h2>Welcome to the Warframe Tile Project</h2>
+    <div class="container">
+        <h1>Warframe Tile Project</h1>
 
-
-
-<environment include="Development">
-    <strong>Development Environment Only Command - Process all Pictures/Warframe files in pictures directory --></strong> @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
-
-</environment>
+        <h2>Welcome to the Warframe Tile Project</h2>
 
 
-<environment include="Development">
-    <strong>Development Environment</strong>
+
+        <environment include="Development">
+            <strong>Development Environment Only Command - Process all Pictures/Warframe files in pictures directory --></strong> @Html.ActionLink("Test Process Files", "ProcessFiles", "Process")
+
+        </environment>
 
 
-    <form asp-controller="Home" asp-action="UploadFile" method="post"
-          enctype="multipart/form-data">
+        <environment include="Development">
+            <strong>Development Environment</strong>
 
-        <input type="file" name="fileList" multiple id="filesToUpload" onChange="makeFileList();" />
-        <button type="submit">Upload Files</button>
-    </form>
 
-    <div class="fileNames">File Names Selected Are:</div>
-    <ul id="fileList" class="list-group list-group-horizontal"></ul>
-    <hr />
-</environment>
+            <form asp-controller="Home" asp-action="UploadFile" method="post"
+                  enctype="multipart/form-data">
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Warframe Tile Directory</h1>
+                <input type="file" name="fileList" multiple id="filesToUpload" onChange="makeFileList();" />
+                <button type="submit">Upload Files</button>
+            </form>
+
+            <div class="fileNames">File Names Selected Are:</div>
+            <ul id="fileList" class="list-group list-group-horizontal"></ul>
+            <hr />
+        </environment>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Warframe Tile Directory</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p> This is the Warframe Tile Directory. The goal of this site is to provide a comprehensive, searchable directory of all the various rooms ("Tiles") of the procedurally generated maps of Warframe.</p>
+
+                    <p>A few notes:</p>
+                    <ul>
+                        <li>There may be mistakes. If you find one, please let us know!</li>
+                        <li>Some things, like Collectibles are auto populated into the tile by the Tile Counter Subproject. They can be added manually as well, but if no map has been recorded yet with that collectible noted, it may not be set on the tile information page</li>
+                        <li>
+                            We've renamed some of the tiles slightly - unifying their identifiers so that tiles that appear on multiple tilesets have different names. This has been done by dropping any identifier that <i>may</i> be on there and adding the tileset name as a common begining.
+                            <ul>
+                                <li>DE has a lot of old tile names that did not have a consistent naming structure, so this helps.</li>
+                                <li>Also, some tiles are used wholesale in multiple tilesets. SpyVaults are a good example of this. Cap Rooms or Loot Closets are another.</li>
+                                <li>To make sure that tile counts per map and tileset are accurate, along with having consistent tilenaming, all the tiles have the tileset placed in front of them. </li>
+                                <li>Additionaly, a "Popular Name" has been given to each tile, based on some of its key features. These are names that will make it easier to identify which tile is which, rather than CargoBay1 and CargoBay2</li>
+                            </ul>
+                        </li>
+                        <li>You can search for tiles above in the search bar, or browse through populated lists from the dropdown menu.</li>
+                        <li>
+                            Alternatively, if you already know the name of the tile, you can go there directly. All tiles are found at /Tile/<i>TilesetName</i>/<i>TileName</i>
+                            <ul>
+                                <li>So the tile @Html.ActionLink("CorpusShipXhall1", "ViewTile", "Tile", new { tileset = "CorpusShip", tilename = "XHall1" }) is found at "~/Tile/CorpusShip/XHall1" </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <p> This is the Warframe Tile Directory. The goal of this site is to provide a comprehensive, searchable directory of all the various rooms ("Tiles") of the procedurally generated maps of Warframe.</p>
-
-            <p>A few notes:</p>
-            <ul>
-                <li>There may be mistakes. If you find one, please let us know!</li>
-                <li>Some things, like Collectibles are auto populated into the tile by the Tile Counter Subproject. They can be added manually as well, but if no map has been recorded yet with that collectible noted, it may not be set on the tile information page</li>
-                <li>We've renamed some of the tiles slightly - unifying their identifiers so that tiles that appear on multiple tilesets have different names. This has been done by dropping any identifier that <i>may</i> be on there and adding the tileset name as a common begining.
-                    <ul>
-                        <li>DE has a lot of old tile names that did not have a consistent naming structure, so this helps.</li>
-                        <li>Also, some tiles are used wholesale in multiple tilesets. SpyVaults are a good example of this. Cap Rooms or Loot Closets are another.</li>
-                        <li>To make sure that tile counts per map and tileset are accurate, along with having consistent tilenaming, all the tiles have the tileset placed in front of them. </li>
-                        <li>Additionaly, a "Popular Name" has been given to each tile, based on some of its key features. These are names that will make it easier to identify which tile is which, rather than CargoBay1 and CargoBay2</li>
-                    </ul>
-                </li>
-                <li>You can search for tiles above in the search bar, or browse through populated lists from the dropdown menu.</li>
-                <li>Alternatively, if you already know the name of the tile, you can go there directly. All tiles are found at /Tile/<i>TilesetName</i>/<i>TileName</i>
-                    <ul>
-                        <li>So the tile @Html.ActionLink("CorpusShipXhall1", "ViewTile", "Tile", new { tileset = "CorpusShip", tilename = "XHall1" }) is found at "~/Tile/CorpusShip/XHall1" </li>
-                    </ul>
-
-                </li>
-            </ul>
-        </div>
-    </div>
-
-</div>
