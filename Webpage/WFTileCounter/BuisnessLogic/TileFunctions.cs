@@ -125,7 +125,7 @@ namespace WFTileCounter.BuisnessLogic
             bool mobileDefInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "MobileDefense").Any();
             bool defectionSpawnInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "DefectionSpawn").Any();
             bool defectionRestInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "DefectionRestPoint").Any();
-
+            bool survivalPylonInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "SurvivalPylon").Any();
 
             if (kuvaInMapPoints || tile.TileDetail.KuvaSiphon)
             {
@@ -142,6 +142,10 @@ namespace WFTileCounter.BuisnessLogic
             if (defectionRestInMapPoints || tile.TileDetail.DefectionRest)
             {
                 fullDetailsOfTile.Details.DefectionRest = true;
+            }
+            if (survivalPylonInMapPoints || tile.TileDetail.SurvivalPylon)
+            {
+                fullDetailsOfTile.Details.SurvivalPylon = true;
             }
 
 

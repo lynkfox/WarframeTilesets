@@ -22,7 +22,8 @@ namespace WFTileCounter.Models
             MobileDefense,
             DefectionSpawn,
             DefectionRestPoint,
-            KuvaSiphon
+            KuvaSiphon,
+            SurvivalPylon
         }
 
         

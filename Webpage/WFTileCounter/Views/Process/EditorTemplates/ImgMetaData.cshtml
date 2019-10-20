@@ -230,6 +230,9 @@
                         <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
                             <span><label><img src="~/img/markers/kuvasiphon.png" style="width:25px" alt="Kuva Siphon" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Kuva Siphon"><input type="radio" asp-for="Objective" value="KuvaSiphon" /></label></span>
                         </div>
+                        <div class="d-inline-flex m-1 p-1 rounded border-secondary  border bg-dark">
+                            <span><label><img src="~/img/markers/survivalpylon.png" style="width:25px" alt="Survival Pylon" class="mr-1" CssClass="tooltips" data-toggle="tooltip" data-placement="top" title="Survival Pylon"><input type="radio" asp-for="Objective" value="SurvivalPylon" /></label></span>
+                        </div>
                         <div class="editor-field">
                             @Html.HiddenFor(a => a.Objective)
                             @Html.ValidationMessageFor(a => a.Objective)
@@ -237,7 +240,7 @@
                     </div>
                 </div>
             </div>
-
+            
             @*Collectibles*@
             <div class="row">
                 <div class="col-md-12 p-1">
