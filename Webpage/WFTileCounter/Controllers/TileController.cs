@@ -36,9 +36,6 @@ namespace WFTileCounter.Controllers
         }
 
 
-
-
-        // This is the Controller for viewing tile information.
         [HttpGet]
         [Route("Tile/{tileset}/{tileName}")]
         public IActionResult ViewTile([FromRoute] string tileName,[FromRoute] string tileset)
@@ -53,7 +50,7 @@ namespace WFTileCounter.Controllers
 
             
 
-            if(details is null)
+            if(details.ShortTileName == "Does Not Exist")
             {
                 return View("NoTile");
             }else if (details.Tile.TileDetail is null)
@@ -87,9 +84,9 @@ namespace WFTileCounter.Controllers
 
 
 
-            if (details is null)
+            if (details.ShortTileName == "Does Not Exist")
             {
-                return View("Index");
+                return View("NoTile");
             }
 
             details.Numbers = GenerateNumbers();
@@ -107,9 +104,9 @@ namespace WFTileCounter.Controllers
             //if(GetUser()== Approved Admin ID)
 
 
-            var tile = _db.Tiles.Where(x => x.Name == tileDetails.Tile.Name).Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles).Include(x => x.TileImages).Include(x=>x.Tileset).FirstOrDefault();
+            Tile tile = GetDatabaseTileInformationAsTile(tileDetails);
 
-            if(tile is null)
+            if (tile is null)
             {
                 return View("NoTile");
             }
@@ -118,13 +115,8 @@ namespace WFTileCounter.Controllers
 
             var tileDetailsAlreadyInDb = tile.TileDetail;
             var tileDetailsInInsert = tileDetails.Tile.TileDetail;
+            string tileName = GetTileName(tile);
 
-            string tileName = tile.Name.ToString();
-
-            
-
-
-            //Check to see if the TileDetails exist for given tile. If not, add them, if so, update them.
             if (tileDetailsAlreadyInDb is null)
             {
                 tileDetailsInInsert.Tile = tile;
@@ -142,16 +134,16 @@ namespace WFTileCounter.Controllers
 
             var tileVariantsInDb = tile.TileDetail.VariantTiles;
             var tileVariantsInInsert = tileDetails.Variants.Where(x => !string.IsNullOrEmpty(x.VariantTileName)).ToList();
-            
 
-            if(tileVariantsInDb is null)
+
+            if (tileVariantsInDb is null)
             {
-                for(int i=0; i<tileVariantsInInsert.Count(); i++)
+                for (int i = 0; i < tileVariantsInInsert.Count(); i++)
                 {
                     var variant = tileVariantsInInsert[i];
 
                     var tileActuallyInDbForVariant = _db.Tiles.Where(x => x.Name == variant.VariantTileName).FirstOrDefault();
-                    if(!(tileActuallyInDbForVariant is null)) //if the tilename properly exists
+                    if (!(tileActuallyInDbForVariant is null)) //if the tilename properly exists
                     {
                         if (tileDetailsAlreadyInDb is null)
                         {
@@ -164,7 +156,7 @@ namespace WFTileCounter.Controllers
                         _db.VariantTiles.Add(variant);
                     } //else (throw error about variant Tile Name
 
-                    
+
                 }
             }
             else
@@ -198,21 +190,22 @@ namespace WFTileCounter.Controllers
                 }
             }
 
-            
+
 
 
             await _db.SaveChangesAsync();
 
             var webRoot = _env.WebRootPath;
             string tilesetName = tile.Tileset.Name.ToString();
-            string directoryPath = Path.Combine(webRoot,"img","tilesets",tilesetName, tileName);
+            string directoryPath = Path.Combine(webRoot, "img", "tilesets", tilesetName, tileName);
 
 
 
             if (tileDetails.ImageFiles is null)
             {
 
-            }else //(tileDetails.ImageFiles.Count()!=0)
+            }
+            else //(tileDetails.ImageFiles.Count()!=0)
             {
                 List<TileImage> tileImagesList = new List<TileImage>();
                 foreach (var file in tileDetails.ImageFiles)
@@ -222,7 +215,7 @@ namespace WFTileCounter.Controllers
                         continue;
                     }
 
-                    
+
 
                     var imagePath = Path.Combine(directoryPath,
                                  file.FileName);
@@ -234,7 +227,7 @@ namespace WFTileCounter.Controllers
                     if (tileDetails.ImageFiles.First() == file)
                     {
                         tileImage.TilesAlreadyInDatabase = _db.TileImages.Where(x => x.Tile.Name == tileDetails.Tile.Name).ToList();
-                    } 
+                    }
 
                     tileImage.ImageName = file.FileName;
                     tileImage.ImagePath = Path.Combine(tilesetName, tileName, file.FileName);
@@ -243,8 +236,8 @@ namespace WFTileCounter.Controllers
 
 
                     tileImage.AlreadyExists = await MoveImageToTileDirectory(imagePath, file);
-                    
-                    
+
+
 
                     tileImagesList.Add(tileImage);
 
@@ -261,6 +254,20 @@ namespace WFTileCounter.Controllers
             return RedirectToAction("ViewTile", new { tileset = tilesetName, tilename = smallTileName });
 
             //else return 404
+        }
+
+        private static string GetTileName(Tile tile)
+        {
+            return tile.Name.ToString();
+        }
+
+        private Tile GetDatabaseTileInformationAsTile(TileDetailsViewModel tileDetails)
+        {
+            return _db.Tiles.Where(x => x.Name == tileDetails.Tile.Name)
+                            .Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles)
+                            .Include(x => x.TileImages)
+                            .Include(x => x.Tileset)
+                            .FirstOrDefault();
         }
 
         private async Task<bool> MoveImageToTileDirectory(string imagePath, IFormFile file)
@@ -345,89 +352,119 @@ namespace WFTileCounter.Controllers
         private string AccountForTilesetVariations(string tileset)
         {
             tileset = tileset.ToLower();
-            //Invasion Tilesets
-            if(tileset=="grineertocorpus" || tileset =="invasiong2c" || tileset =="g2c")
-            {
-                return "InvasionG2C";
-            }
-            if(tileset=="corpustogrineer" || tileset =="invasionc2g" || tileset =="c2g")
-            {
-                return "InvasionC2G";
-            }
 
-            //Corpus Tilesets
-            if(tileset=="corpusgascity" || tileset =="gascity" || tileset == "corpusgas" || tileset =="gas")
-            {
-                return "CorpusGas";
-            }
-            if(tileset=="corpuscceplanet" || tileset == "corpusice" || tileset == "iceplanet" || tileset =="corpusplanet" || tileset =="ice")
-            {
-                return "CorpusIce";
-            }
-            if (tileset == "corpusship" || tileset == "guild" || tileset == "corpus" || tileset =="ship")
-            {
-                return "CorpusShip";
-            }
-            if (tileset == "corpusarchwing" || tileset == "crparchwing" || tileset == "tr" || tileset == "spacebattles")
-            {
-                return "CorpusArchwing";
-            }
+            return FixAllVariationsOfTilesets(tileset);
 
-            //Infested Tilesets
-            if (tileset == "infestedcorpusship" || tileset=="infestedcorpus" || tileset=="infestedship" || tileset =="infested" || tileset == "eris")
-            {
-                return "Infested";
-            }
-            if (tileset == "orokintowerderelict" || tileset == "derelict" || tileset == "orokinderelict" || tileset =="towerderelict")
-            {
-                return "OrokinDerelict";
-            }
+        }
 
-            //Orokin Tilesets
-            if(tileset == "orokinmoon" || tileset == "moon" || tileset =="orokinlua" || tileset == "lua")
-            {
-                return "OrokinMoon";
-            }
-            if(tileset == "orokintower" || tileset == "tower" || tileset =="void")
-            {
-                return "OrokinTower";
-            }
-            
+        private string FixAllVariationsOfTilesets(string tileset)
+        {
+            return GrineerTilesetNameFixes(tileset);
+        }
 
-            //Grineer Tilesets
-            if(tileset == "grineerasteroid" || tileset == "asteroid" || tileset =="grn")
+        private string GrineerTilesetNameFixes(string tileset)
+        {
+            if (tileset == "grineerasteroid" || tileset == "asteroid" || tileset == "grn")
             {
                 return "GrineerAsteroid";
             }
-            if (tileset == "cmp" || tileset == "grineersettlement" || tileset == "settlement" || tileset =="mars")
+            else if (tileset == "cmp" || tileset == "grineersettlement" || tileset == "settlement" || tileset == "mars")
             {
                 return "GrineerSettlement";
             }
-            if (tileset == "galleon" || tileset =="grineergalleon" || tileset =="grineership")
+            else if (tileset == "galleon" || tileset == "grineergalleon" || tileset == "grineership")
             {
                 return "GrineerGalleon";
             }
-            if(tileset =="grineerforest" || tileset =="forest" || tileset =="gft" || tileset =="gftremastered" || tileset =="earth")
+            else if (tileset == "grineerforest" || tileset == "forest" || tileset == "gft" || tileset == "gftremastered" || tileset == "earth")
             {
                 return "GrineerForest";
             }
-            if(tileset == "grineerocean" || tileset == "sharkwing" || tileset == "oceanlab" || tileset =="ocean" || tileset =="sealab" || tileset =="uranus")
+            else if (tileset == "grineerocean" || tileset == "sharkwing" || tileset == "oceanlab" || tileset == "ocean" || tileset == "sealab" || tileset == "uranus")
             {
                 return "GrineerOcean";
             }
-            if(tileset =="grineershipyards" || tileset =="shipyards")
+            else if (tileset == "grineershipyards" || tileset == "shipyards")
             {
                 return "GrineerShipyards";
             }
+            else
+            {
+                return OrokinTilesetNameFixes(tileset);
+            }
 
-
-
-            return tileset;
         }
 
+        private string OrokinTilesetNameFixes(string tileset)
+        {
+            if (tileset == "orokinmoon" || tileset == "moon" || tileset == "orokinlua" || tileset == "lua")
+            {
+                return "OrokinMoon";
+            }
+            else if (tileset == "orokintower" || tileset == "tower" || tileset == "void")
+            {
+                return "OrokinTower";
+            }
+            else
+            {
+                return InfestedTilesetNameFixes(tileset);
+            }
+        }
 
+        private string InfestedTilesetNameFixes(string tileset)
+        {
+            if (tileset == "infestedcorpusship" || tileset == "infestedcorpus" || tileset == "infestedship" || tileset == "infested" || tileset == "eris")
+            {
+                return "Infested";
+            }
+            else if (tileset == "orokintowerderelict" || tileset == "derelict" || tileset == "orokinderelict" || tileset == "towerderelict")
+            {
+                return "OrokinDerelict";
+            }
+            else
+            {
+                return CorpusTilesetNameFixes(tileset);
+            }
+        }
 
+        private string CorpusTilesetNameFixes(string tileset)
+        {
+            if (tileset == "corpusgascity" || tileset == "gascity" || tileset == "corpusgas" || tileset == "gas")
+            {
+                return "CorpusGas";
+            }
+            else if (tileset == "corpuscceplanet" || tileset == "corpusice" || tileset == "iceplanet" || tileset == "corpusplanet" || tileset == "ice")
+            {
+                return "CorpusIce";
+            }
+            else if (tileset == "corpusship" || tileset == "guild" || tileset == "corpus" || tileset == "ship")
+            {
+                return "CorpusShip";
+            }
+            else if (tileset == "corpusarchwing" || tileset == "crparchwing" || tileset == "tr" || tileset == "spacebattles")
+            {
+                return "CorpusArchwing";
+            } else
+            {
+                return InvasionTilesetNameFixes(tileset);
+            }
+        }
 
+        private string InvasionTilesetNameFixes(string tileset)
+        {
+            if (tileset == "grineertocorpus" || tileset == "invasiong2c" || tileset == "g2c")
+            {
+                return "InvasionG2C";
+            }
+            else if (tileset == "corpustogrineer" || tileset == "invasionc2g" || tileset == "c2g")
+            {
+                return "InvasionC2G";
+            }
+            else
+            {
+                return tileset;
+            }
+        }
     }
 
 

@@ -26,15 +26,14 @@ namespace WFTileCounter.BuisnessLogic
         {
             var _gf = new GeneralFunctions(_db);
             var fullDetailsOfTile = new TileDetailsViewModel();
-            var tile = _db.Tiles.Where(x => x.Name == tileName)
-                .Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles)
-                .Include(x => x.TileImages).FirstOrDefault();
+
+            Tile tile = GetDetailsFromDatabase(tileName);
 
             
 
             if(tile is null)
             {
-                return null; // if it can't find the Tile being searched for, then we don't want to mess around with it yet. Return null and handle that at the Controller
+                return new TileDetailsViewModel { ShortTileName = "Does Not Exist" };
             }
 
             if( tile.TileDetail is null)
@@ -178,6 +177,17 @@ namespace WFTileCounter.BuisnessLogic
             return fullDetailsOfTile;
         }
 
+        private Tile GetDetailsFromDatabase(string tileName)
+        {
+            return _db.Tiles.Where(x => x.Name == tileName)
+                .Include(x=>x.Tileset)
+                .Include(x => x.TileDetail).ThenInclude(x => x.VariantTiles)
+                .Include(x => x.TileImages)
+                .FirstOrDefault();
+
+           
+        }
+
         private IEnumerable<TileImage> OrderImages(IEnumerable<TileImage> imageList)
         {
            
@@ -237,6 +247,8 @@ namespace WFTileCounter.BuisnessLogic
             return imageList.Where(x => x.ViewName.Contains("Overview")).OrderBy(x => x.ViewName).ToList();
 
         }
+
+
 
         private string GetImagePath(string imageName, string tileName)
         {
