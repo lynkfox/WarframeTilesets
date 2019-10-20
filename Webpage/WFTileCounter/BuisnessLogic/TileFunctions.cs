@@ -180,65 +180,61 @@ namespace WFTileCounter.BuisnessLogic
 
         private IEnumerable<TileImage> OrderImages(IEnumerable<TileImage> imageList)
         {
-            List<TileImage> sortedImages = new List<TileImage>();
+           
 
             if(imageList.Any() == false)
             {
                 return imageList;
             }
 
-            var overviewImages = imageList.Where(x => x.ViewName.Contains("Overview")).OrderBy(x=>x.ViewName);
+            List<TileImage> overviewImagesSorted = SortOverviewImages(imageList);
 
-            if (!(overviewImages is null))
-            {
-                foreach (var img in overviewImages)
-                {
-                    sortedImages.Add(img);
-                }
-            }
+            List<TileImage> exitImagesSorted = SortExitImages(imageList);
 
+            List<TileImage> secretImagesSorted = SortSecretImages(imageList);
 
-            var exitImages = imageList.Where(x => x.ViewName.Contains("Exit")).OrderBy(x => x.ViewName);
+            List<TileImage> lootRoomImagesSorted = SortLootRoomImages(imageList);
 
-            if(!(exitImages is null))
-            {
-                foreach (var img in exitImages)
-                {
-                    sortedImages.Add(img);
-                }
-            }
+            List<TileImage> anyOtherImagesSorted = SortRemainingImages(imageList);
 
+            List<TileImage> allImagesSorted = new List<List<TileImage>>() { overviewImagesSorted, exitImagesSorted, secretImagesSorted, lootRoomImagesSorted, anyOtherImagesSorted, }
+                                                                    .SelectMany(x=>x).ToList();
+            /*Personal Note - The above is making a List that each object is a list of tile images. So a List of a Lists. Then SelectMany is flattening it into one long list.
+             */
 
-            var secretImages = imageList.Where(x => x.ViewName.Contains("Secret")).OrderBy(x => x.ViewName);
+            return allImagesSorted;
 
-            if (!(secretImages is null))
-            {
-                foreach (var img in secretImages)
-                {
-                    sortedImages.Add(img);
-                }
-            }
+        }
 
-            var lootRoomImages = imageList.Where(x => x.ViewName.Contains("Closet")).OrderBy(x => x.ViewName);
-            if (!(lootRoomImages is null))
-            {
-                foreach (var img in lootRoomImages)
-                {
-                    sortedImages.Add(img);
-                }
-            }
+        private List<TileImage> SortRemainingImages(IEnumerable<TileImage> imageList)
+        {
+            return imageList.Where(x => !x.ViewName.Contains("Closet") 
+                                    && !x.ViewName.Contains("Secret") 
+                                    && !x.ViewName.Contains("Exit") 
+                                    && !x.ViewName.Contains("Overview") 
+                                    && !x.ViewName.Contains("Map"))
+                            .OrderBy(x => x.ViewName)
+                            .ToList();
+        }
 
-            var anyOtherImages = imageList.Where(x => !x.ViewName.Contains("Closet") && !x.ViewName.Contains("Secret") && !x.ViewName.Contains("Exit") && !x.ViewName.Contains("Overview") && !x.ViewName.Contains("Map")).OrderBy(x => x.ViewName);
+        private List<TileImage> SortLootRoomImages(IEnumerable<TileImage> imageList)
+        {
+            return imageList.Where(x => x.ViewName.Contains("Closet")).OrderBy(x => x.ViewName).ToList();
+        }
 
-            if (!(anyOtherImages is null))
-            {
-                foreach (var img in anyOtherImages)
-                {
-                    sortedImages.Add(img);
-                }
-            }
+        private List<TileImage> SortSecretImages(IEnumerable<TileImage> imageList)
+        {
+            return imageList.Where(x => x.ViewName.Contains("Secret")).OrderBy(x => x.ViewName).ToList();
+        }
 
-            return sortedImages;
+        private List<TileImage> SortExitImages(IEnumerable<TileImage> imageList)
+        {
+            return imageList.Where(x => x.ViewName.Contains("Exit")).OrderBy(x => x.ViewName).ToList();
+        }
+
+        private List<TileImage> SortOverviewImages(IEnumerable<TileImage> imageList)
+        {
+            return imageList.Where(x => x.ViewName.Contains("Overview")).OrderBy(x => x.ViewName).ToList();
 
         }
 
