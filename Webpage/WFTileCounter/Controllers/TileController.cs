@@ -301,28 +301,19 @@ namespace WFTileCounter.Controllers
             string tileName ="", tilesetName ="";
             foreach(var img in images)
             {
+
+
+                img.Tile = GetTileAndTilesetFromDatabase(img.TileName);
+
+                TileImage imgInDb = GetImageInformationFromDatabase(img);
                 
-               
-                img.Tile = _db.Tiles.Where(x => x.Name == img.TileName).Include(x=>x.Tileset).FirstOrDefault();
+                 _db.TileImages.Update(imgInDb);
 
-                var imgInDb = _db.TileImages.Where(x => x.ImageName == img.ImageName && x.TileName == img.TileName).FirstOrDefault();
-                if(imgInDb is null)
-                {
-                    _db.Add(img);
-                }
-                else
-                {
-                    imgInDb.ViewName = img.ViewName;
-                    imgInDb.AltText = img.AltText;
-                    _db.TileImages.Update(imgInDb);
-
-                }
 
                 if (images.First() == img)
                 {
                     tilesetName = img.Tile.Tileset.Name;
-                    tileName = img.Tile.Name;
-                    tileName = tileName.Replace(tilesetName, "");
+                    tileName = ExtractShortTileName(tilesetName, img.Tile.Name);
                 }
             }
             await _db.SaveChangesAsync();
@@ -330,10 +321,33 @@ namespace WFTileCounter.Controllers
             return RedirectToAction("ViewTile", new { tileset = tilesetName, tilename = tileName });
         }
 
+        private string ExtractShortTileName(string tilesetName, string name)
+        {
+            return name.Replace(tilesetName, "");
+        }
 
+        private TileImage GetImageInformationFromDatabase(TileImage img)
+        {
+            var imgDatabaseInfo =_db.TileImages.Where(x => x.ImageName == img.ImageName && x.TileName == img.TileName).FirstOrDefault();
 
+            if (imgDatabaseInfo is null)
+            {
+                return img;
+            }
+            else
+            {
+                imgDatabaseInfo.ViewName = img.ViewName;
+                imgDatabaseInfo.AltText = img.AltText;
 
-        //Internal private Methods that probably should be cleaned up on a seperate object.
+                return imgDatabaseInfo;
+            }
+        }
+
+        private Tile GetTileAndTilesetFromDatabase(string tileName)
+        {
+            return _db.Tiles.Where(x => x.Name == tileName).Include(x => x.Tileset).FirstOrDefault();
+        }
+
 
 
 
@@ -347,6 +361,8 @@ namespace WFTileCounter.Controllers
                            });
             return numbers.ToList();
         }
+
+
 
 
         private string AccountForTilesetVariations(string tileset)
