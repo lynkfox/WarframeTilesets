@@ -278,30 +278,20 @@ namespace WFTileCounter.BuisnessLogic
 
             var lastItem = metaDataList.Last();
             var firstItem = metaDataList.First();
-            //foreach (var item in metaDataList)
+
             for (int i = 0; i < metaDataList.Count(); i++)
             {
                 
                 if (metaDataList[i].First || metaDataList[i].Equals(firstItem)) // if this is a First Tile, or if it is the first item in the list
                 {
                     
-                    mission.Type = metaDataList[i].MissionType;
-                    tileset.Name = metaDataList[i].Tileset;
-                    tileset.Faction = metaDataList[i].FactionName;
-                    run.IdentityString = metaDataList[i].MapIdentifier;
-                    run.RunDate = DateTime.ParseExact(metaDataList[i].Date, "ddd MMM dd HH:mm:ss K yyyy", null);
-                    run.Mission = mission;
-                    run.LogRange = metaDataList[i].LogNum;
-                    run.FullRun = metaDataList[i].FullRun;
-                    run.MapPointsUsed = metaDataList[i].MapPointsRecorded;
-
-                    
-                    run.UserID = _gf.GetUserId();
-
                     //add the unique data to the processing temp object
-                    singleMapInsertReady.Mission = mission;
-                    singleMapInsertReady.Tileset = tileset;
-                    singleMapInsertReady.Run = run;
+                    singleMapInsertReady.Mission = MissionInfoForEntireRun(metaDataList[i]);
+                    singleMapInsertReady.Tileset = TilesetInfoForEntireRun(metaDataList[i]);
+                    singleMapInsertReady.Run = RunInfoForEntireRun(metaDataList[i], singleMapInsertReady.Mission);
+
+                    singleMapInsertReady.Run.UserID = _gf.GetUserId();
+                    singleMapInsertReady.Run.Mission = singleMapInsertReady.Mission;
                     //processing.User = user;
 
                     
@@ -309,35 +299,8 @@ namespace WFTileCounter.BuisnessLogic
 
 
 
-                var tile = new Tile();
-                var objective = new Objective();
-                tile.Name = metaDataList[i].TileName;
-                tile.Tileset = tileset;
-                tile.Coords = metaDataList[i].Coords;
+                Tile tile = IndividualTileInformationForThisRun(metaDataList[i], singleMapInsertReady.Tileset);
                 
-                if(!String.IsNullOrEmpty(metaDataList[i].Objective))
-                {
-                    Enum.TryParse(metaDataList[i].Objective, out objective);
-                    
-                }
-                else
-                {
-                    Enum.TryParse("Nothing", out objective);
-                }
-
-                tile.Objectives = objective;
-
-
-                tile.Ayatan = metaDataList[i].AyatanStatue;
-                tile.Medallion = metaDataList[i].SyndicateMedallion;
-                tile.RareContainer = metaDataList[i].RareLootChest;
-                tile.Cephalon = metaDataList[i].Ordis;
-                tile.Somachord = metaDataList[i].Somachord;
-                tile.FrameFighter = metaDataList[i].Framefighter;
-                tile.CaptureSpawn = metaDataList[i].CaptureSpawn;
-                tile.SimarisSpawn = metaDataList[i].SimarisSpawn;
-                tile.Cache = metaDataList[i].Cache;
-
 
 
                 var checkAgainstDatabase = CheckTileAlreadyExists(metaDataList[i].TileName);
@@ -408,6 +371,83 @@ namespace WFTileCounter.BuisnessLogic
 
             return allMapsInsertReady;
 
+        }
+
+        private Tile IndividualTileInformationForThisRun(ImgMetaData singleTileInfo, Tileset tileset)
+        {
+
+
+            return  new Tile
+            {
+                Name = singleTileInfo.TileName,
+                Tileset = tileset,
+                Coords = singleTileInfo.Coords,
+                Ayatan = singleTileInfo.AyatanStatue,
+                Medallion = singleTileInfo.SyndicateMedallion,
+                RareContainer = singleTileInfo.RareLootChest,
+                Cephalon = singleTileInfo.Ordis,
+                Somachord = singleTileInfo.Somachord,
+                FrameFighter = singleTileInfo.Framefighter,
+                CaptureSpawn = singleTileInfo.CaptureSpawn,
+                SimarisSpawn = singleTileInfo.SimarisSpawn,
+                Cache = singleTileInfo.Cache,
+                Objectives = ParseObjectivesEnumForTile(singleTileInfo.Objective)
+            };
+
+            
+
+        }
+
+        private Objective ParseObjectivesEnumForTile(string singleTileObjective)
+        {
+            
+
+            if (!String.IsNullOrEmpty(singleTileObjective))
+            {
+                Enum.TryParse(singleTileObjective, out Objective objective);
+                return objective;
+
+            }
+            else
+            {
+                Enum.TryParse("Nothing", out Objective objective);
+                return objective;
+            }
+
+        }
+
+        private Run RunInfoForEntireRun(ImgMetaData singleRunData, Mission mission)
+        {
+            return new Run()
+            {
+                IdentityString = singleRunData.MapIdentifier,
+                RunDate = DateTime.ParseExact(singleRunData.Date, "ddd MMM dd HH:mm:ss K yyyy", null),
+                Mission = mission,
+                LogRange = singleRunData.LogNum,
+                FullRun = singleRunData.FullRun
+            };
+            
+            
+        }
+
+        private Tileset TilesetInfoForEntireRun(ImgMetaData singleRunData)
+        {
+            return new Tileset()
+            {
+                Name = singleRunData.Tileset,
+                Faction = singleRunData.FactionName
+            };
+
+        }
+
+        private Mission MissionInfoForEntireRun(ImgMetaData singleRunData)
+        {
+            return new Mission()
+            {
+                Type = singleRunData.MissionType
+            };
+
+           
         }
 
 
