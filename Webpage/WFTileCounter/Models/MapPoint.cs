@@ -23,7 +23,9 @@ namespace WFTileCounter.Models
             DefectionSpawn,
             DefectionRestPoint,
             KuvaSiphon,
-            SurvivalPylon
+            SurvivalPylon,
+            NonReactorSabotage,
+            Extractor
         }
 
         

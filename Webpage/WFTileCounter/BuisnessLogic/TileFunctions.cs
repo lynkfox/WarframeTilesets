@@ -125,6 +125,8 @@ namespace WFTileCounter.BuisnessLogic
             bool defectionSpawnInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "DefectionSpawn").Any();
             bool defectionRestInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "DefectionRestPoint").Any();
             bool survivalPylonInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "SurvivalPylon").Any();
+            bool extractorInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "Extractor").Any();
+            bool sabotageObjectiveInMapPoints = mapPointCollectibles.Where(x => x.Objectives.ToString() == "NonReactorSabotage").Any();
 
             if (kuvaInMapPoints || tile.TileDetail.KuvaSiphon)
             {
@@ -145,6 +147,14 @@ namespace WFTileCounter.BuisnessLogic
             if (survivalPylonInMapPoints || tile.TileDetail.SurvivalPylon)
             {
                 fullDetailsOfTile.Details.SurvivalPylon = true;
+            }
+            if (extractorInMapPoints || tile.TileDetail.Extractor)
+            {
+                fullDetailsOfTile.Details.Extractor = true;
+            }
+            if (sabotageObjectiveInMapPoints || tile.TileDetail.Sabotage)
+            {
+                fullDetailsOfTile.Details.Sabotage = true;
             }
 
 

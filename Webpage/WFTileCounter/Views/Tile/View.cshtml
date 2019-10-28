@@ -354,13 +354,7 @@
                                 Life Support Pylon
                             </span>
                         }
-                        @if (Model.Tile.TileDetail.MobileDefense)
-                        {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Mobile Defense objective point.">
-                                Mobile Defense
-                            </span>
 
-                        }
                         @if (Model.Tile.TileDetail.CaptureSpawn)
                         {
                             <span class="d-sm-inline-flex m-1 p-1 bg-danger text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a potential spawn point for Capture Targets.">
@@ -374,24 +368,38 @@
                             </span>
 
                         }
+                        @if (Model.Tile.TileDetail.MobileDefense)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile may contain a Mobile Defense objective point.">
+                                Mobile Defense
+                            </span>
+
+                        }
+                        @if (Model.Tile.TileDetail.Extractor)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 border-warning bg0dark border text-warning text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Sabotage Objective">
+                                Extractor Spawn Point
+                            </span>
+                        }
+                        @if (Model.Tile.Name.Contains("Sabotage") || Model.Tile.TileDetail.Sabotage)
+                        {
+                            <span class="d-sm-inline-flex m-1 p-1 bg-light border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Sabotage Objective">
+                                Sabotage Objective
+                            </span>
+                        }
                         @if (Model.Tile.Name.Contains("Spy"))
                         {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Spy Vault">
+                            <span class="d-sm-inline-flex m-1 p-1 bg-dark border-light border text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Spy Vault">
                                 Spy Vault
                             </span>
                         }
                         @if (Model.Tile.Name.Contains("Rescue"))
                         {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Rescue Objective">
+                            <span class="d-sm-inline-flex m-1 p-1 bg-dark border-light border text-light text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Rescue Objective">
                                 Rescue Objective
                             </span>
                         }
-                        @if (Model.Tile.Name.Contains("Sabotage"))
-                        {
-                            <span class="d-sm-inline-flex m-1 p-1 bg-warning border-dark border text-dark text-wrap font-weight-bold rounded-lg tooltips" data-toggle="tooltip" data-placement="top" title="This tile is a Sabotage Objective">
-                                Sabotage Objective
-                            </span>
-                        }
+
 
                     </div>
                 </div>

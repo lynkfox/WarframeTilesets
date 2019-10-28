@@ -1,0 +1,183 @@
+﻿@model WFTileCounter.Models.FrequencyModels.CollectiblesViewModel
+
+@{
+    ViewData["Title"] = "Collectible";
+}
+
+    <div class="container">
+        <div class="row">
+            <h1>Collectibles for @Model.Tileset</h1>
+        </div>
+        
+        <table class="table-sm table-hover table-dark mr-3">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Tile Name
+                    </th>
+                    <th scope="col" colspan="2">
+                        Ayatan Statues
+                    </th>
+                    <th scope="col" colspan="2">
+                        Syndicate Medallions
+                    </th>
+                    <th scope="col" colspan="2">
+                        Cephalon Fragments
+                    </th>
+                    <th scope="col" colspan="2">
+                        Somachord Fragments
+                    </th>
+                    <th scope="col" colspan="2">
+                        Frame Fighter Fragments
+                    </th>
+                    <th scope="col" colspan="2">
+                        Rare Containers
+                    </th>
+                    <th scope="col" colspan="2">
+                        Sabotage Caches
+                    </th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.7em">#Counted</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.6em">%Chance</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.7em">#Counted</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.6em">%Chance</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.7em">#Counted</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.6em">%Chance</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.7em">#Counted</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.6em">%Chance</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.7em">#Counted</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.6em">%Chance</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.7em">#Counted</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.6em">%Chance</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.7em">#Counted</i>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <i style="font-size:.6em">%Chance</i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">Totals For @Model.Tileset</td>
+                    <td  class="bg-dark border-light border">@Model.AyatanTotal</td>
+                    <td  class="bg-dark border-light border">@Model.AyatanPercentage%</td>
+                    <td  class="bg-dark border-light border">@Model.MedallionTotal</td>
+                    <td  class="bg-dark border-light border">@Model.MedalionPercentage%</td>
+                    <td  class="bg-dark border-light border">@Model.CephalonTotal</td>
+                    <td  class="bg-dark border-light border">@Model.CephalonPercentage%</td>
+                    <td  class="bg-dark border-light border">@Model.SomachordTotal</td>
+                    <td  class="bg-dark border-light border">@Model.SomachordPercentage%</td>
+                    <td  class="bg-dark border-light border">@Model.FrameFighterTotal</td>
+                    <td  class="bg-dark border-light border">@Model.FrameFighterPercentage%</td>
+                    <td class="bg-dark border-light border">@Model.RareContainerTotal</td>
+                    <td class="bg-dark border-light border">@Model.RareContainerPercentage%</td>
+                    <td class="bg-dark border-light border">@Model.SabotageCacheTotal</td>
+                    <td class="bg-dark border-light border">@Model.SabotageCachePercentage%</td>
+                </tr>
+
+                @foreach(var tile in Model.TileCollectiblesList)
+                {
+                <tr>
+                    <td scope="row">@tile.Tilename</td>
+
+                    @if (tile.AyatanCount == 0)
+                    {
+                        <td style="background-color:black" colspan="2"></td>
+                    }
+                    else
+                    {
+                        <td class="bg-dark border-light border">@tile.AyatanCount</td>
+                        <td class="bg-dark border-light border">@tile.AyatanPercentagePerRun%</td>
+                    }
+                    @if (tile.MedallionCount == 0)
+                    {
+                        <td style="background-color:black" colspan="2"></td>
+                    }
+                    else
+                    {
+                        <td class="bg-dark border-light border">@tile.MedallionCount</td>
+                        <td class="bg-dark border-light border">@tile.MedalionPercentagePerRun%</td>
+                    }
+                    @if (tile.CephalonCount == 0)
+                    {
+                        <td style="background-color:black" colspan="2"></td>
+                    }
+                    else
+                    {
+                        <td class="bg-dark border-light border">@tile.CephalonCount</td>
+                        <td class="bg-dark border-light border">@tile.CephalonPercentagePerRun%</td>
+                    }
+                    @if (tile.SomachordCount == 0)
+                    {
+                        <td style="background-color:black" colspan="2"></td>
+                    }
+                    else
+                    {
+                        <td class="bg-dark border-light border">@tile.SomachordCount</td>
+                        <td class="bg-dark border-light border">@tile.SomachordPercentagePerRun%</td>
+                    }
+                    @if (tile.FrameFighterCount == 0)
+                    {
+                        <td style="background-color:black" colspan="2"></td>
+                    }
+                    else
+                    {
+                        <td class="bg-dark border-light border">@tile.FrameFighterCount</td>
+                        <td class="bg-dark border-light border">@tile.FrameFighterPercentagePerRun%</td>
+                    }
+                    @if (tile.RareContainerCount == 0)
+                    {
+                        <td style="background-color:black" colspan="2"></td>
+                    }
+                    else
+                    {
+                        <td class="bg-dark border-light border">@tile.RareContainerCount</td>
+                        <td class="bg-dark border-light border">@tile.RareContainerPercentagePerRun%</td>
+                    }
+
+                    @if (tile.AyatanCount == 0)
+                    {
+                        <td style="background-color:black" colspan="2"></td>
+                    }
+                    else
+                    {
+                        <td class="bg-dark border-light border">@tile.SabotageCacheCount</td>
+                        <td class="bg-dark border-light border">@tile.SabotageCachePercentagePerRun%</td>
+                    }
+
+                </tr>
+                    
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+

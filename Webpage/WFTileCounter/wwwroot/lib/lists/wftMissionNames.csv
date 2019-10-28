@@ -31,6 +31,7 @@ SentientArtifact,Disruption
 ShipPurify,Infested Salvage
 ColonistRescue,Defection
 MobileDefense,Mobile Defense
+GrineerAsteroidSabotage,Sabotage (Drill)
 GrineerOceanSabotage,Sabotage (Pumps)
 GrineerForestSabotage,Sabotage (Toxin)
 InfestedCorpusShipSabotage,Sabotage (Hive)
@@ -40,6 +41,7 @@ CorpusToGrineerSabotage,Sabotage (Reactor)
 GrineerToCorpusSabotage,Sabotage (Reactor)
 CoreSabotageEasy,Sabotage (Reactor)
 CoreSabotage,Sabotage (Reactor)
+GrineerSettlement,Sabotage (Planet Reactor)
 GrineerSettlementSabotage,Sabotage (Deception)
 CorpusGasCitySabotage,Sabotage (Condensors)
 GrineerFortressSabotage,Assault

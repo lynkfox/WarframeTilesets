@@ -22,8 +22,123 @@ namespace WFTileCounter.Controllers
             _env = env;
         }
 
+        public IActionResult Index()
+        {
+            return View("Index");
+        }
+
         [HttpGet]
-        [Route("Results/{tileset}")]
+        [Route("Results/{tileset}/Collectibles")]
+        public IActionResult Collectible([FromRoute] string tileset)
+        {
+            var allData = GetAllDataForTileset(tileset);
+            var onlyMapCollectibleRuns = RemoveNotCollectibleRuns(allData);
+
+            CollectiblesViewModel collectibleResultsList = CreateViewModelOfCollectibles(onlyMapCollectibleRuns);
+
+            return View("Collectible", collectibleResultsList);
+        }
+
+        private CollectiblesViewModel CreateViewModelOfCollectibles(IQueryable<MapPoint> tileInformation)
+        {
+            
+            double totalRuns = tileInformation.Select(x => x.RunId).Distinct().Count();
+
+            var cleanedUpCollectibleList = CleanUpCollectibles(tileInformation);
+
+            var viewOfCollectibles = new CollectiblesViewModel()
+                            {
+                                TileCollectiblesList = GenerateListOfCollectiblesPerTile(cleanedUpCollectibleList, totalRuns),
+                                Tileset = tileInformation.Select(x=>x.Tile.Tileset.Name).FirstOrDefault().ToString(),
+                                AyatanTotal = cleanedUpCollectibleList.Where(x => x.Ayatan).Count(),
+                                MedallionTotal = cleanedUpCollectibleList.Where(x => x.Medallion).Count(),
+                                CephalonTotal = cleanedUpCollectibleList.Where(x => x.Cephalon).Count(),
+                                SomachordTotal = cleanedUpCollectibleList.Where(x => x.Somachord).Count(),
+                                FrameFighterTotal = cleanedUpCollectibleList.Where(x => x.FrameFighter).Count(),
+                                RareContainerTotal = cleanedUpCollectibleList.Where(x => x.RareContainer).Count(),
+                                SabotageCacheTotal = cleanedUpCollectibleList.Where(x => x.SabotageCache).Count()
+            };
+
+            viewOfCollectibles.AyatanPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.AyatanTotal, totalRuns);
+            viewOfCollectibles.MedalionPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.MedallionTotal, totalRuns);
+            viewOfCollectibles.CephalonPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.CephalonTotal, totalRuns);
+            viewOfCollectibles.SomachordPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.SomachordTotal, totalRuns);
+            viewOfCollectibles.FrameFighterPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.FrameFighterTotal, totalRuns);
+            viewOfCollectibles.RareContainerPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.RareContainerTotal, totalRuns);
+            viewOfCollectibles.SabotageCachePercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.SabotageCacheTotal, totalRuns);
+
+            return viewOfCollectibles;
+        }
+
+        private List<CollectibleFrequencePerTile> GenerateListOfCollectiblesPerTile(List<CleanedUpCollectibleDatabaseInfo> cleanedUpCollectibleList, double totalRuns)
+        {
+            List<string> tileNames = cleanedUpCollectibleList.Select(x => x.Tilename).Distinct().OrderBy(x=>x).ToList();
+            var collectibleFrequenceList = new List<CollectibleFrequencePerTile>();
+
+            foreach (var tile in tileNames)
+            {
+                CollectibleFrequencePerTile tileCollectibles = new CollectibleFrequencePerTile()
+                {
+                    Tilename = tile,
+                    AyatanCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.Ayatan).Count(),
+                    MedallionCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.Medallion).Count(),
+                    CephalonCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.Cephalon).Count(),
+                    SomachordCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.Somachord).Count(),
+                    FrameFighterCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.FrameFighter).Count(),
+                    RareContainerCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.RareContainer).Count(),
+                    SabotageCacheCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.SabotageCache).Count(),
+                };
+
+                tileCollectibles.AyatanPercentagePerRun = GetPercentageOfCollectiblePerRun(tileCollectibles.AyatanCount, totalRuns);
+                tileCollectibles.MedalionPercentagePerRun = GetPercentageOfCollectiblePerRun(tileCollectibles.MedallionCount, totalRuns);
+                tileCollectibles.CephalonPercentagePerRun = GetPercentageOfCollectiblePerRun(tileCollectibles.CephalonCount, totalRuns);
+                tileCollectibles.SomachordPercentagePerRun = GetPercentageOfCollectiblePerRun(tileCollectibles.SomachordCount, totalRuns);
+                tileCollectibles.FrameFighterPercentagePerRun = GetPercentageOfCollectiblePerRun(tileCollectibles.FrameFighterCount, totalRuns);
+                tileCollectibles.RareContainerPercentagePerRun = GetPercentageOfCollectiblePerRun(tileCollectibles.RareContainerCount, totalRuns);
+                tileCollectibles.SabotageCachePercentagePerRun = GetPercentageOfCollectiblePerRun(tileCollectibles.SabotageCacheCount, totalRuns);
+
+
+                if(tileCollectibles.AreThereAnyCollectiblesInThisTile())
+                {
+                    collectibleFrequenceList.Add(tileCollectibles);
+                }
+                
+            }
+
+            return collectibleFrequenceList;
+        }
+
+
+        private double GetPercentageOfCollectiblePerRun(double collectibleCount, double totalRuns)
+        {
+            double percentage = (collectibleCount / totalRuns) * 100;
+            return Math.Truncate(percentage);
+        }
+
+        private List<CleanedUpCollectibleDatabaseInfo> CleanUpCollectibles(IQueryable<MapPoint> tileInformation)
+        {
+            return tileInformation.
+                Select(x => new CleanedUpCollectibleDatabaseInfo
+                                {
+                                    Tilename = x.Tile.Name,
+                                    Ayatan = x.Ayatan,
+                                    Medallion = x.Medallion,
+                                    Cephalon = x.Cephalon,
+                                    Somachord = x.Somachord,
+                                    FrameFighter = x.FrameFighter,
+                                    RareContainer = x.RareContainer,
+                                    SabotageCache = x.Cache
+
+                                }).ToList();
+        }
+
+        private IQueryable<MapPoint> RemoveNotCollectibleRuns(IQueryable<MapPoint> allData)
+        {
+            return allData.Where(x => x.Run.MapPointsUsed);
+        }
+
+        [HttpGet]
+        [Route("Results/{tileset}/TileCount")]
         public IActionResult Tileset([FromRoute] string tileset)
         {
             
@@ -65,7 +180,8 @@ namespace WFTileCounter.Controllers
         {
             return _db.MapPoints.Where(x => x.Tile.Tileset.Name == tilesetName)
                                 .Include(x => x.Tile).ThenInclude(x => x.Tileset)
-                                .Include(x => x.Run).ThenInclude(x => x.Mission);
+                                .Include(x => x.Run).ThenInclude(x => x.Mission)
+                                .Include(x=>x.Tile.TileDetail);
             
         }
 

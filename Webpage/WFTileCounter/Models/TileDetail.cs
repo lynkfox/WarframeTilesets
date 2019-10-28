@@ -65,7 +65,11 @@ namespace WFTileCounter.Models
         public bool SurvivalPylon { get; set; }
         [Display(Name="Kuva Siphon")]
         public bool KuvaSiphon { get; set; }
-        
+        [Display(Name = "Sabotage Point")]
+        public bool Sabotage { get; set; }
+        [Display(Name = "Extractor Spawn")]
+        public bool Extractor { get; set; }
+
 
 
         //Treasure Hunts

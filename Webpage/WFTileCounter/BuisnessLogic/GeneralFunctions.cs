@@ -528,6 +528,7 @@ namespace WFTileCounter.BuisnessLogic
                 tilename = tilename.Replace("Camp", "");
                 tilename = tilename.Replace("Grineer", "");
                 tilename = tilename.Replace("Grn", "");
+                tilename = tilename.Replace("Cmp", "");
                 return "GrineerSettlement" + tilename;
                 
             }
