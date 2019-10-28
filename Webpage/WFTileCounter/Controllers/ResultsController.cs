@@ -29,7 +29,9 @@ namespace WFTileCounter.Controllers
             
             var allData = GetAllDataForTileset(tileset);
 
-            IQueryable<CleanedUpDatabaseData> cleanedUpData = allData.Select(x => new CleanedUpDatabaseData { TileName = x.Tile.Name, RunId = x.Run.Id, MissionName = x.Run.Mission.Type });
+            var notPartialRuns = RemovePartialRuns(allData);
+
+            IQueryable<CleanedUpDatabaseData> cleanedUpData = notPartialRuns.Select(x => new CleanedUpDatabaseData { TileName = x.Tile.Name, RunId = x.Run.Id, MissionName = x.Run.Mission.Type });
 
             
             
@@ -54,9 +56,16 @@ namespace WFTileCounter.Controllers
             return View(dataPointView);
         }
 
+        private IQueryable<MapPoint> RemovePartialRuns(IQueryable<MapPoint> allData)
+        {
+            return allData.Where(x => x.Run.FullRun);
+        }
+
         private IQueryable<MapPoint> GetAllDataForTileset(string tilesetName)
         {
-            return _db.MapPoints.Where(x => x.Tile.Tileset.Name == tilesetName).Include(x => x.Tile).ThenInclude(x => x.Tileset).Include(x => x.Run).ThenInclude(x => x.Mission);
+            return _db.MapPoints.Where(x => x.Tile.Tileset.Name == tilesetName)
+                                .Include(x => x.Tile).ThenInclude(x => x.Tileset)
+                                .Include(x => x.Run).ThenInclude(x => x.Mission);
             
         }
 
