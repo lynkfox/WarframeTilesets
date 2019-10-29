@@ -424,7 +424,8 @@ namespace WFTileCounter.BuisnessLogic
                 RunDate = DateTime.ParseExact(singleRunData.Date, "ddd MMM dd HH:mm:ss K yyyy", null),
                 Mission = mission,
                 LogRange = singleRunData.LogNum,
-                FullRun = singleRunData.FullRun
+                FullRun = singleRunData.FullRun,
+                MapPointsUsed = singleRunData.MapPointsRecorded
             };
             
             
