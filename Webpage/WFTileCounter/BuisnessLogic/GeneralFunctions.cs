@@ -421,6 +421,7 @@ namespace WFTileCounter.BuisnessLogic
                 tilename = tilename.Replace("GasCity", "");
                 tilename = tilename.Replace("CorpusGas", "");
                 tilename = tilename.Replace("City", "");
+                tilename = tilename.Replace("Gas", "");
                 return "CorpusGas" + tilename;
             }else if (tileset == "CorpusArchwing")
             {
