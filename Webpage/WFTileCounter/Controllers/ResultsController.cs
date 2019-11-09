@@ -34,12 +34,12 @@ namespace WFTileCounter.Controllers
             var allData = GetAllDataForTileset(tileset);
             var onlyMapCollectibleRuns = RemoveNotCollectibleRuns(allData);
 
-            CollectiblesViewModel collectibleResultsList = CreateViewModelOfCollectibles(onlyMapCollectibleRuns);
+            CollectiblesViewModel collectibleResultsList = CreateViewModelOfCollectibles(onlyMapCollectibleRuns, tileset);
 
             return View("Collectible", collectibleResultsList);
         }
 
-        private CollectiblesViewModel CreateViewModelOfCollectibles(IQueryable<MapPoint> tileInformation)
+        private CollectiblesViewModel CreateViewModelOfCollectibles(IQueryable<MapPoint> tileInformation, string tilesetName)
         {
             
             double totalRuns = tileInformation.Select(x => x.RunId).Distinct().Count();
@@ -48,29 +48,37 @@ namespace WFTileCounter.Controllers
 
             var viewOfCollectibles = new CollectiblesViewModel()
                             {
-                                TileCollectiblesList = GenerateListOfCollectiblesPerTile(cleanedUpCollectibleList, totalRuns),
+                                TileCollectiblesList = GenerateListOfCollectiblesPerTile(cleanedUpCollectibleList, totalRuns, tilesetName),
                                 Tileset = tileInformation.Select(x=>x.Tile.Tileset.Name).FirstOrDefault().ToString(),
                                 AyatanTotal = cleanedUpCollectibleList.Where(x => x.Ayatan).Count(),
-                                MedallionTotal = cleanedUpCollectibleList.Where(x => x.Medallion).Count(),
                                 CephalonTotal = cleanedUpCollectibleList.Where(x => x.Cephalon).Count(),
                                 SomachordTotal = cleanedUpCollectibleList.Where(x => x.Somachord).Count(),
                                 FrameFighterTotal = cleanedUpCollectibleList.Where(x => x.FrameFighter).Count(),
                                 RareContainerTotal = cleanedUpCollectibleList.Where(x => x.RareContainer).Count(),
-                                SabotageCacheTotal = cleanedUpCollectibleList.Where(x => x.SabotageCache).Count()
+                                SabotageRuns = GetAllSabotageCacheRuns(tileInformation),
+                                SyndicateRuns = GetAllSyndicateRuns(tileInformation)
             };
 
             viewOfCollectibles.AyatanPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.AyatanTotal, totalRuns);
-            viewOfCollectibles.MedalionPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.MedallionTotal, totalRuns);
             viewOfCollectibles.CephalonPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.CephalonTotal, totalRuns);
             viewOfCollectibles.SomachordPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.SomachordTotal, totalRuns);
             viewOfCollectibles.FrameFighterPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.FrameFighterTotal, totalRuns);
             viewOfCollectibles.RareContainerPercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.RareContainerTotal, totalRuns);
-            viewOfCollectibles.SabotageCachePercentage = GetPercentageOfCollectiblePerRun(viewOfCollectibles.SabotageCacheTotal, totalRuns);
 
             return viewOfCollectibles;
         }
 
-        private List<CollectibleFrequencePerTile> GenerateListOfCollectiblesPerTile(List<CleanedUpCollectibleDatabaseInfo> cleanedUpCollectibleList, double totalRuns)
+        private int GetAllSyndicateRuns(IQueryable<MapPoint> tileInformation)
+        {
+            return tileInformation.Where(x => x.Medallion).Select(x => x.RunId).Distinct().Count();
+        }
+
+        private int GetAllSabotageCacheRuns(IQueryable<MapPoint> tileInformation)
+        {
+            return tileInformation.Where(x => x.Cache).Select(x => x.RunId).Distinct().Count();
+        }
+
+        private List<CollectibleFrequencePerTile> GenerateListOfCollectiblesPerTile(List<CleanedUpCollectibleDatabaseInfo> cleanedUpCollectibleList, double totalRuns, string tilesetName)
         {
             List<string> tileNames = cleanedUpCollectibleList.Select(x => x.Tilename).Distinct().OrderBy(x=>x).ToList();
             var collectibleFrequenceList = new List<CollectibleFrequencePerTile>();
@@ -80,6 +88,8 @@ namespace WFTileCounter.Controllers
                 CollectibleFrequencePerTile tileCollectibles = new CollectibleFrequencePerTile()
                 {
                     Tilename = tile,
+                    TilesetName = tilesetName,
+                    ShortenedTileName = tile.Replace(tilesetName, ""),
                     AyatanCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.Ayatan).Count(),
                     MedallionCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.Medallion).Count(),
                     CephalonCount = cleanedUpCollectibleList.Where(x => x.Tilename == tile && x.Cephalon).Count(),

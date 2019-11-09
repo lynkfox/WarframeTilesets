@@ -117,9 +117,10 @@
                                 <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/mapExplosive.png" style="width:20px" alt="Map Key: Hazard or Destructible" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Hazard or Destructible Object"></span>
 
                             </div>
-                            @if (Model.Tile.Name.Contains("Spy"))
+                            @if (Model.Tile.Name.Contains("Spy") || Model.Tile.Name.Contains("Coolant"))
                             {
                         <div class="d-flex justify-content-center flex-wrap">
+                            <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/lockconsole.png" style="width:20px" alt="Map Key: Lock Console" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Door Lock Console"></span>
                             <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/laserconsole.png" style="width:20px" alt="Map Key: Laser Console" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Laser Grid Control Console"></span>
                             <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/lasergrid.png" style="width:20px" alt="Map Key: Laser Grid" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Laser Grid Area"></span>
                             <span class="bg-light rounded mr-1 mt-1"><img src="~/img/markers/ventshaft.png" style="width:20px" alt="Map Key: Ventilation Shaft" CssClass="tooltips" class="m-1" data-toggle="tooltip" data-placement="Bottom" title="Ventilation Shaft"></span>

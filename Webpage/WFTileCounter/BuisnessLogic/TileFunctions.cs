@@ -228,33 +228,34 @@ namespace WFTileCounter.BuisnessLogic
 
         private List<TileImage> SortRemainingImages(IEnumerable<TileImage> imageList)
         {
-            return imageList.Where(x => !x.ViewName.Contains("Closet") 
-                                    && !x.ViewName.Contains("Secret") 
-                                    && !x.ViewName.Contains("Exit") 
-                                    && !x.ViewName.Contains("Overview") 
-                                    && !x.ViewName.Contains("Map"))
-                            .OrderBy(x => x.ViewName)
+            return imageList.Where(x => !x.ImageName.Contains("Closet") 
+                                    && !x.ImageName.Contains("Secret") 
+                                    && !x.ImageName.Contains("Exit") 
+                                    && !x.ImageName.Contains("Overview") 
+                                    && !x.ImageName.Contains("Map")
+                                    && !x.ImageName.Contains("Path"))
+                            .OrderBy(x => x.ImageName)
                             .ToList();
         }
 
         private List<TileImage> SortLootRoomImages(IEnumerable<TileImage> imageList)
         {
-            return imageList.Where(x => x.ViewName.Contains("Closet")).OrderBy(x => x.ViewName).ToList();
+            return imageList.Where(x => x.ImageName.Contains("Closet")).OrderBy(x => x.ImageName).ToList();
         }
 
         private List<TileImage> SortSecretImages(IEnumerable<TileImage> imageList)
         {
-            return imageList.Where(x => x.ViewName.Contains("Secret")).OrderBy(x => x.ViewName).ToList();
+            return imageList.Where(x => x.ImageName.Contains("Secret") || x.ImageName.Contains("Path")).OrderBy(x => x.ImageName).ToList();
         }
 
         private List<TileImage> SortExitImages(IEnumerable<TileImage> imageList)
         {
-            return imageList.Where(x => x.ViewName.Contains("Exit")).OrderBy(x => x.ViewName).ToList();
+            return imageList.Where(x => x.ImageName.Contains("Exit")).OrderBy(x => x.ImageName).ToList();
         }
 
         private List<TileImage> SortOverviewImages(IEnumerable<TileImage> imageList)
         {
-            return imageList.Where(x => x.ViewName.Contains("Overview")).OrderBy(x => x.ViewName).ToList();
+            return imageList.Where(x => x.ImageName.Contains("Overview")).OrderBy(x => x.ImageName).ToList();
 
         }
 

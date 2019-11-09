@@ -11,8 +11,7 @@ namespace WFTileCounter.Models.FrequencyModels
         public string Tileset { get; set; }
         public double AyatanTotal { get; set; }
         public double AyatanPercentage { get; set; }
-        public double MedallionTotal { get; set; }
-        public double MedalionPercentage { get; set; }
+        public int SyndicateRuns { get; set; }
         public double CephalonTotal { get; set; }
         public double CephalonPercentage { get; set; }
         public double SomachordTotal { get; set; }
@@ -21,12 +20,15 @@ namespace WFTileCounter.Models.FrequencyModels
         public double FrameFighterPercentage { get; set; }
         public double RareContainerTotal { get; set; }
         public double RareContainerPercentage { get; set; }
-        public double SabotageCacheTotal { get; set; }
-        public double SabotageCachePercentage { get; set; }
+        public int SabotageRuns { get; set; }
+
     }
     public class CollectibleFrequencePerTile
     {
         public string Tilename { get; set; }
+        public string TilesetName { get; set; }
+        public string ShortenedTileName { get; set; }
+
         public double AyatanCount { get; set; }
         public double AyatanPercentagePerRun { get; set; }
         public double MedallionCount { get; set; }

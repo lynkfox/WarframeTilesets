@@ -31,6 +31,7 @@ SentientArtifact,Disruption
 ShipPurify,Infested Salvage
 ColonistRescue,Defection
 MobileDefense,Mobile Defense
+Intel,Spy
 GrineerAsteroidSabotage,Sabotage (Drill)
 GrineerOceanSabotage,Sabotage (Pumps)
 GrineerForestSabotage,Sabotage (Toxin)
@@ -47,7 +48,6 @@ CorpusGasCitySabotage,Sabotage (Condensors)
 GrineerFortressSabotage,Assault
 GrineerFortressSurvival,Kuva Survival
 SpyCaves,Spy
-Intel,Spy
 Pursuit,Pursuit
 Defense,Defense
 Defence,Defense

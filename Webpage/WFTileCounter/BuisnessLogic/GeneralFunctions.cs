@@ -442,6 +442,7 @@ namespace WFTileCounter.BuisnessLogic
             {
                 tilename = tilename.Replace("CorpusOutpost", "");
                 tilename = tilename.Replace("CrpOutpost", "");
+                tilename = tilename.Replace("Corpus", "");
                 tilename = tilename.Replace("Outpost", "");
                 tilename = tilename.Replace("Crp", "");
                 return "CorpusOutpost" + tilename;
