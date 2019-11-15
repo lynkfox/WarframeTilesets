@@ -85,27 +85,28 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="row">Totals For @Model.Tileset</td>
-                    <td  class="bg-dark border-light border">@Model.AyatanTotal</td>
-                    <td  class="bg-dark border-light border">@Model.AyatanPercentage%</td>
-                    <td  class="bg-dark border-light border">@Model.MedallionTotal</td>
-                    <td  class="bg-dark border-light border">@Model.MedalionPercentage%</td>
-                    <td  class="bg-dark border-light border">@Model.CephalonTotal</td>
-                    <td  class="bg-dark border-light border">@Model.CephalonPercentage%</td>
-                    <td  class="bg-dark border-light border">@Model.SomachordTotal</td>
-                    <td  class="bg-dark border-light border">@Model.SomachordPercentage%</td>
-                    <td  class="bg-dark border-light border">@Model.FrameFighterTotal</td>
-                    <td  class="bg-dark border-light border">@Model.FrameFighterPercentage%</td>
-                    <td class="bg-dark border-light border">@Model.RareContainerTotal</td>
-                    <td class="bg-dark border-light border">@Model.RareContainerPercentage%</td>
-                    <td class="bg-dark border-light border">@Model.SabotageCacheTotal</td>
-                    <td class="bg-dark border-light border">@Model.SabotageCachePercentage%</td>
+                    <th scope="row">Totals For @Model.Tileset</th>
+                    <td class="border-left border-secondary">@Model.AyatanTotal</td>
+                    <td class="border-right border-secondary">@Model.AyatanPercentage%</td>
+                    <td class="border-left border-right border-secondary text-center" colspan="2">@Model.SyndicateRuns runs.</td>
+                    <td class="border-left border-secondary">@Model.CephalonTotal</td>
+                    <td class="border-right border-secondary">@Model.CephalonPercentage%</td>
+                    <td class="border-left border-secondary">@Model.SomachordTotal</td>
+                    <td class="border-right border-secondary">@Model.SomachordPercentage%</td>
+                    <td class="border-left border-secondary">@Model.FrameFighterTotal</td>
+                    <td class="border-right border-secondary">@Model.FrameFighterPercentage%</td>
+                    <td class="border-left border-secondary">@Model.RareContainerTotal</td>
+                    <td class="border-right border-secondary">@Model.RareContainerPercentage%</td>
+                    <td class="border-left border-right border-secondary text-center" colspan="2">@Model.SabotageRuns runs.</td>
+                </tr>
+                <tr>
+
                 </tr>
 
                 @foreach(var tile in Model.TileCollectiblesList)
                 {
                 <tr>
-                    <td scope="row">@tile.Tilename</td>
+                    <th scope="row">@Html.ActionLink(tile.ShortenedTileName, "ViewTile", "Tile", new { tileset = tile.TilesetName, tilename = tile.ShortenedTileName })</th>
 
                     @if (tile.AyatanCount == 0)
                     {
@@ -113,8 +114,8 @@
                     }
                     else
                     {
-                        <td class="bg-dark border-light border">@tile.AyatanCount</td>
-                        <td class="bg-dark border-light border">@tile.AyatanPercentagePerRun%</td>
+                        <td class="border-left border-secondary">@tile.AyatanCount</td>
+                        <td class="border-right border-secondary">@tile.AyatanPercentagePerRun%</td>
                     }
                     @if (tile.MedallionCount == 0)
                     {
@@ -122,8 +123,8 @@
                     }
                     else
                     {
-                        <td class="bg-dark border-light border">@tile.MedallionCount</td>
-                        <td class="bg-dark border-light border">@tile.MedalionPercentagePerRun%</td>
+                        <td class="border-left border-secondary">@tile.MedallionCount</td>
+                        <td class="border-right border-secondary"></td>
                     }
                     @if (tile.CephalonCount == 0)
                     {
@@ -131,8 +132,8 @@
                     }
                     else
                     {
-                        <td class="bg-dark border-light border">@tile.CephalonCount</td>
-                        <td class="bg-dark border-light border">@tile.CephalonPercentagePerRun%</td>
+                        <td class="border-left border-secondary">@tile.CephalonCount</td>
+                        <td class="border-right border-secondary">@tile.CephalonPercentagePerRun%</td>
                     }
                     @if (tile.SomachordCount == 0)
                     {
@@ -140,8 +141,8 @@
                     }
                     else
                     {
-                        <td class="bg-dark border-light border">@tile.SomachordCount</td>
-                        <td class="bg-dark border-light border">@tile.SomachordPercentagePerRun%</td>
+                        <td class="border-left border-secondary">@tile.SomachordCount</td>
+                        <td class="border-right border-secondary">@tile.SomachordPercentagePerRun%</td>
                     }
                     @if (tile.FrameFighterCount == 0)
                     {
@@ -149,8 +150,8 @@
                     }
                     else
                     {
-                        <td class="bg-dark border-light border">@tile.FrameFighterCount</td>
-                        <td class="bg-dark border-light border">@tile.FrameFighterPercentagePerRun%</td>
+                        <td class="border-left border-secondary">@tile.FrameFighterCount</td>
+                        <td class="border-right border-secondary">@tile.FrameFighterPercentagePerRun%</td>
                     }
                     @if (tile.RareContainerCount == 0)
                     {
@@ -158,18 +159,18 @@
                     }
                     else
                     {
-                        <td class="bg-dark border-light border">@tile.RareContainerCount</td>
-                        <td class="bg-dark border-light border">@tile.RareContainerPercentagePerRun%</td>
+                        <td class="border-left border-secondary">@tile.RareContainerCount</td>
+                        <td class="border-right border-secondary">@tile.RareContainerPercentagePerRun%</td>
                     }
 
-                    @if (tile.AyatanCount == 0)
+                    @if (tile.SabotageCacheCount == 0)
                     {
                         <td style="background-color:black" colspan="2"></td>
                     }
                     else
                     {
-                        <td class="bg-dark border-light border">@tile.SabotageCacheCount</td>
-                        <td class="bg-dark border-light border">@tile.SabotageCachePercentagePerRun%</td>
+                        <td class="border-left border-secondary">@tile.SabotageCacheCount</td>
+                        <td class="border-right border-secondary"></td>
                     }
 
                 </tr>

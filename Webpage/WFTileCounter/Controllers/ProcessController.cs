@@ -82,21 +82,6 @@ namespace WFTileCounter.BuisnessLogic
             return View("Review", metaList);
         }
 
-
-        //depreciated
-        public IActionResult ProcessFiles()
-        {
-            List<ImgMetaData> metaList = new List<ImgMetaData>();
-
-            var _gf = new GeneralFunctions(_db); // class that holds various methods for clean use.
-
-            var path = _gf.DeveloperAutoGrabGetPath();
-            metaList = _gf.GetMetaList(path);
-
-
-            return View("Review", metaList);
-        }
-
         
         [HttpPost]
         public async Task<IActionResult> Keep(List<ImgMetaData> imagesThatHaveBeenReviewed)

@@ -336,6 +336,8 @@ namespace WFTileCounter.Controllers
 
             if (imgDatabaseInfo is null)
             {
+                img.AltText = "";
+                img.ViewName = "";
                 return img;
             }
             else
