@@ -631,8 +631,7 @@ namespace WFTileCounter.BuisnessLogic
         public List<MissionType> GenMissionList()
         {
             List<MissionType> list = new List<MissionType>();
-
-
+            
             string[] namePairs = ReadInListFromCSVFile("wftMissionNames.csv");
 
 
